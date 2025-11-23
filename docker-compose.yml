@@ -1,0 +1,21 @@
+version: '3.8'
+
+services:
+  n8n:
+    image: n8nio/n8n
+    restart: always
+    env_file: .env
+    ports:
+      - "5678:5678"
+    environment:
+      # Configuração N8N
+      - N8N_HOST=${N8N_HOST}
+      - N8N_PROTOCOL=http
+      - WEBHOOK_URL=${WEBHOOK_URL}
+      - VUE_APP_URL_BASE_API=http://localhost:5678/
+      - N8N_BASIC_AUTH_ACTIVE=true
+      - N8N_BASIC_AUTH_USER=${N8N_BASIC_AUTH_USER}
+      - N8N_BASIC_AUTH_PASSWORD=${N8N_BASIC_AUTH_PASSWORD}
+    volumes:
+      # Para persistência de dados
+      - ./n8n_data:/home/node/.n8n

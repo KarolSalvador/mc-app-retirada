@@ -1,0 +1,110 @@
+/* Reset básico para remover margens padrão do navegador */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Fonte mais moderna */
+    background: #f4f4f4;
+    
+    /* CENTRALIZAÇÃO MÁXIMA NA TELA */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh; /* Ocupa pelo menos 100% da altura da tela */
+    padding: 20px; /* Evita que o card cole nas bordas em telas pequenas */
+}
+
+.phone-frame {
+    background: white;
+    padding: 30px 25px;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    
+    /* RESPONSIVIDADE: Tenta ter 380px, mas encolhe se a tela for menor */
+    width: 100%;
+    max-width: 380px;
+    text-align: center; /* Centraliza texto e botões dentro do card */
+}
+
+h2 {
+    font-size: 22px;
+    margin-bottom: 10px;
+    color: #2c3e50;
+}
+
+p {
+    font-size: 15px;
+    color: #7f8c8d;
+    margin-bottom: 30px;
+    line-height: 1.4;
+}
+
+.buttons {
+    display: flex;
+    justify-content: center;
+    gap: 15px; /* Espaço entre os botões */
+}
+
+.btn-option {
+    /* BOTÕES RESPONSIVOS */
+    flex: 1; /* Faz os dois botões terem a mesma largura e ocuparem o espaço */
+    height: 110px;
+    
+    /* ESTILO DO BOTÃO */
+    background: white; /* Fundo branco pedido */
+    border: 2px solid #f1c40f; /* Borda amarela pedida */
+    border-radius: 15px;
+    
+    /* ALINHAMENTO DENTRO DO BOTÃO */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    
+    cursor: pointer;
+    transition: all 0.2s ease;
+    outline: none; /* Remove contorno padrão ao clicar */
+}
+
+/* Estilo do texto dentro do botão */
+.btn-option span {
+    font-size: 14px;
+    font-weight: 600;
+    color: #34495e;
+}
+
+/* Ícone */
+.icon {
+    width: 40px;
+    height: 40px;
+    object-fit: contain;
+    margin-bottom: 8px;
+}
+
+/* Efeito ao passar o mouse */
+.btn-option:hover {
+    background-color: #fffdf5; /* Um tom de amarelo muito claro */
+    box-shadow: 0 5px 15px rgba(241, 196, 15, 0.2);
+    transform: translateY(-2px);
+}
+
+/* Efeito ao clicar */
+.btn-option:active {
+    transform: translateY(0);
+    background-color: #f9f9f9;
+}
+
+/* RESPONSIVIDADE EXTRA PARA CELULARES PEQUENOS */
+@media (max-width: 350px) {
+    .phone-frame {
+        padding: 20px 15px;
+    }
+    h2 { font-size: 18px; }
+    p { font-size: 13px; }
+    .btn-option { height: 95px; }
+    .icon { width: 32px; height: 32px; }
+    .btn-option span { font-size: 12px; }
+}

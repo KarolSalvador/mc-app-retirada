@@ -1,0 +1,61 @@
+{
+  "name": "Criar Pedido",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "criar-pedido",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "a8ce1892-e707-4a1b-83aa-5fe1ed1bb733",
+      "name": "Webhook",
+      "webhookId": "bab2f97e-a7c0-4f0d-a4ff-30defe658eeb"
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "{\n  \"success\": true,\n  \"message\": \"Pedido recebido com sucesso!\",\n  \"order_code\": \"#ORD-6147\" \n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.4,
+      "position": [
+        208,
+        0
+      ],
+      "id": "458af152-4221-4672-8481-9d8226b8de04",
+      "name": "Respond to Webhook"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "1bfd862a-c152-4443-91d6-35954ac945ad",
+  "meta": {
+    "instanceId": "d3b453f5da3dc8025316bf0557e760f4fd6c24fbcbf610fbb4365b86af3b1255"
+  },
+  "id": "StpP8rGThXSKMZIX",
+  "tags": []
+}

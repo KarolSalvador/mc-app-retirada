@@ -1,0 +1,85 @@
+{
+  "name": "API Mock Restaurantes",
+  "nodes": [
+    {
+      "parameters": {
+        "path": "restaurantes",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        -176,
+        -48
+      ],
+      "id": "f5f371d2-1ddd-4bb3-b3c5-d0aba7c66f49",
+      "name": "Webhook",
+      "webhookId": "f570395c-961d-41b4-976d-60abf59e02f4"
+    },
+    {
+      "parameters": {
+        "mode": "raw",
+        "jsonOutput": "={\n  \"restaurants\": [\n    {\n      \"id\": 1,\n      \"nome\": \"McDonalds Washington Soares\",\n      \"endereco\": \"Av. Washington Soares, 3535 - Edson Queiroz, Fortaleza - CE, 60811-341\",\n      \"distancia_km\": 0.5,\n      \"avaliacao\": 4.8\n    },\n    {\n      \"id\": 2,\n      \"nome\": \"McDonalds Shopping Buena Vista\",\n      \"endereco\": \"Av. Frei Cirilo, 3270 - Cajazeiras, Fortaleza - CE, 60840-285\",\n      \"distancia_km\": 1.2,\n      \"avaliacao\": 4.6\n    },\n    {\n      \"id\": 3,\n      \"nome\": \"McDonalds Grand Shopping\",\n      \"endereco\": \"Av. Frei Cirilo, 3840 - Messejana, Fortaleza - CE, 60840-280\",\n      \"distancia_km\": 1.5,\n      \"avaliacao\": 4.9\n    }\n  ]\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        64,
+        -48
+      ],
+      "id": "286c2f23-a009-4e54-a95f-410316c89d07",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "respondWith": "allIncomingItems",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.4,
+      "position": [
+        288,
+        -48
+      ],
+      "id": "8be512b0-32d5-4ca5-8935-377b7021469b",
+      "name": "Respond to Webhook"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "a7c9ca2c-6847-47f4-9511-cb545be992ce",
+  "meta": {
+    "instanceId": "d3b453f5da3dc8025316bf0557e760f4fd6c24fbcbf610fbb4365b86af3b1255"
+  },
+  "id": "c1hIM80c3gP5Yqv6",
+  "tags": []
+}

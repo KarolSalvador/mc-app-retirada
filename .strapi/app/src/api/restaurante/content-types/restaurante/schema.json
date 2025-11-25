@@ -1,0 +1,29 @@
+{
+  "kind": "collectionType",
+  "collectionName": "restaurantes",
+  "info": {
+    "singularName": "restaurante",
+    "pluralName": "restaurantes",
+    "displayName": "Restaurante"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "nome": {
+      "type": "string",
+      "required": true
+    },
+    "endereco": {
+      "type": "text",
+      "required": true
+    },
+    "latitude": {
+      "type": "decimal"
+    },
+    "longitude": {
+      "type": "decimal"
+    }
+  }
+}

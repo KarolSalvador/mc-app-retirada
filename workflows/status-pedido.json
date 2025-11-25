@@ -1,0 +1,60 @@
+{
+  "name": "status-pedido",
+  "nodes": [
+    {
+      "parameters": {
+        "path": "status-pedido",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "bd88ffae-1268-428f-baaa-4388004407dd",
+      "name": "Webhook",
+      "webhookId": "8c0877fe-e3fa-4f84-a437-2286d9a98e0d"
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "{\n  \"order_code\": \"#ORD-6147\",\n  \"status\": \"Pronto para retirada\",\n  \"pickup_instructions\": [\n    \"Aguarde a notificação de pedido pronto.\",\n    \"Vá até o locker selecionado.\",\n    \"Aproxime o QR Code do leitor.\",\n    \"Retire seu pedido e feche a porta.\"\n  ]\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.4,
+      "position": [
+        208,
+        0
+      ],
+      "id": "1e68dcac-8b61-4bed-9f02-63a361df614a",
+      "name": "Respond to Webhook"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "3599eba2-8d2f-43e4-884f-69cd365564a6",
+  "meta": {
+    "instanceId": "d3b453f5da3dc8025316bf0557e760f4fd6c24fbcbf610fbb4365b86af3b1255"
+  },
+  "id": "ukf140tv25SZX1gQ",
+  "tags": []
+}

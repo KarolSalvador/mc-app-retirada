@@ -1,6 +1,7 @@
 version: '3.8'
 
 services:
+  # Configurações N8N
   n8n:
     image: n8nio/n8n
     restart: always
@@ -19,3 +20,42 @@ services:
     volumes:
       # Para persistência de dados
       - ./n8n_data:/home/node/.n8n
+
+  # Configurações Postgres
+  postgres:
+    image: postgres:14
+    container_name: mcdonalds-postgres
+    restart: unless-stopped
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: ${DATABASE_USER}
+      POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
+      POSTGRES_DB: ${DATABASE_NAME}
+    ports:
+      - '5432:5432'
+
+  # Configurações Strapi
+  strapi:
+    image: node:20
+    container_name: mcdonalds-strapi
+    restart: unless-stopped
+    volumes:
+      - ./.strapi/app:/opt/app
+    working_dir: /opt/app
+    command: npm run develop
+
+    env_file: .env
+    environment:
+      NODE_ENV: development
+
+      STRAPI_ADMIN_URL: http://localhost:1337/admin
+      STRAPI_URL: http://localhost:1337
+
+    ports:
+      - '1337:1337'
+    depends_on:
+      - postgres
+
+volumes:
+  postgres_data: {}

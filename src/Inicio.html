@@ -6,10 +6,8 @@
     <title>Receber Pedido</title>
 
     <style>
-        /* === AQUI COMEÇA O CSS INTEIRO === */
 
-        /* Reset para tirar margens padrão */
-        * {
+* {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
@@ -18,19 +16,17 @@
         body {
             font-family: Arial, sans-serif;
             background: #f4f4f4;
-
-            /* 3. CENTRALIZAR NA TELA: Isso conserta o problema de ficar no canto */
             display: flex;
             justify-content: center;
             align-items: center;
-            min-height: 100vh; /* Altura mínima de 100% da tela */
-            padding: 20px; /* Margem de segurança para celulares pequenos */
+            min-height: 100vh;
+            padding: 20px;
         }
 
         .phone-frame {
             background: white;
             width: 100%;
-            max-width: 380px; /* Largura máxima igual de um app */
+            max-width: 380px;
             padding: 30px 25px;
             border-radius: 20px;
             box-shadow: 0 5px 20px rgba(0,0,0,0.1);
@@ -46,37 +42,30 @@
         p {
             font-size: 15px;
             color: #666;
-            margin-bottom: 30px;
+            margin-bottom: 30px; /* Mantido para o espaçamento do subtítulo */
             line-height: 1.5;
         }
 
         .buttons {
             display: flex;
             justify-content: center;
-            gap: 15px; /* Espaço entre os botões */
+            gap: 15px;
         }
 
         .btn-option {
-            /* Botões flexíveis (dividem o espaço igualmente) */
             flex: 1; 
             height: 110px;
-            
-            /* 4. ESTILO PEDIDO: Fundo branco e borda amarela */
             background: white;
             border: 2px solid #f1c40f; 
             border-radius: 15px;
-            
-            /* Centralizar ícone e texto dentro do botão */
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            
             cursor: pointer;
             transition: 0.2s;
         }
 
-        /* Efeito ao passar o mouse */
         .btn-option:hover {
             box-shadow: 0 4px 10px rgba(241, 196, 15, 0.3);
             transform: translateY(-3px);
@@ -90,14 +79,12 @@
             color: #444;
         }
 
-        /* Imagem do ícone */
         .icon {
             width: 40px;
             height: 40px;
             object-fit: contain;
         }
 
-        /* Ajuste para telas muito pequenas (iPhone SE, etc) */
         @media (max-width: 350px) {
             .phone-frame { padding: 20px 15px; }
             h2 { font-size: 18px; }
@@ -112,7 +99,7 @@
         <h2>Como vai receber seu pedido?</h2>
 
         <p>Selecione se prefere retirar em uma de<br>nossas lojas ou receber no seu endereço</p>
-
+        
         <div class="buttons">
             <button class="btn-option" onclick="selecionarOpcao('retirar')">
                 <img src="./img/local.png" class="icon" alt="Retirar">
@@ -127,6 +114,73 @@
 
     </div>
 
+    <script>
+        // Variáveis globais para armazenar as coordenadas
+        let userLatitude = null;
+        let userLongitude = null;
+        
+        // 1. FUNÇÃO DE SUCESSO: Armazena a localização nas variáveis
+        function success(position) {
+            userLatitude = position.coords.latitude;
+            userLongitude = position.coords.longitude;
+            
+            // Opcional: Loga no console para confirmar que funcionou
+            console.log("Localização obtida e armazenada. Lat:", userLatitude, "Lon:", userLongitude);
+        }
+
+        // 2. FUNÇÃO DE ERRO: Apenas loga o erro no console
+        function error(err) {
+            let errorMessage;
+            switch(err.code) {
+                case err.PERMISSION_DENIED:
+                    errorMessage = "Erro: Permissão de localização negada.";
+                    break;
+                case err.POSITION_UNAVAILABLE:
+                    errorMessage = "Erro: Informações de localização indisponíveis.";
+                    break;
+                case err.TIMEOUT:
+                    errorMessage = "Erro: Tempo limite para obter a localização expirou.";
+                    break;
+                case err.UNKNOWN_ERROR:
+                    errorMessage = "Erro: Ocorreu um erro desconhecido.";
+                    break;
+                default:
+                    errorMessage = "Erro desconhecido: " + err.message;
+            }
+            console.error(errorMessage);
+        }
+        
+        // 3. FUNÇÃO PARA INICIAR A SOLICITAÇÃO DE GEOLOCALIZAÇÃO
+        function getLocation() {
+            if (navigator.geolocation) {
+                // Solicita a localização
+                navigator.geolocation.getCurrentPosition(success, error);
+            } else { 
+                console.error("Geolocalização não é suportada por este navegador.");
+            }
+        }
+        
+        // 4. FUNÇÃO DE REDIRECIONAMENTO
+        function selecionarOpcao(opcao) {
+            if (opcao === 'retirar') {
+                // Exemplo de como usar os dados armazenados antes de redirecionar:
+                if (userLatitude) {
+                    console.log("Usando localização armazenada para achar restaurantes...");
+                } else {
+                    console.warn("Localização não obtida. Prosseguindo sem dados de Lat/Lon.");
+                }
+                
+                // Redireciona para o restaurante.html
+                window.location.href = "/restaurante.html"; 
+            } else if (opcao === 'delivery') {
+                console.log("Funcionalidade de Delivery ainda não implementada.");
+            }
+        }
+        
+        // 5. INICIA A OBTENÇÃO DA LOCALIZAÇÃO ASSIM QUE A PÁGINA CARREGA
+        getLocation(); 
+        
+    </script>
     <script src="script.js"></script>
 </body>
 </html>

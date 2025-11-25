@@ -10,8 +10,8 @@
       "type": "n8n-nodes-base.webhook",
       "typeVersion": 2.1,
       "position": [
-        -176,
-        -48
+        -272,
+        -16
       ],
       "id": "f5f371d2-1ddd-4bb3-b3c5-d0aba7c66f49",
       "name": "Webhook",
@@ -19,32 +19,77 @@
     },
     {
       "parameters": {
-        "mode": "raw",
-        "jsonOutput": "={\n    \"restaurants\": [\n        {\n            \"id\": 1,\n            \"nome\": \"McDonalds Washington Soares\",\n            \"endereco\": \"Av. Washington Soares, 3535 - Edson Queiroz, Fortaleza - CE, 60811-341\"\n        },\n        {\n            \"id\": 2,\n            \"nome\": \"McDonalds Shopping Buena Vista\",\n            \"endereco\": \"Av. Frei Cirilo, 3270 - Cajazeiras, Fortaleza - CE, 60840-285\"\n        },\n        {\n            \"id\": 3,\n            \"nome\": \"McDonalds Grand Shopping\",\n            \"endereco\": \"Av. Frei Cirilo, 3840 - Messejana, Fortaleza - CE, 60840-280\"\n        },\n        {\n            \"id\": 4,\n            \"nome\": \"McDonalds Walfredo Macedo Brandão\",\n            \"endereco\": \"Rua Walfredo Macedo Brandão, 124 - Jardim Cidade Universitária, João Pessoa - PB, 58052-200\"\n        },\n        {\n            \"id\": 5,\n            \"nome\": \"McDonalds Hilton Souto Maior\",\n            \"endereco\": \"Shopping, Av. Hilton Souto Maior, 3901 - Mangabeira, João Pessoa - PB, 58055-018\"\n        },\n        {\n            \"id\": 6,\n            \"nome\": \"McDonalds Pres. Epitácio Pessoa\",\n            \"endereco\": \"Av. Pres. Epitácio Pessoa, 4550 - Cabo Branco, João Pessoa - PB, 58045-000\"\n        },\n        {\n            \"id\": 7,\n            \"nome\": \"McDonalds Av. da Aclimação\",\n            \"endereco\": \"Av. da Aclimação, 879 - Aclimação, São Paulo - SP, 01531-001\"\n        },\n        {\n            \"id\": 8,\n            \"nome\": \"McDonalds Av. Dr. Ricardo Jafet\",\n            \"endereco\": \"Av. Dr. Ricardo Jafet, 945 - Vila Mariana, São Paulo - SP, 04260-020\"\n        },\n        {\n            \"id\": 9,\n            \"nome\": \"McDonalds R. Domingos de Morais\",\n            \"endereco\": \"R. Domingos de Morais, 719 - Vila Mariana, São Paulo - SP, 04009-001\"\n        },\n        {\n            \"id\": 10,\n            \"nome\": \"McDonalds Av. Bernardino de Campos\",\n            \"endereco\": \"Av. Bernardino de Campos, 307 - Paraíso, São Paulo - SP, 04004-050\"\n        },\n        {\n            \"id\": 11,\n            \"nome\": \"McDonalds Av. Brigadeiro Luís Antônio\",\n            \"endereco\": \"Av. Brigadeiro Luís Antônio, 3477/3481 - Jardim Paulista, São Paulo - SP, 01401-001\"\n        },\n        {\n            \"id\": 12,\n            \"nome\": \"McDonalds Av. Silva Lobo\",\n            \"endereco\": \"Av. Silva Lobo, 740 - Nova Suíça, Belo Horizonte - MG, 30421-002\"\n        },\n        {\n            \"id\": 13,\n            \"nome\": \"McDonalds Av. Prudente de Morais\",\n            \"endereco\": \"Prédio 01 - Av. Prudente de Morais, 1150 - Loja 01 - Luxemburgo, Belo Horizonte - MG, 30380-000\"\n        },\n        {\n            \"id\": 14,\n            \"nome\": \"McDonalds Av. do Contorno\",\n            \"endereco\": \"Av. do Contorno, 10142 - Barro Preto, Belo Horizonte - MG, 30110-072\"\n        },\n        {\n            \"id\": 15,\n            \"nome\": \"McDonalds Av. Afonso Pena\",\n            \"endereco\": \"Av. Afonso Pena, 705 - Centro, Belo Horizonte - MG, 30130-002\"\n        },\n        {\n            \"id\": 16,\n            \"nome\": \"McDonalds Rua dos Goitacazes\",\n            \"endereco\": \"Rua dos Goitacazes, 791 - Centro, Belo Horizonte - MG, 30190-051\"\n        },\n        {\n            \"id\": 17,\n            \"nome\": \"McDonalds R. Matias Cardoso\",\n            \"endereco\": \"R. Matias Cardoso, 26 - Santo Agostinho, Belo Horizonte - MG, 30170-050\"\n        },\n        {\n            \"id\": 18,\n            \"nome\": \"McDonalds Av. Getúlio Vargas\",\n            \"endereco\": \"Av. Getúlio Vargas, 1300 - Loja 1 - Funcionários, Belo Horizonte - MG, 30112-021\"\n        },\n        {\n            \"id\": 19,\n            \"nome\": \"McDonalds R. Valdemir Biller Brandão\",\n            \"endereco\": \"R. Valdemir Biller Brandão, 800 - Vila Leopoldina, Itanhaém - SP, 05513-000\"\n        },\n        {\n            \"id\": 20,\n            \"nome\": \"McDonalds R. Carlos Gomes\",\n            \"endereco\": \"R. Carlos Gomes, s/n - Balneario Flórida, Peruíbe - SP, 06420-270\"\n        },\n        {\n            \"id\": 21,\n            \"nome\": \"McDonalds Av. Pres. Kennedy\",\n            \"endereco\": \"Av. Pres. Kennedy, 8750 - Emboassu, Praia Grande - SP, 11703-200\"\n        },\n        {\n            \"id\": 22,\n            \"nome\": \"McDonalds R. Gonçalves Dias\",\n            \"endereco\": \"R. Gonçalves Dias, 70 - Centro, Araraquara - SP, 14801-290\"\n        },\n        {\n            \"id\": 23,\n            \"nome\": \"McDonalds Av. Bento de Abreu\",\n            \"endereco\": \"Av. Bento de Abreu, 180 - Vila Jose Bonifacio, Araraquara - SP, 14802-416\"\n        },\n        {\n            \"id\": 24,\n            \"nome\": \"McDonalds Av. Alberto Benassi\",\n            \"endereco\": \"Av. Alberto Benassi, 2270 - Jardim dos Manacas, Araraquara - SP, 14804-300\"\n        },\n        {\n            \"id\": 25,\n            \"nome\": \"McDonalds Av. Eng. Domingos Ferreira\",\n            \"endereco\": \"Av. Eng. Domingos Ferreira, 1132 - Pina, Recife - PE, 51020-030\"\n        },\n        {\n            \"id\": 26,\n            \"nome\": \"McDonalds AV. Repúbica do Libano\",\n            \"endereco\": \"AV. Repúbica do Libano, 251 Loja. 3016 - Setor Com. 305 - Pina, Recife - PE, 51110-160\"\n        },\n        {\n            \"id\": 27,\n            \"nome\": \"McDonalds R. Dom João VI\",\n            \"endereco\": \"Compl. LT1C - R. Dom João VI, 570 - Boa Viagem, Recife - PE, 51020-900\"\n        },\n        {\n            \"id\": 28,\n            \"nome\": \"McDonalds Rua Padre Carapuceiro\",\n            \"endereco\": \"Rua Padre Carapuceiro, 777 2º piso - Pça de Alimentação 03 - Boa Viagem, Recife - PE, 51020-900\"\n        },\n        {\n            \"id\": 29,\n            \"nome\": \"McDonalds Av. Paulista\",\n            \"endereco\": \"Av. Paulista, 810 - Bela Vista, São Paulo - SP, 01310-100\"\n        },\n        {\n            \"id\": 30,\n            \"nome\": \"McDonalds Méqui 1000\",\n            \"endereco\": \"Av. Paulista, 1811 - Bela Vista, São Paulo - SP, 01311-200\"\n        }\n    ]\n}",
-        "options": {}
-      },
-      "type": "n8n-nodes-base.set",
-      "typeVersion": 3.4,
-      "position": [
-        64,
-        -48
-      ],
-      "id": "286c2f23-a009-4e54-a95f-410316c89d07",
-      "name": "Edit Fields"
-    },
-    {
-      "parameters": {
-        "respondWith": "allIncomingItems",
+        "respondWith": "json",
+        "responseBody": "={{$json.data}}",
         "options": {}
       },
       "type": "n8n-nodes-base.respondToWebhook",
       "typeVersion": 1.4,
       "position": [
-        288,
-        -48
+        432,
+        -16
       ],
       "id": "8be512b0-32d5-4ca5-8935-377b7021469b",
       "name": "Respond to Webhook"
+    },
+    {
+      "parameters": {
+        "url": "http://mcdonalds-strapi:1337/api/restaurantes?fields=nome,endereco",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        32,
+        -16
+      ],
+      "id": "b6831145-0512-4287-acd0-f8b9b5939880",
+      "name": "HTTP Request"
+    },
+    {
+      "parameters": {
+        "content": "### Recebe a requisição do Front-End",
+        "height": 240,
+        "color": 7
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -336,
+        -112
+      ],
+      "typeVersion": 1,
+      "id": "abe1e1d3-708d-44e0-a482-165b6f10e0f7",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "content": "### Faz um GET no Strapi para retornar os restaurantes cadastrados",
+        "height": 256,
+        "color": 7
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -32,
+        -112
+      ],
+      "typeVersion": 1,
+      "id": "86275be0-be08-409f-a62f-c89fcef6f969",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "content": "### Retorna os dados dos restaurantes",
+        "height": 256,
+        "color": 7
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        368,
+        -128
+      ],
+      "typeVersion": 1,
+      "id": "75ee1ccf-c482-4119-ad91-f752ed560902",
+      "name": "Sticky Note2"
     }
   ],
   "pinData": {},
@@ -53,14 +98,14 @@
       "main": [
         [
           {
-            "node": "Edit Fields",
+            "node": "HTTP Request",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "Edit Fields": {
+    "HTTP Request": {
       "main": [
         [
           {
@@ -76,7 +121,7 @@
   "settings": {
     "executionOrder": "v1"
   },
-  "versionId": "eb252da0-868c-4142-8f1c-c085ae8b31bd",
+  "versionId": "a9a9fd9b-aed3-45fe-9988-686740c831eb",
   "meta": {
     "instanceId": "d3b453f5da3dc8025316bf0557e760f4fd6c24fbcbf610fbb4365b86af3b1255"
   },

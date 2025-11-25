@@ -18,6 +18,12 @@
     "endereco": {
       "type": "text",
       "required": true
+    },
+    "latitude": {
+      "type": "decimal"
+    },
+    "longitude": {
+      "type": "decimal"
     }
   }
 }

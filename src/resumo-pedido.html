@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resumo do Pedido</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    
+    <style>
+        
+        /* ESTILOS BASE */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: #f4f4f7;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+            padding: 20px 0;
+        }
+
+        .app-container {
+            width: 100%;
+            max-width: 400px;
+            background-color: #ffffff;
+            border-radius: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            padding-bottom: 20px;
+            overflow: hidden;
+            margin: 0 auto; 
+            min-height: 100vh;
+        }
+
+        /* --- 1. CABEÇALHO (Header) --- */
+        .header {
+            padding: 20px 25px 0 25px;
+            text-align: center;
+        }
+
+        .header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .header-icon {
+            font-size: 20px;
+            color: #444;
+            cursor: pointer;
+        }
+        
+        .order-info {
+            flex-grow: 1;
+            text-align: center;
+            line-height: 1.2;
+            margin-left: -30px; 
+        }
+        
+        .order-title {
+            font-size: 14px;
+            color: #333;
+            font-weight: 500;
+            margin: 0;
+        }
+
+        .order-status {
+            font-size: 13px;
+            color: #888;
+            margin: 0;
+            border-bottom: 1px solid #e0e0e0;
+            padding-bottom: 8px;
+            margin-bottom: 15px;
+            width: 100%;
+            max-width: 200px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        /* Títulos */
+        .page-title {
+            font-size: 22px;
+            font-weight: 700;
+            color: #333;
+            margin: 0 0 5px 0;
+        }
+
+        .page-subtitle {
+            font-size: 14px;
+            color: #666;
+            margin: 0 0 20px 0;
+        }
+        
+        .back-button-link, .close-button-link {
+            text-decoration: none; 
+            color: inherit; 
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            width: 40px; 
+            height: 40px;
+            border-radius: 50%; 
+        }
+        
+        .back-button-link {
+            margin-left: -10px;
+        }
+        
+        .close-button-link {
+            margin-right: -5px;
+        }
+        
+        /* --- 2. CONTEÚDO PRINCIPAL (Resumo) --- */
+        
+        .main-content {
+            padding: 0 25px;
+        }
+
+        /* Cartão de Resumo de Itens e Local */
+        .summary-card {
+            background-color: #ffffff;
+            border-radius: 12px;
+            padding: 15px 20px;
+            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+            border: 1px solid #eee;
+            margin-bottom: 20px;
+        }
+
+        .summary-item {
+            display: flex;
+            align-items: center;
+            padding: 12px 0;
+        }
+
+        .summary-item-icon {
+            color: #999;
+            font-size: 20px;
+            margin-right: 15px;
+            width: 20px; 
+            text-align: center;
+        }
+
+        .summary-details {
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+        
+        .summary-text {
+            font-size: 15px;
+            color: #333;
+            font-weight: 500;
+            line-height: 1.4;
+        }
+
+        .summary-subtext {
+            font-size: 13px;
+            color: #888;
+            margin-top: 2px;
+        }
+        
+        /* Separador entre Itens, Unidade e Código */
+        .summary-item:not(:last-child) {
+            border-bottom: 1px solid #f0f0f0;
+        }
+        
+        .summary-item-code .summary-details {
+            padding: 5px 0;
+        }
+        
+        .summary-item-code .summary-text {
+            font-weight: 400;
+        }
+
+        /* Cartão de Tempo Estimado */
+        .time-card {
+            background-color: #f0f0f7; /* Um cinza claro sutil, como na imagem */
+            border-radius: 12px;
+            padding: 15px 20px;
+            display: flex;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .time-card-icon {
+            color: #555;
+            font-size: 20px;
+            margin-right: 15px;
+        }
+
+        .time-card-text {
+            font-size: 15px;
+            color: #333;
+            font-weight: 500;
+        }
+        
+        .time-card-text strong {
+            font-weight: 700;
+            margin-left: 5px;
+        }
+
+        /* Botão Confirmar Pedido */
+        .confirm-button {
+            width: calc(100% - 50px); /* Ocupa a largura do main content */
+            padding: 15px 0;
+            background-color: #ffc107; /* Amarelo/Laranja forte */
+            color: #333;
+            font-size: 18px;
+            font-weight: 700;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            text-align: center;
+            margin: 0 auto; 
+            display: block;
+            box-shadow: 0 4px 10px rgba(255, 193, 7, 0.4);
+        }
+        
+        /* --- MEDIA QUERIES PARA RESPONSIVIDADE --- */
+        @media (max-width: 400px) {
+            body {
+                padding: 0; 
+            }
+
+            .app-container {
+                border-radius: 0;
+                box-shadow: none;
+                max-width: 100%; 
+            }
+            
+            .header, .main-content {
+                padding-left: 15px;
+                padding-right: 15px;
+            }
+            
+            .confirm-button {
+                width: calc(100% - 30px);
+                font-size: 16px;
+                padding: 12px 0;
+            }
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="app-container">
+        <header class="header">
+            <div class="header-top">
+                <a href="restaurante.html" class="back-button-link">
+                    <i class="fas fa-arrow-left header-icon"></i> 
+                </a>
+        
+                <div class="order-info">
+                    <p class="order-title">Pedido</p>
+                    <p class="order-status">Para retirada na loja</p>
+                </div> 
+
+                <a href="#" class="close-button-link">
+                    <i class="fas fa-times header-icon"></i> 
+                </a>
+            </div>
+            
+            <h1 class="page-title">Resumo do Pedido</h1>
+            <p class="page-subtitle">Confirme os dados antes de finalizar</p>
+        </header>
+
+        <main class="main-content">
+            
+            <div class="summary-card">
+                
+                <div class="summary-item">
+                    <i class="fas fa-file-invoice summary-item-icon"></i>
+                    <div class="summary-details">
+                        <span class="summary-text">Resumo dos itens</span>
+                        <span class="summary-subtext"></span>
+                        <span class="summary-subtext"></span>
+                    </div>
+                </div>
+
+                <div class="summary-item">
+                    <i class="fas fa-home summary-item-icon"></i>
+                    <div class="summary-details">
+                        <span class="summary-text">Unidade</span>
+                        <span class="summary-subtext"></span>
+                        <span class="summary-subtext"></span>
+                    </div>
+                </div>
+
+                <div class="summary-item summary-item-code">
+                    <i class="fas fa-clipboard-list summary-item-icon"></i>
+                    <div class="summary-details">
+                        <span class="summary-text">Código do Pedido</span>
+                        <span class="summary-text"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="time-card">
+                <i class="fas fa-history time-card-icon"></i>
+                <span class="time-card-text">Tempo estimado de preparo: <strong></strong></span>
+            </div>
+
+              <a href="pedido-preparo.html" class="confirm-button">
+                Confirmar Pedido
+                    </a>
+            </button>
+            
+        </main>
+    </div>
+    
+</body>
+</html>

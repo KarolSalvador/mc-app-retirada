@@ -16,3 +16,13 @@ function irParaInicio() {
     // Redireciona para o arquivo de início
     window.location.href = "Inicio.html";
 }
+
+function irPararestaurante() {
+    // Redireciona para o arquivo de restaurante
+    window.location.href = "restaurante.html";
+}
+
+function irParaResumoPedido() {
+    // Redireciona para o arquivo de resumo do pedido
+    window.location.href = "resumo-pedido.html";
+}

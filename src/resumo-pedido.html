@@ -166,6 +166,17 @@
             color: #888;
             margin-top: 2px;
         }
+
+        #order-items-container span.summary-subtext {
+            display: block;
+            margin-top: 2px;
+        }
+
+        .summary-item.summary-unit .summary-details .unit-name-display {
+            font-weight: 600;
+            color: #333;
+            font-size: 15px;
+        }
         
         /* Separador entre Itens, Unidade e Código */
         .summary-item:not(:last-child) {
@@ -222,6 +233,7 @@
             margin: 0 auto; 
             display: block;
             box-shadow: 0 4px 10px rgba(255, 193, 7, 0.4);
+            text-decoration: none;
         }
         
         /* --- MEDIA QUERIES PARA RESPONSIVIDADE --- */
@@ -277,21 +289,21 @@
             
             <div class="summary-card">
                 
-                <div class="summary-item">
-                    <i class="fas fa-file-invoice summary-item-icon"></i>
+                <div class="summary-item summary-items-list">
+                    <i class="fas fa-bag-shopping summary-item-icon"></i>
                     <div class="summary-details">
                         <span class="summary-text">Resumo dos itens</span>
-                        <span class="summary-subtext"></span>
-                        <span class="summary-subtext"></span>
+                        <div id="order-items-container">
+                            </div>
                     </div>
                 </div>
 
-                <div class="summary-item">
-                    <i class="fas fa-home summary-item-icon"></i>
+                <div class="summary-item summary-unit">
+                    <i class="fas fa-store summary-item-icon"></i>
                     <div class="summary-details">
-                        <span class="summary-text">Unidade</span>
-                        <span class="summary-subtext"></span>
-                        <span class="summary-subtext"></span>
+                        <span class="summary-text unit-name-display"></span>
+                        <span class="summary-subtext unit-address-line"></span>
+                        <span class="summary-subtext unit-distance-line"></span>
                     </div>
                 </div>
 
@@ -299,7 +311,7 @@
                     <i class="fas fa-clipboard-list summary-item-icon"></i>
                     <div class="summary-details">
                         <span class="summary-text">Código do Pedido</span>
-                        <span class="summary-text"></span>
+                        <span class="summary-text order-code"></span>
                     </div>
                 </div>
             </div>
@@ -316,6 +328,6 @@
             
         </main>
     </div>
-    
+     <script src="script.js"></script>
 </body>
 </html>

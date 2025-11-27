@@ -1,350 +1,295 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
     <title>Escolha o Restaurante</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+
     <style>
-       
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
 
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            background-color: #f4f4f7;
-            display: flex;
-            justify-content: center;
-            align-items: flex-start;
-            min-height: 100vh;
-            padding: 20px 0;
-        }
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          Helvetica, Arial, sans-serif;
+        background-color: #f4f4f7;
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+        min-height: 100vh;
+        padding: 20px 0;
+      }
 
-        .app-container {
-            width: 100%;
-            max-width: 400px;
-            background-color: #ffffff;
-            border-radius: 30px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-            padding-bottom: 20px;
-            overflow: hidden;
-        }
+      .app-container {
+        width: 100%;
+        max-width: 400px;
+        background-color: #ffffff;
+        border-radius: 30px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        padding-bottom: 20px;
+        overflow: hidden;
+      }
 
-        /* --- 1. CABEÇALHO (Header) --- */
-        .header {
-            padding: 20px 25px 0 25px;
-            text-align: center;
-        }
+      /* --- 1. CABEÇALHO (Header) --- */
+      .header {
+        padding: 20px 25px 0 25px;
+        text-align: center;
+      }
 
-        .header-top {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-            position: relative;
-        }
+      .header-top {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+        position: relative;
+      }
 
-        .header-icon {
-            font-size: 20px;
-            color: #444;
-            cursor: pointer;
-            padding: -5px;
-        }
+      .header-icon {
+        font-size: 20px;
+        color: #444;
+        cursor: pointer;
+        padding: -5px;
+      }
 
-        .order-info {
-            flex-grow: 1;
-            text-align: center;
-            line-height: 1.2;
-            margin-left: -30px; /* Ajuste para centralizar visualmente */
-        }
-        
-        .order-title {
-            font-size: 14px;
-            color: #333;
-            font-weight: 500;
-            margin: 0;
-        }
+      .order-info {
+        flex-grow: 1;
+        text-align: center;
+        line-height: 1.2;
+        margin-left: -30px; /* Ajuste para centralizar visualmente */
+      }
 
-        .order-status {
-            font-size: 13px;
-            color: #888;
-            margin: 0;
-            border-bottom: 1px solid #e0e0e0;
-            padding-bottom: 8px;
-            margin-bottom: 15px;
-            width: 100%;
-            max-width: 200px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-        
-        /* Títulos */
-        .page-title {
-            font-size: 22px;
-            font-weight: 700;
-            color: #333;
-            margin: 0 0 5px 0;
-        }
+      .order-title {
+        font-size: 14px;
+        color: #333;
+        font-weight: 500;
+        margin: 0;
+      }
 
-        .page-subtitle {
-            font-size: 14px;
-            color: #666;
-            margin: 0 0 20px 0;
-        }
+      .order-status {
+        font-size: 13px;
+        color: #888;
+        margin: 0;
+        border-bottom: 1px solid #e0e0e0;
+        padding-bottom: 8px;
+        margin-bottom: 15px;
+        width: 100%;
+        max-width: 200px;
+        margin-left: auto;
+        margin-right: auto;
+      }
 
-        /* --- 2. RESTAURANTES (Cards) --- */
-        .restaurant-list {
-            padding: 0 25px;
-        }
+      /* Títulos */
+      .page-title {
+        font-size: 22px;
+        font-weight: 700;
+        color: #333;
+        margin: 0 0 5px 0;
+      }
 
-        .restaurant-card {
-            background-color: #ffffff;
-            border-radius: 12px;
-            padding: 15px;
-            margin-bottom: 15px;
-            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
-            border: 1px solid #eee;
-            cursor: pointer;
-            transition: transform 0.1s;
-            display: block; 
-            position: relative;
-            z-index: 10;
-        }
+      .page-subtitle {
+        font-size: 14px;
+        color: #666;
+        margin: 0 0 20px 0;
+      }
 
-        .restaurant-card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
+      /* --- 2. RESTAURANTES (Cards) --- */
+      .restaurant-image-container {
+        width: 80px; /* Largura desejada */
+        height: 80px; /* Altura desejada */
+        margin-right: 15px; /* Espaçamento entre a imagem e o texto */
+        overflow: hidden; /* Garante que a imagem fique dentro do container */
+      }
+      .restaurant-image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover; /* Recorta a imagem para preencher o container sem distorcer */
+        border-radius: 4px;
+      }
+      .restaurant-info {
+        /* Garante que o texto fique ao lado da imagem */
+        display: flex;
+        align-items: center;
+      }
+      /* Alinhe o card.innerHTML para usar Flexbox e colocar a imagem e a info lado a lado */
+      .card-content {
+        display: flex;
+        align-items: flex-start; /* Alinha o conteúdo no topo */
+      }
 
-        .card-content {
-            display: flex;
-            align-items: flex-start;
-            justify-content: space-between;
-        }
+      .restaurant-list {
+        padding: 0 25px;
+      }
 
-        .restaurant-info {
-            display: flex;
-            align-items: flex-start;
-            flex-grow: 1;
-        }
+      .restaurant-card {
+        background-color: #ffffff;
+        border-radius: 12px;
+        padding: 15px;
+        margin-bottom: 15px;
+        box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+        border: 1px solid #eee;
+        cursor: pointer;
+        transition: transform 0.1s;
+      }
 
-       
-        .restaurant-img {
-            width: 65px;
-            height: 65px;
-            border-radius: 8px;
-            object-fit: cover;
-            margin-right: 15px;
-            background-color: #f1f1f1; 
-        }
+      .restaurant-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      }
 
-        /* Textos do Restaurante */
-        .text-details {
-            display: flex;
-            flex-direction: column;
-            text-align: left;
-        }
+      .card-content {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+      }
 
-        .unit-name {
-            font-size: 16px;
-            font-weight: 600;
-            color: #333;
-            margin-bottom: 2px;
-        }
+      .restaurant-info {
+        display: flex;
+        align-items: flex-start;
+        flex-grow: 1;
+      }
 
-        .unit-address {
-            font-size: 13px;
-            color: #666;
-            margin-bottom: 2px;
-        }
+      .restaurant-img {
+        width: 65px;
+        height: 65px;
+        border-radius: 8px;
+        object-fit: cover;
+        margin-right: 15px;
+        background-color: #f1f1f1;
+      }
 
-        .unit-distance {
-            font-size: 13px;
-            color: #888;
-        }
+      /* Textos do Restaurante */
+      .text-details {
+        display: flex;
+        flex-direction: column;
+        text-align: left;
+      }
 
-        
-        .rating-area {
-            display: flex;
-            align-items: center;
-            align-self: flex-start;
-            margin-top: 5px;
-            margin-left: 10px; 
-            min-width: 50px; 
-            justify-content: flex-end;
-        }
+      .unit-name {
+        font-size: 16px;
+        font-weight: 600;
+        color: #333;
+        margin-bottom: 2px;
+      }
 
-        .rating-star {
-            color: #ffc107; 
-            font-size: 15px;
-            margin-right: 5px;
-        }
+      .unit-address {
+        font-size: 13px;
+        color: #666;
+        margin-bottom: 2px;
+      }
 
-        .rating-value {
-            font-size: 14px;
-            font-weight: 600;
-            color: #333;
-        }
+      .unit-distance {
+        font-size: 13px;
+        color: #888;
+      }
 
-        .user-avatar {
-            width: 25px;
-            height: 25px;
-            border-radius: 50%;
-            border: 2px solid #fff;
-            position: absolute;
-            top: -5px;
-            right: 0px;
-            box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
-        }
-        
-        .back-button-link {
+      .rating-area {
+        display: flex;
+        align-items: center;
+        align-self: flex-start;
+        margin-top: 5px;
+        margin-left: 10px;
+        min-width: 50px;
+        justify-content: flex-end;
+      }
 
-            text-decoration: none; 
-            color: inherit; 
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            margin-left: -100px;
-            padding: 10px;
-            right: 20px;
-            width: 40px; 
-            height: 40px;
-        }
+      .rating-star {
+        color: #ffc107;
+        font-size: 15px;
+        margin-right: 5px;
+      }
 
-        .back-button-link {
-            text-decoration: none; 
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-left: -10px;
-        }   
-        .back-button-link:hover {
-             cursor: pointer;
-        }
+      .rating-value {
+        font-size: 14px;
+        font-weight: 600;
+        color: #333;
+      }
 
-        .close-button-link {
-            text-decoration: none;
-            color: inherit;
-            display: flex; 
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            width: 40px; 
-            height: 40px;
-            margin-right: -5px; 
-        }
+      .user-avatar {
+        width: 25px;
+        height: 25px;
+        border-radius: 50%;
+        border: 2px solid #fff;
+        position: absolute;
+        top: -5px;
+        right: 0px;
+        box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+      }
 
-        .close-button-link:hover {
-            opacity: 0.8; 
-        }
-        
+      .back-button-link {
+        /* Configura o link para ocupar uma área de 40x40px */
+        text-decoration: none;
+        display: flex; /* Permite alinhar o ícone interno */
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+
+        /* Aumenta a área de clique para 44x44 (padrão de toque móvel) e afasta da borda */
+        width: 44px;
+        height: 44px;
+        margin-left: -15px; /* Puxa para a esquerda, sobrepondo um pouco o padding do cabeçalho */
+      }
+
+      .back-button-link:hover {
+        cursor: pointer;
+      }
+
+      .close-button-link {
+        text-decoration: none;
+        color: inherit;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        width: 40px;
+        height: 40px;
+        margin-right: -5px;
+      }
+
+      .close-button-link:hover {
+        opacity: 0.8;
+      }
+
+      .header-icon {
+        font-size: 20px;
+        color: #444;
+        padding: 12px; /* Adiciona um padding generoso ao ícone, mas o flex box é o principal */
+      }
     </style>
-</head>
-<body>
-
+  </head>
+  <body>
     <div class="app-container">
-        <header class="header">
-            <div class="header-top">
-            <a href="Inicio.html" class="back-button-link">
-                <i class="fas fa-arrow-left header-icon"></i> 
-            </a>
-    
-                <div class="order-info">
-                    <p class="order-title">Pedido</p>
-                    <p class="order-status">Para retirada na loja</p>
-                </div>  
+      <header class="header">
+        <div class="header-top">
+          <a href="#" class="back-button-link" onclick="irParaInicio()">
+            <i class="fas fa-arrow-left header-icon"></i>
+          </a>
 
-                <a href="Inicio.html" class="close-button-link">
-                <i class="fas fa-times header-icon"></i> 
-                </a>
-            </div>
-            
-            <h1 class="page-title">Escolha o Restaurante</h1>
-            <p class="page-subtitle">Selecione onde deseja pedir sua refeição</p>
-        </header>
+          <div class="order-info">
+            <p class="order-title">Pedido</p>
+            <p class="order-status">Para retirada na loja</p>
+          </div>
 
-        <main class="restaurant-list">
-            
-            <div class="restaurant-card">
-                <a href="resumo-pedido.html"> <div class="card-content">
-                    <div class="restaurant-info">                       
-                        <img src="https://via.placeholder.com/65x65/E57373/FFFFFF?text=P" class="restaurant-img" alt="">
-                        <div class="text-details">
-                            <span class="unit-name">Unidade</span>
-                            <span class="unit-address">Rua</span>
-                            <span class="unit-distance">Distancia</span>
-                        </div>
-                    </div>
-                    <div class="rating-area">
-                        <i class="fas fa-star rating-star"></i>
-                        <span class="rating-value"></span>
-                        
-                    </div>
-                </div>
-                </a>
-            </div>
+          <a href="Inicio.html" class="close-button-link">
+            <i class="fas fa-times header-icon"></i>
+          </a>
+        </div>
 
-            <div class="restaurant-card">
-                <a href="resumo-pedido.html"> <div class="card-content">
-                    <div class="restaurant-info">      
-                        <img src="https://via.placeholder.com/65x65/4FC3F7/FFFFFF?text=P" class="restaurant-img" alt="">
-                        <div class="text-details">
-                            <span class="unit-name">Unidade</span>
-                            <span class="unit-address">Rua</span>
-                            <span class="unit-distance">Distancia</span>
-                        </div>
-                    </div>
-                    <div class="rating-area">
-                        <i class="fas fa-star rating-star"></i>
-                        <span class="rating-value"></span>
-                    </div>
-                </div>
-                </a>
-            </div>
+        <h1 class="page-title">Escolha o Restaurante</h1>
+        <p class="page-subtitle">Selecione onde deseja pedir sua refeição</p>
+      </header>
 
-            <div class="restaurant-card">
-                <a href="resumo-pedido.html"> <div class="card-content">
-                    <div class="restaurant-info">         
-                        <img src="https://via.placeholder.com/65x65/FFB74D/FFFFFF?text=J" class="restaurant-img" alt="">
-                        <div class="text-details">
-                            <span class="unit-name">Unidade</span>
-                            <span class="unit-address">Rua</span>
-                            <span class="unit-distance">Distancia</span>
-                        </div>
-                    </div>
-                    <div class="rating-area">
-                        <i class="fas fa-star rating-star"></i>
-                        <span class="rating-value"></span>
-                    </div>
-                </div>
-                </a>
-            </div>
-
-            <div class="restaurant-card">
-               <a href="resumo-pedido.html"> <div class="card-content">
-                    <div class="restaurant-info">       
-                        <img src="https://via.placeholder.com/65x65/A1887F/FFFFFF?text=A" class="restaurant-img" alt="">
-                        <div class="text-details">
-                            <span class="unit-name">Unidade</span>
-                            <span class="unit-address">Rua</span>
-                            <span class="unit-distance">Distancia</span>
-                        </div>
-                    </div>
-                    <div class="rating-area">
-                        <i class="fas fa-star rating-star"></i>
-                        <span class="rating-value"></span>
-                    </div>
-                </div>
-                </a>
-            </div>
-            
-        </main>
+      <main class="restaurant-list" id="restaurant-list-container">
+        <!-- RESTAURANTES SERÃO EXIBIDOS CONFORME SERVIDO PELO BACKEND -->
+      </main>
     </div>
     <script src="script.js"></script>
-</body>
+  </body>
 </html>

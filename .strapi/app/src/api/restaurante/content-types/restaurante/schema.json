@@ -24,6 +24,16 @@
     },
     "longitude": {
       "type": "decimal"
+    },
+    "img": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ]
     }
   }
 }

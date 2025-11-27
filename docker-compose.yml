@@ -66,6 +66,11 @@ services:
       - "8081:80"
     volumes:
       - ./src:/usr/share/nginx/html
+      - ./src/entrypoint.sh:/entrypoint.sh:ro
+    env_file: .env
+    environment:
+      - FRONTEND_HOST=${FRONTEND_HOST:-localhost}
+    entrypoint: [ "/bin/sh", "/entrypoint.sh" ]
 
 volumes:
   postgres_data: {}

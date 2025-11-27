@@ -1,6 +1,7 @@
 // Constante para a URL base da API na n8n
-const N8N_BASE_URL = "http://localhost:5678/webhook/restaurantes";
-const STRAPI_BASE_URL = "http://localhost:1337";
+const FRONTEND_HOST = '192.168.1.109';
+const N8N_BASE_URL = `http://${FRONTEND_HOST}:5678/webhook/restaurantes`;
+const STRAPI_BASE_URL = `http://${FRONTEND_HOST}:1337`;
 
 
 // Variáveis globais para armazenar as coordenadas (usadas pelo Inicio.html)
@@ -18,6 +19,7 @@ function success(position) {
 function error(err) {
     console.error("Erro de Geolocalização:", err.message);
 }
+
 
 // 3. FUNÇÃO PARA INICIAR A SOLICITAÇÃO DE GEOLOCALIZAÇÃO
 function getLocation() {

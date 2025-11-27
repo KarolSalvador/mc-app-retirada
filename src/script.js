@@ -149,6 +149,7 @@ async function fetchAndRenderRestaurants() {
             //cria o card de restaurante com dados dinâmicos
             const card = document.createElement('div');
             card.className = 'restaurant-card';
+            card.onclick = () => selecionarRestaurante(restaurant)
             card.innerHTML = `
                 <div class="card-content">
                     
@@ -176,6 +177,82 @@ async function fetchAndRenderRestaurants() {
 
 }
 
+function selecionarRestaurante(restaurantData) {
+    //armazenamento dos dados do restaurante seleciona
+    sessionStorage.setItem("selectedRestaurant", JSON.stringify(restaurantData));
+
+    window.location.href = "resumo-pedido.html";
+}
+
+// Carregamento de dados do restaurante e do pedido na tela de resumo
+function carregarResumoPedido() {
+    const selectedRestaurantData = sessionStorage.getItem('selectedRestaurant');
+    const restaurant = selectedRestaurantData ? JSON.parse(selectedRestaurantData) : null;
+
+    //dados mockados de pedido
+    const mockOrder = {
+        itemSummary: '1x Combo do Quarteirão M, 1x Combo do Mc Lanche Feliz',
+        estimatedTime: '25-35 min'
+    };
+
+    if (restaurant) {
+        //atualiza a lista de itens
+        const itemsContainer = document.querySelector('#order-items-container');
+        if (itemsContainer) {
+            itemsContainer.innerHTML = '';
+
+            //separar itens por virgula e adiciona como span em nova linha
+            const items = mockOrder.itemSummary.split(',').map(item => item.trim());
+            items.forEach(item => {
+                const itemElement = document.createElement('span');
+                itemElement.classList.add('summary-subtext');
+                itemElement.textContent = item;
+                itemsContainer.appendChild(itemElement);
+            });
+        }
+
+        //atualização da unidade selecionada
+        const unitNameElement = document.querySelector('.summary-unit .unit-name-display');
+        const unitAddressElement = document.querySelector('.summary-unit .unit-address-line');
+        const unitDistanceElement = document.querySelector('.summary-unit .unit-distance-line');
+
+        // Formatação da Distância
+        const distanceInKm = parseFloat(restaurant.distancia_km);
+        const distanceDisplay = distanceInKm.toFixed(1) + ' km';
+
+
+        if (unitNameElement) {
+            // Ajuste: O nome do restaurante se torna o texto principal
+            unitNameElement.textContent = restaurant.nome;
+        }
+
+        if (unitAddressElement) {
+            unitAddressElement.textContent = restaurant.endereco;
+        }
+
+        if (unitDistanceElement) {
+            unitDistanceElement.textContent = distanceDisplay;
+        }
+
+
+        // 3. Atualiza o Tempo Estimado (no strong)
+        const timeElement = document.querySelector('.estimated-time');
+        if (timeElement) {
+            timeElement.textContent = mockOrder.estimatedTime;
+        }
+
+        // MOCK: Código do pedido 
+        const orderCodeElement = document.querySelector('.summary-item-code .order-code');
+        if (orderCodeElement) {
+            orderCodeElement.textContent = '#ORD-6147';
+        }
+
+        console.log("Resumo do pedido carregado com sucesso para:", restaurant.nome)
+    } else {
+        console.error("Erro ao carregar resumo: Nenhum restaurante selecionado.");
+    }
+}
+
 // CÓDIGO DE INICIALIZAÇÃO
 
 // 1. Inicia a obtenção da localização (para o Inicio.html)
@@ -186,4 +263,9 @@ if (window.location.pathname.endsWith('/Inicio.html')) {
 // 2. Executa a busca e renderização (para o restaurante.html)
 if (window.location.pathname.endsWith('/restaurante.html')) {
     fetchAndRenderRestaurants();
+}
+
+// 3. Executa o carregamento do resumo para tela resumo pedido
+if (window.location.pathname.endsWith('/resumo-pedido.html')) {
+    carregarResumoPedido();
 }

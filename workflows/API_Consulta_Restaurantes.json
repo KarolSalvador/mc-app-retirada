@@ -10,7 +10,7 @@
             "entries": [
               {
                 "name": "Access-Control-Allow-Origin",
-                "value": "http://127.0.0.1:5500"
+                "value": "*"
               },
               {
                 "name": "Access-Control-Allow-Methods",
@@ -26,10 +26,7 @@
       },
       "type": "n8n-nodes-base.respondToWebhook",
       "typeVersion": 1.4,
-      "position": [
-        368,
-        0
-      ],
+      "position": [368, 0],
       "id": "8be512b0-32d5-4ca5-8935-377b7021469b",
       "name": "Respond to Webhook"
     },
@@ -41,10 +38,7 @@
         "color": 7
       },
       "type": "n8n-nodes-base.stickyNote",
-      "position": [
-        -640,
-        -96
-      ],
+      "position": [-640, -96],
       "typeVersion": 1,
       "id": "abe1e1d3-708d-44e0-a482-165b6f10e0f7",
       "name": "Sticky Note"
@@ -57,10 +51,7 @@
         "color": 7
       },
       "type": "n8n-nodes-base.stickyNote",
-      "position": [
-        -352,
-        -96
-      ],
+      "position": [-352, -96],
       "typeVersion": 1,
       "id": "86275be0-be08-409f-a62f-c89fcef6f969",
       "name": "Sticky Note1"
@@ -72,10 +63,7 @@
         "color": 7
       },
       "type": "n8n-nodes-base.stickyNote",
-      "position": [
-        288,
-        -96
-      ],
+      "position": [288, -96],
       "typeVersion": 1,
       "id": "75ee1ccf-c482-4119-ad91-f752ed560902",
       "name": "Sticky Note2"
@@ -88,10 +76,7 @@
       },
       "type": "n8n-nodes-base.postgres",
       "typeVersion": 2.6,
-      "position": [
-        -256,
-        0
-      ],
+      "position": [-256, 0],
       "id": "e8490993-4708-46f5-9926-35a36284737a",
       "name": "POSTGRES_QUERY",
       "credentials": {
@@ -109,10 +94,7 @@
       },
       "type": "n8n-nodes-base.webhook",
       "typeVersion": 2.1,
-      "position": [
-        -592,
-        0
-      ],
+      "position": [-592, 0],
       "id": "f5f371d2-1ddd-4bb3-b3c5-d0aba7c66f49",
       "name": "WEBHOOK",
       "webhookId": "f570395c-961d-41b4-976d-60abf59e02f4"
@@ -124,10 +106,7 @@
       },
       "type": "n8n-nodes-base.aggregate",
       "typeVersion": 1,
-      "position": [
-        48,
-        0
-      ],
+      "position": [48, 0],
       "id": "b6515f9a-84ec-4519-bb78-ee25ba71cb96",
       "name": "Aggregate"
     },
@@ -138,10 +117,7 @@
         "color": 7
       },
       "type": "n8n-nodes-base.stickyNote",
-      "position": [
-        -16,
-        -96
-      ],
+      "position": [-16, -96],
       "typeVersion": 1,
       "id": "30db171f-d90f-4175-9817-e17f0c3747b1",
       "name": "Sticky Note3"

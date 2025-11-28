@@ -3,6 +3,12 @@ const FRONTEND_HOST = '192.168.1.109';
 const N8N_BASE_URL = `http://${FRONTEND_HOST}:5678/webhook/restaurantes`;
 const STRAPI_BASE_URL = `http://${FRONTEND_HOST}:1337`;
 
+const MOCK_ORDER_DATA = {
+    itemSummary: '1x Combo do Quarteirão M, 1x Combo do Mc Lanche Feliz',
+    estimatedTime: '25-35 min',
+    orderCode: '#ORD-6147'
+};
+
 
 // Variáveis globais para armazenar as coordenadas (usadas pelo Inicio.html)
 let userLatitude = null;
@@ -192,10 +198,7 @@ function carregarResumoPedido() {
     const restaurant = selectedRestaurantData ? JSON.parse(selectedRestaurantData) : null;
 
     //dados mockados de pedido
-    const mockOrder = {
-        itemSummary: '1x Combo do Quarteirão M, 1x Combo do Mc Lanche Feliz',
-        estimatedTime: '25-35 min'
-    };
+    const mockOrder = MOCK_ORDER_DATA;
 
     if (restaurant) {
         //atualiza a lista de itens
@@ -246,13 +249,99 @@ function carregarResumoPedido() {
         // MOCK: Código do pedido 
         const orderCodeElement = document.querySelector('.summary-item-code .order-code');
         if (orderCodeElement) {
-            orderCodeElement.textContent = '#ORD-6147';
+            orderCodeElement.textContent = mockOrder.orderCode;
         }
 
         console.log("Resumo do pedido carregado com sucesso para:", restaurant.nome)
     } else {
         console.error("Erro ao carregar resumo: Nenhum restaurante selecionado.");
     }
+}
+
+function confirmarPedido() {
+    const finalOrderDetails = MOCK_ORDER_DATA;
+
+    sessionStorage.setItem('finalOrderDetails', JSON.stringify(finalOrderDetails));
+    window.location.href = "pedido-preparo.html";
+}
+
+function carregarPedidoEmPreparo() {
+    const savedOrder = sessionStorage.getItem('finalOrderDetails');
+
+    if (!savedOrder) {
+        console.error("Dads do pedido não encotrados no sessionStorage.");
+        return;
+    }
+
+    const finalOrder = JSON.parse(savedOrder);
+
+    console.log("<<< DEBUG >>> Objeto de pedido:", finalOrder);
+
+    carregarUnidadeEmPreparo();
+
+    renderizarDetalhesDoPedido(finalOrder);
+}
+
+function carregarUnidadeEmPreparo() {
+    const selectedRestaurantData = sessionStorage.getItem('selectedRestaurant');
+    const restaurant = selectedRestaurantData ? JSON.parse(selectedRestaurantData) : null;
+
+    if (restaurant) {
+        // Atualização da unidade selecionada
+        const unitNameElement = document.querySelector('.summary-unit .unit-name-display');
+        const unitAddressElement = document.querySelector('.summary-unit .unit-address-line');
+        const unitDistanceElement = document.querySelector('.summary-unit .unit-distance-line');
+
+        // Formatação da Distância
+        const distanceInKm = parseFloat(restaurant.distancia_km);
+        const distanceDisplay = distanceInKm.toFixed(1) + ' km';
+
+
+        if (unitNameElement) {
+            unitNameElement.textContent = restaurant.nome;
+        }
+
+        if (unitAddressElement) {
+            unitAddressElement.textContent = restaurant.endereco;
+        }
+
+        if (unitDistanceElement) {
+            unitDistanceElement.textContent = distanceDisplay;
+        }
+
+        console.log("Unidade do pedido carregada com sucesso:", restaurant.nome)
+
+    } else {
+        console.error("Erro ao carregar unidade: Nenhum restaurante selecionado.");
+    }
+}
+
+function renderizarDetalhesDoPedido(orderData) {
+    const timeElementValue = document.querySelector('.estimated-time-value');
+    const orderCodeElement = document.querySelector('.summary-item-code .order-code');
+    const itemsContainer = document.querySelector('#order-items-container');
+
+    if (timeElementValue) {
+        timeElementValue.textContent = orderData.estimatedTime;
+    }
+
+    if (orderCodeElement) {
+        orderCodeElement.textContent = orderData.orderCode
+    }
+
+    if (itemsContainer) {
+        itemsContainer.innerHTML = '';
+
+        const items = orderData.itemSummary.split(',').map(item => item.trim());
+
+        items.forEach(item => {
+            const itemElement = document.createElement('span');
+            itemElement.classList.add('summary-subtext');
+            itemElement.textContent = item;
+            itemsContainer.appendChild(itemElement)
+        })
+    }
+    console.log("Detalhes do pedido renderizados com sucesso em pedido-preparo.html");
 }
 
 // CÓDIGO DE INICIALIZAÇÃO
@@ -270,4 +359,9 @@ if (window.location.pathname.endsWith('/restaurante.html')) {
 // 3. Executa o carregamento do resumo para tela resumo pedido
 if (window.location.pathname.endsWith('/resumo-pedido.html')) {
     carregarResumoPedido();
+}
+
+// 4. Executa o carregamento do pedido em preparo
+if (window.location.pathname.endsWith('/pedido-preparo.html')) {
+    carregarPedidoEmPreparo();
 }

@@ -3,6 +3,13 @@ const FRONTEND_HOST = 'localhost';
 const N8N_BASE_URL = `http://${FRONTEND_HOST}:5678/webhook/restaurantes`;
 const STRAPI_BASE_URL = `http://${FRONTEND_HOST}:1337`;
 
+
+const MOCK_ORDER_DATA = {
+    itemSummary: '1x Combo do Quarteirão M, 1x Combo do Mc Lanche Feliz',
+    estimatedTime: '25-35 min',
+    orderCode: '#ORD-6147'
+};
+
 // Variáveis globais para armazenar as coordenadas (usadas pelo Inicio.html)
 let userLatitude = null;
 let userLongitude = null;
@@ -11,7 +18,6 @@ let userLongitude = null;
 function success(position) {
     userLatitude = position.coords.latitude;
     userLongitude = position.coords.longitude;
-    console.log("Localização obtida e armazenada. Lat:", userLatitude, "Lon:", userLongitude);
 }
 
 // 2. FUNÇÃO DE ERRO: Apenas loga o erro no console
@@ -25,13 +31,12 @@ function getLocation() {
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(success, error, { timeout: 10000 });
     } else {
-        console.error("Geolocalização não é suportada por este navegador.");
+        alert("Geolocalização não é suportada por este navegador.");
     }
 }
 
 async function fetchRestaurantsAPI(lat, lon) {
     const apiUrl = `${N8N_BASE_URL}?lat=${lat}&lon=${lon}`;
-    console.log(`Chamando API: ${apiUrl}`);
 
     return fetch(apiUrl, { timeout: 10000 });
 }
@@ -50,8 +55,6 @@ async function selecionarOpcao(opcao) {
             // DEBUG: Coordenadas de Fallback perto dos dados (Araraquara)
             finalLat = -21.78;
             finalLon = -48.18;
-        } else {
-            console.log("Localização obtida. Armazenando no sessionStorage.");
         }
 
         // Salva as coordenadas, seja a real ou o fallback
@@ -59,8 +62,6 @@ async function selecionarOpcao(opcao) {
         sessionStorage.setItem("userLongitude", finalLon);
 
         try {
-            console.log("Aguardando resposta da API do n8n...");
-
             const apiResponse = await fetchRestaurantsAPI(finalLat, finalLon);
 
             if (!apiResponse.ok) {
@@ -85,9 +86,7 @@ async function selecionarOpcao(opcao) {
 
 
     } else if (opcao === 'delivery') {
-        console.log("Funcionalidade de Delivery ainda não implementada.");
-    } else {
-        console.error("Opção de pedido inválida: " + opcao);
+        alert("Funcionalidade de Delivery ainda não implementada.");
     }
 }
 
@@ -102,9 +101,6 @@ async function fetchAndRenderRestaurants() {
     const savedData = sessionStorage.getItem('restaurantData');
     const container = document.getElementById('restaurant-list-container');
 
-    // <<< DEBUG >>> Confirma se os dados foram lidos do Session Storage
-    console.log("<<< DEBUG 1 >>> Dados brutos do Session Storage:", savedData);
-
     if (!container || !savedData) {
         container.innerHTML = `<p style="text-align: center; color: #e74c3c;">Erro: Dados dos restaurantes não encontrados. Volte e tente novamente.</p>`;
         return;
@@ -113,12 +109,6 @@ async function fetchAndRenderRestaurants() {
     try {
         const rawRestaurantsArray = JSON.parse(savedData);
         const restaurants = Array.isArray(rawRestaurantsArray) ? rawRestaurantsArray : [];
-
-        // <<< DEBUG >>> Confirma o tamanho do array de restaurantes
-        console.log("<<< DEBUG 2 >>> Número de restaurantes para renderizar:", restaurants.length);
-
-        // <<< DEBUG >>> Mostra o array pronto para renderização
-        console.log("<<< DEBUG 3 >>> Array de restaurantes:", restaurants);
 
         container.innerHTML = '';
 
@@ -140,7 +130,7 @@ async function fetchAndRenderRestaurants() {
                 imageUrl = '/src/img/placeholder.png';
             }
 
-            // O contêiner para a imagem (com o caminho completo)
+            // Contêiner para a imagem (com o caminho completo)
             const imageHtml = `
                 <img src="${imageUrl}" 
                      alt="Fachada do ${restaurant.nome}" 
@@ -191,10 +181,7 @@ function carregarResumoPedido() {
     const restaurant = selectedRestaurantData ? JSON.parse(selectedRestaurantData) : null;
 
     //dados mockados de pedido
-    const mockOrder = {
-        itemSummary: '1x Combo do Quarteirão M, 1x Combo do Mc Lanche Feliz',
-        estimatedTime: '25-35 min'
-    };
+    const mockOrder = MOCK_ORDER_DATA;
 
     if (restaurant) {
         //atualiza a lista de itens
@@ -223,7 +210,7 @@ function carregarResumoPedido() {
 
 
         if (unitNameElement) {
-            // Ajuste: O nome do restaurante se torna o texto principal
+            //O nome do restaurante se torna o texto principal
             unitNameElement.textContent = restaurant.nome;
         }
 
@@ -236,21 +223,101 @@ function carregarResumoPedido() {
         }
 
 
-        // 3. Atualiza o Tempo Estimado (no strong)
-        const timeElement = document.querySelector('.estimated-time');
-        if (timeElement) {
-            timeElement.textContent = mockOrder.estimatedTime;
+        // 3. Atualiza o Tempo Estimado 
+        const timeElementValue = document.querySelector('.estimated-time-value');
+        if (timeElementValue) {
+            timeElementValue.textContent = mockOrder.estimatedTime;
         }
 
         // MOCK: Código do pedido 
         const orderCodeElement = document.querySelector('.summary-item-code .order-code');
         if (orderCodeElement) {
-            orderCodeElement.textContent = '#ORD-6147';
+            orderCodeElement.textContent = mockOrder.orderCode;
         }
 
-        console.log("Resumo do pedido carregado com sucesso para:", restaurant.nome)
     } else {
-        console.error("Erro ao carregar resumo: Nenhum restaurante selecionado.");
+        alert("Erro ao carregar resumo: Por favor, volte e selecione um restaurante.");
+    }
+}
+
+function confirmarPedido() {
+    const finalOrderDetails = MOCK_ORDER_DATA;
+
+    sessionStorage.setItem('finalOrderDetails', JSON.stringify(finalOrderDetails));
+    window.location.href = "pedido-preparo.html";
+}
+
+function carregarPedidoEmPreparo() {
+    const savedOrder = sessionStorage.getItem('finalOrderDetails');
+
+    if (!savedOrder) {
+        console.error("Dads do pedido não encotrados no sessionStorage.");
+        return;
+    }
+
+    const finalOrder = JSON.parse(savedOrder);
+
+    carregarUnidadeEmPreparo();
+
+    renderizarDetalhesDoPedido(finalOrder);
+}
+
+function carregarUnidadeEmPreparo() {
+    const selectedRestaurantData = sessionStorage.getItem('selectedRestaurant');
+    const restaurant = selectedRestaurantData ? JSON.parse(selectedRestaurantData) : null;
+
+    if (restaurant) {
+        // Atualização da unidade selecionada
+        const unitNameElement = document.querySelector('.summary-unit .unit-name-display');
+        const unitAddressElement = document.querySelector('.summary-unit .unit-address-line');
+        const unitDistanceElement = document.querySelector('.summary-unit .unit-distance-line');
+
+        // Formatação da Distância
+        const distanceInKm = parseFloat(restaurant.distancia_km);
+        const distanceDisplay = distanceInKm.toFixed(1) + ' km';
+
+
+        if (unitNameElement) {
+            unitNameElement.textContent = restaurant.nome;
+        }
+
+        if (unitAddressElement) {
+            unitAddressElement.textContent = restaurant.endereco;
+        }
+
+        if (unitDistanceElement) {
+            unitDistanceElement.textContent = distanceDisplay;
+        }
+
+    } else {
+        alert("Erro ao carregar unidade: Por favor, volte e tente novamente.");
+    }
+}
+
+function renderizarDetalhesDoPedido(orderData) {
+    const timeElementValue = document.querySelector('.estimated-time-value');
+    const orderCodeElement = document.querySelector('.summary-item-code .order-code');
+    const itemsContainer = document.querySelector('#order-items-container');
+
+    if (timeElementValue) {
+        timeElementValue.textContent = orderData.estimatedTime;
+    }
+
+    if (orderCodeElement) {
+        orderCodeElement.textContent = orderData.orderCode
+    }
+
+    if (itemsContainer) {
+        itemsContainer.innerHTML = '';
+
+        const items = orderData.itemSummary.split(',').map(item => item.trim());
+
+        items.forEach(item => {
+            const itemElement = document.createElement('span');
+            itemElement.classList.add('summary-subtext');
+            itemElement.textContent = item;
+            itemsContainer.appendChild(itemElement)
+        })
     }
 }
 
@@ -269,4 +336,9 @@ if (window.location.pathname.endsWith('/restaurante.html')) {
 // 3. Executa o carregamento do resumo para tela resumo pedido
 if (window.location.pathname.endsWith('/resumo-pedido.html')) {
     carregarResumoPedido();
+}
+
+// 4. Executa o carregamento do pedido em preparo
+if (window.location.pathname.endsWith('/pedido-preparo.html')) {
+    carregarPedidoEmPreparo();
 }

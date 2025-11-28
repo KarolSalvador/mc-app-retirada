@@ -1,4 +1,4 @@
-#!bin/sh
+#!/bin/sh
 
 # Caminho para o arquivo JS dentro do container Nginx
 SCRIPT_PATH="/usr/share/nginx/html/script.js"
@@ -7,12 +7,11 @@ SCRIPT_PATH="/usr/share/nginx/html/script.js"
 if [ -n "$FRONTEND_HOST" ]; then
   echo "Injetando FRONTEND_HOST=$FRONTEND_HOST no script.js..."
   
-  # 2. Usa 'sed' para substituir a string placeholder ('__FRONTEND_HOST__') 
-  # no arquivo JavaScript pelo valor da variável de ambiente.
+  # 2. Usa 'sed' para substituir a string placeholder no arquivo JS
   sed -i "s@__FRONTEND_HOST__@$FRONTEND_HOST@g" "$SCRIPT_PATH"
 else
   echo "Variável FRONTEND_HOST não definida. Usando valores padrões (localhost)."
 fi
 
-# 3. Inicia o Nginx em foreground (comando final do container)
+# 3. Inicia o Nginx em foreground
 exec nginx -g "daemon off;"

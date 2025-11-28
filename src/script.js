@@ -18,7 +18,6 @@ let userLongitude = null;
 function success(position) {
     userLatitude = position.coords.latitude;
     userLongitude = position.coords.longitude;
-    console.log("Localização obtida e armazenada. Lat:", userLatitude, "Lon:", userLongitude);
 }
 
 // 2. FUNÇÃO DE ERRO: Apenas loga o erro no console
@@ -32,13 +31,12 @@ function getLocation() {
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(success, error, { timeout: 10000 });
     } else {
-        console.error("Geolocalização não é suportada por este navegador.");
+        alert("Geolocalização não é suportada por este navegador.");
     }
 }
 
 async function fetchRestaurantsAPI(lat, lon) {
     const apiUrl = `${N8N_BASE_URL}?lat=${lat}&lon=${lon}`;
-    console.log(`Chamando API: ${apiUrl}`);
 
     return fetch(apiUrl, { timeout: 10000 });
 }
@@ -57,8 +55,6 @@ async function selecionarOpcao(opcao) {
             // DEBUG: Coordenadas de Fallback perto dos dados (Araraquara)
             finalLat = -21.78;
             finalLon = -48.18;
-        } else {
-            console.log("Localização obtida. Armazenando no sessionStorage.");
         }
 
         // Salva as coordenadas, seja a real ou o fallback
@@ -66,8 +62,6 @@ async function selecionarOpcao(opcao) {
         sessionStorage.setItem("userLongitude", finalLon);
 
         try {
-            console.log("Aguardando resposta da API do n8n...");
-
             const apiResponse = await fetchRestaurantsAPI(finalLat, finalLon);
 
             if (!apiResponse.ok) {
@@ -92,9 +86,7 @@ async function selecionarOpcao(opcao) {
 
 
     } else if (opcao === 'delivery') {
-        console.log("Funcionalidade de Delivery ainda não implementada.");
-    } else {
-        console.error("Opção de pedido inválida: " + opcao);
+        alert("Funcionalidade de Delivery ainda não implementada.");
     }
 }
 
@@ -109,9 +101,6 @@ async function fetchAndRenderRestaurants() {
     const savedData = sessionStorage.getItem('restaurantData');
     const container = document.getElementById('restaurant-list-container');
 
-    // <<< DEBUG >>> Confirma se os dados foram lidos do Session Storage
-    console.log("<<< DEBUG 1 >>> Dados brutos do Session Storage:", savedData);
-
     if (!container || !savedData) {
         container.innerHTML = `<p style="text-align: center; color: #e74c3c;">Erro: Dados dos restaurantes não encontrados. Volte e tente novamente.</p>`;
         return;
@@ -120,12 +109,6 @@ async function fetchAndRenderRestaurants() {
     try {
         const rawRestaurantsArray = JSON.parse(savedData);
         const restaurants = Array.isArray(rawRestaurantsArray) ? rawRestaurantsArray : [];
-
-        // <<< DEBUG >>> Confirma o tamanho do array de restaurantes
-        console.log("<<< DEBUG 2 >>> Número de restaurantes para renderizar:", restaurants.length);
-
-        // <<< DEBUG >>> Mostra o array pronto para renderização
-        console.log("<<< DEBUG 3 >>> Array de restaurantes:", restaurants);
 
         container.innerHTML = '';
 
@@ -147,7 +130,7 @@ async function fetchAndRenderRestaurants() {
                 imageUrl = '/src/img/placeholder.png';
             }
 
-            // O contêiner para a imagem (com o caminho completo)
+            // Contêiner para a imagem (com o caminho completo)
             const imageHtml = `
                 <img src="${imageUrl}" 
                      alt="Fachada do ${restaurant.nome}" 
@@ -252,9 +235,8 @@ function carregarResumoPedido() {
             orderCodeElement.textContent = mockOrder.orderCode;
         }
 
-        console.log("Resumo do pedido carregado com sucesso para:", restaurant.nome)
     } else {
-        console.error("Erro ao carregar resumo: Nenhum restaurante selecionado.");
+        alert("Erro ao carregar resumo: Por favor, volte e selecione um restaurante.");
     }
 }
 
@@ -274,8 +256,6 @@ function carregarPedidoEmPreparo() {
     }
 
     const finalOrder = JSON.parse(savedOrder);
-
-    console.log("<<< DEBUG >>> Objeto de pedido:", finalOrder);
 
     carregarUnidadeEmPreparo();
 
@@ -309,10 +289,8 @@ function carregarUnidadeEmPreparo() {
             unitDistanceElement.textContent = distanceDisplay;
         }
 
-        console.log("Unidade do pedido carregada com sucesso:", restaurant.nome)
-
     } else {
-        console.error("Erro ao carregar unidade: Nenhum restaurante selecionado.");
+        alert("Erro ao carregar unidade: Por favor, volte e tente novamente.");
     }
 }
 
@@ -341,7 +319,6 @@ function renderizarDetalhesDoPedido(orderData) {
             itemsContainer.appendChild(itemElement)
         })
     }
-    console.log("Detalhes do pedido renderizados com sucesso em pedido-preparo.html");
 }
 
 // CÓDIGO DE INICIALIZAÇÃO

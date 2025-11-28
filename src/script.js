@@ -1,8 +1,7 @@
 // Constante para a URL base da API na n8n
-const FRONTEND_HOST = '192.168.1.109';
+const FRONTEND_HOST = 'localhost';
 const N8N_BASE_URL = `http://${FRONTEND_HOST}:5678/webhook/restaurantes`;
 const STRAPI_BASE_URL = `http://${FRONTEND_HOST}:1337`;
-
 
 // Variáveis globais para armazenar as coordenadas (usadas pelo Inicio.html)
 let userLatitude = null;
@@ -17,7 +16,7 @@ function success(position) {
 
 // 2. FUNÇÃO DE ERRO: Apenas loga o erro no console
 function error(err) {
-    console.error("Erro de Geolocalização:", err.message);
+    console.error("Erro de Geolocalização:", err.message);R
 }
 
 

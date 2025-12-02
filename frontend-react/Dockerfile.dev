@@ -1,0 +1,20 @@
+# Usa a mesma imagem base (Node)
+FROM node:20-alpine
+
+# Define o diretório de trabalho padrão dentro do container
+WORKDIR /app
+
+# Copia os arquivos de definição de dependência (package e package-lock.json)
+COPY package*.json ./
+
+# Instala as dependências, se os arquivos acima não mudarem, essa etapa é cacheada otimizando o build
+RUN npm install
+
+# Copia o restante do código da aplicação
+COPY . .
+
+# Comando padrão para iniciar o servidor de desenvolvimento do Vite (React)
+CMD  ["npm", "run", "dev"]
+
+# Expõe a porta que o Vite utilizava
+EXPOSE 5173

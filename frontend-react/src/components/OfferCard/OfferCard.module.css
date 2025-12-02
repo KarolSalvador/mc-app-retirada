@@ -1,0 +1,79 @@
+/* Container Principal do Card */
+.offerCard {
+  width: 360px;
+  height: 90px;
+  display: flex;
+  gap: 10px;
+  border-radius: 8px;
+  border: solid 2px #ffd25e;
+  background-color: #fff9e6;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+  padding: 10px 12px;
+  align-items: center;
+}
+
+/* Container da Imagem/Placeholder*/
+.imagePlaceholder {
+  width: 70px;
+  min-width: 50px;
+  height: 70px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+/* Texto dentro do placeholder  */
+.imageText {
+  font-weight: 700;
+  font-size: 13px;
+}
+
+.textBigMac {
+  color: #bb2730;
+}
+
+.textMcFlurry {
+  color: #fcd33f;
+}
+
+.titleBigMac {
+  color: #bb2730;
+  font-weight: 900;
+}
+
+.titleMcFlurry {
+  color: #fcd33f;
+  font-weight: 900;
+}
+
+/* 3. Detalhes do texto*/
+.offerDetails {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  flex-grow: 1;
+}
+
+.offerTitle {
+  font-size: 16px;
+  font-weight: 700;
+  color: #121212;
+  margin: 0;
+}
+
+/* Estilo para o preço ou descrição principal */
+.offerPrice {
+  font-size: 13px;
+  font-weight: 400;
+  color: #101828;
+}
+
+/* Estilo para a descrição secundária */
+.offerDescription {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #555;
+  margin-top: 4px;
+}

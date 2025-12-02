@@ -1,0 +1,71 @@
+/* Global reset and app layout for mobile-like behavior */
+html,
+body,
+#root {
+  height: 100%;
+}
+* {
+  box-sizing: border-box;
+}
+body {
+  margin: 0;
+  font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial;
+  background: #f3efe9; /* light app background */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden; /* prevent horizontal scroll */
+}
+
+.app-main-wrapper {
+  min-height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Utility to ensure content area doesn't produce horizontal scroll */
+.no-scroll-x {
+  overflow-x: hidden;
+}
+
+/* App-level variables and mobile-fit helpers */
+:root {
+  --app-max-width: 430px;
+  --app-bg: #ffffff;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+/* Center the app container on larger screens but keep mobile width */
+.app-main-wrapper {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  min-height: 100vh;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+body,
+button,
+input,
+textarea {
+  font-size: 14px;
+}
+
+/* Ensure any app container uses mobile-like width */
+.appContainer {
+  width: 100%;
+  max-width: var(--app-max-width);
+}

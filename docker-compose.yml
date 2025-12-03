@@ -1,61 +1,140 @@
 version: '3.8'
 
 services:
-  # Configurações N8N
-  n8n:
-    image: n8nio/n8n
+  # ==========================================
+  # Banco de Dados (Isolado, sem porta externa)
+  # ==========================================
+  database:
+    image: pgvector/pgvector:pg14
+    container_name: orion-database
     restart: always
-    env_file: .env
+    environment:
+      POSTGRES_USER: orion
+      POSTGRES_PASSWORD: orion
+      POSTGRES_DB: orion
+    volumes:
+      - pg_data_internal:/var/lib/postgresql/data
+    networks:
+      - orion-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U orion -d orion"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # ==========================================
+  # Redis
+  # ==========================================
+  redis:
+    image: redis:6-alpine
+    container_name: orion-redis
+    restart: always
+    command: redis-server --requirepass orion
+    volumes:
+      - redis_data_internal:/data
+    networks:
+      - orion-network
+    healthcheck:
+      test: ["CMD", "redis-cli", "-a", "orion", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # ==========================================
+  # N8N (Root)
+  # ==========================================
+  n8n:
+    image: docker.n8n.io/n8nio/n8n
+    container_name: orion-n8n-main
+    restart: always
+    user: root
     ports:
       - "5678:5678"
     environment:
-      # Configuração N8N
-      - N8N_HOST=${N8N_HOST}
+      - N8N_HOST=localhost
+      - N8N_PORT=5678
       - N8N_PROTOCOL=http
-      - WEBHOOK_URL=${WEBHOOK_URL}
-      - VUE_APP_URL_BASE_API=http://localhost:5678/
+      - WEBHOOK_URL=http://localhost:5678/
+      
+      # Banco
+      - DB_TYPE=postgresdb
+      - DB_POSTGRESDB_HOST=database
+      - DB_POSTGRESDB_PORT=5432
+      - DB_POSTGRESDB_DATABASE=orion
+      - DB_POSTGRESDB_USER=orion
+      - DB_POSTGRESDB_PASSWORD=orion
+      
+      # Redis (Queue)
+      - EXECUTIONS_MODE=queue
+      - QUEUE_BULL_REDIS_HOST=redis
+      - QUEUE_BULL_REDIS_PASSWORD=orion
+      
+      # Segurança/Login
+      - N8N_ENCRYPTION_KEY=0R10N
+      - N8N_USER_MANAGEMENT_DISABLED=false
       - N8N_BASIC_AUTH_ACTIVE=true
-      - N8N_BASIC_AUTH_USER=${N8N_BASIC_AUTH_USER}
-      - N8N_BASIC_AUTH_PASSWORD=${N8N_BASIC_AUTH_PASSWORD}
+      - N8N_BASIC_AUTH_USER=admin
+      - N8N_BASIC_AUTH_PASSWORD=senha123
     volumes:
-      # Para persistência de dados
-      - ./n8n_data:/home/node/.n8n
-
-  # Configurações Postgres
-  postgres:
-    image: postgres:14
-    container_name: mcdonalds-postgres
-    restart: unless-stopped
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
-    environment:
-      POSTGRES_USER: ${DATABASE_USER}
-      POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
-      POSTGRES_DB: ${DATABASE_NAME}
-    ports:
-      - '5432:5432'
-
-  # Configurações Strapi
-  strapi:
-    image: node:20
-    container_name: mcdonalds-strapi
-    restart: unless-stopped
-    volumes:
-      - ./.strapi/app:/opt/app
-    working_dir: /opt/app
-    command: npm run develop
-
-    env_file: .env
-    environment:
-      NODE_ENV: development
-
-      STRAPI_ADMIN_URL: http://localhost:1337/admin
-      STRAPI_URL: http://localhost:1337
-
-    ports:
-      - '1337:1337'
+      - n8n_data_internal:/home/node/.n8n
+    networks:
+      - orion-network
     depends_on:
-      - postgres
+      database:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+
+  # ==========================================
+  # Evolution API (Porta Alterada para 8081)
+  # ==========================================
+  evolution-api:
+    container_name: orion-evolution-api
+    image: atendai/evolution-api:v2.2.0
+    restart: always
+    ports:
+      - "8081:8080" # <--- ALTERADO PARA EVITAR CONFLITO
+    environment:
+      - DEBUG=true
+      - CONFIG_SESSION_PHONE_VERSION=2.3000.1029271501
+      - AUTHENTICATION_API_KEY=0R10NdrAfl2sc3IozIarMSCG
+      
+      # Banco
+      - DATABASE_ENABLED=true
+      - DATABASE_PROVIDER=postgresql
+      - DATABASE_CONNECTION_URI=postgresql://orion:orion@database:5432/orion
+      - DATABASE_SAVE_DATA_INSTANCE=true
+      - DATABASE_SAVE_DATA_NEW_MESSAGE=true
+      - DATABASE_SAVE_MESSAGE_UPDATE=true
+      - DATABASE_SAVE_DATA_CONTACTS=true
+      - DATABASE_SAVE_DATA_CHATS=true
+      - DATABASE_SAVE_DATA_LABELS=true
+      - DATABASE_SAVE_DATA_HISTORIC=false
+      - DATABASE_SAVE_IS_ON_WHATSAPP=true
+      - DATABASE_DELETE_MESSAGE=true
+      
+      # Redis
+      - CACHE_REDIS_ENABLED=true
+      - CACHE_REDIS_URI=redis://:orion@redis:6379/0
+      - CACHE_REDIS_PREFIX_KEY=evolution
+      - CACHE_REDIS_SAVE_INSTANCES=true
+      - CACHE_LOCAL_ENABLED=false
+    volumes:
+      - evolution_instances_internal:/evolution/instances
+    networks:
+      - orion-network
+    depends_on:
+      database:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
 
 volumes:
-  postgres_data: {}
+  pg_data_internal:
+  redis_data_internal:
+  n8n_data_internal:
+  evolution_instances_internal:
+
+networks:
+  orion-network:
+    driver: bridge

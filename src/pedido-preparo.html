@@ -1,421 +1,102 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Acompanhamento do Pedido</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    
-    <style>
-        
-        /* ESTILOS BASE */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            background-color: #f4f4f7;
-            display: flex;
-            justify-content: center;
-            align-items: flex-start;
-            min-height: 100vh;
-            padding: 20px 0;
-        }
-
-        .app-container {
-            width: 100%;
-            max-width: 400px;
-            background-color: #ffffff;
-            border-radius: 30px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-            padding-bottom: 20px;
-            overflow: hidden;
-            margin: 0 auto; 
-            min-height: 100vh;
-        }
-
-        /* --- 1. CABEÇALHO (Header) --- */
-        .header {
-            padding: 20px 25px 0 25px;
-            text-align: center;
-        }
-
-        .header-top {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-            position: relative;
-        }
-
-        .header-icon {
-            font-size: 20px;
-            color: #444;
-            cursor: pointer;
-        }
-        
-        .order-info {
-            flex-grow: 1;
-            text-align: center;
-            line-height: 1.2;
-            margin-left: -30px; 
-        }
-        
-        .order-title {
-            font-size: 14px;
-            color: #333;
-            font-weight: 500;
-            margin: 0;
-        }
-
-        .order-status {
-            font-size: 13px;
-            color: #888;
-            margin: 0;
-            border-bottom: 1px solid #e0e0e0;
-            padding-bottom: 8px;
-            margin-bottom: 15px;
-            width: 100%;
-            max-width: 200px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-        
-        .back-button-link, .close-button-link {
-            text-decoration: none; 
-            color: inherit; 
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            width: 40px; 
-            height: 40px;
-            border-radius: 50%; 
-            transition: background-color 0.15s;
-        }
-        
-        .back-button-link {
-            margin-left: -10px;
-        }
-        
-        .close-button-link {
-            margin-right: -5px;
-        }
-        
-        /* --- 2. CONTEÚDO PRINCIPAL --- */
-        
-        .main-content {
-            padding: 0 25px;
-        }
-
-        /* --- Status (Verde) --- */
-        .status-card {
-            background-color: #e5f6e5; /* Verde bem claro */
-            color: #388e3c; /* Verde mais escuro para o texto */
-            border-radius: 12px;
-            padding: 15px 20px;
-            display: flex;
-            flex-direction: column;
-            margin-bottom: 20px;
-            border: 1px solid #c8e6c9; /* Borda sutil */
-        }
-        
-        .status-title {
-            font-size: 16px;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            margin-bottom: 5px;
-        }
-
-        .status-title i {
-            margin-right: 8px;
-            font-size: 10px; /* Tamanho da bolinha verde */
-        }
-        
-        .status-subtitle {
-            font-size: 13px;
-            font-weight: 400;
-            margin-left: 18px; /* Alinha com o texto do título */
-        }
-
-        /* --- Card de Tempo de Preparo --- */
-        .time-left-card {
-            background-color: #ffffff;
-            border-radius: 12px;
-            padding: 15px 20px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 20px;
-            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
-            border: 1px solid #eee;
-        }
-
-        .time-details {
-            display: flex;
-            align-items: center;
-        }
-        
-        .time-left-icon {
-            color: #888;
-            font-size: 18px;
-            margin-right: 15px;
-        }
-
-        .time-left-text {
-            font-size: 15px;
-            color: #333;
-            font-weight: 500;
-        }
-        
-        .time-left-text strong {
-            font-weight: 700;
-            color: #333;
-            margin-left: 5px;
-        }
-
-        .time-left-avatar {
-            width: 35px;
-            height: 35px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 2px solid #fff;
-            box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
-            background-color: #f1f1f1; /* Placeholder */
-        }
-        
-        /* --- Resumo do Pedido (Baseado no código anterior) --- */
-        .summary-card {
-            background-color: #ffffff;
-            border-radius: 12px;
-            padding: 15px 20px;
-            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
-            border: 1px solid #eee;
-            margin-bottom: 20px;
-        }
-
-        .summary-item {
-            display: flex;
-            align-items: center;
-            padding: 12px 0;
-        }
-
-        .summary-item-icon {
-            color: #999;
-            font-size: 20px;
-            margin-right: 15px;
-            width: 20px; 
-            text-align: center;
-        }
-
-        .summary-details {
-            display: flex;
-            flex-direction: column;
-            flex-grow: 1;
-        }
-        
-        .summary-text {
-            font-size: 15px;
-            color: #333;
-            font-weight: 500;
-            line-height: 1.4;
-        }
-
-        .summary-subtext {
-            font-size: 13px;
-            color: #888;
-            margin-top: 2px;
-        }
-        
-        .summary-item:not(:last-child) {
-            border-bottom: 1px solid #f0f0f0;
-        }
-        
-        .summary-item-code .summary-details {
-            padding: 5px 0;
-        }
-        
-        .summary-item-code .summary-text {
-            font-weight: 400;
-        }
-        
-        /* --- Instruções de Retirada (Azul Claro) --- */
-        .instructions-card {
-            background-color: #e3f2fd; /* Azul bem claro */
-            border-radius: 12px;
-            padding: 15px 20px;
-            margin-bottom: 30px;
-            border: 1px solid #bbdefb;
-        }
-        
-        .instructions-title {
-            font-size: 16px;
-            font-weight: 600;
-            color: #1976d2; /* Azul escuro para o título */
-            margin-bottom: 10px;
-        }
-
-        .instructions-list {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
-
-        .instructions-list li {
-            font-size: 14px;
-            color: #555;
-            margin-bottom: 8px;
-            display: flex;
-            align-items: flex-start;
-        }
-        
-        /* Estiliza os números da lista */
-        .instructions-list li::before {
-            content: counter(item) ".";
-            counter-increment: item;
-            font-weight: 600;
-            color: #1976d2;
-            margin-right: 8px;
-            min-width: 15px; /* Garante alinhamento dos números de 1 a 9 */
-            text-align: right;
-        }
-
-        .instructions-list {
-            counter-reset: item; /* Reseta o contador para a lista */
-        }
-        
-        /* --- Botão Atendimento --- */
-        .contact-button {
-            width: calc(100% - 150px); 
-            max-width: 200px; 
-            padding: 10px 15px; 
-            background-color: #ffc107; 
-            color: #333;
-            font-size: 14px; 
-            font-weight: 600; 
-            border: none;
-            border-radius: 8px; 
-            cursor: pointer;
-            text-align: center;
-            margin: 0 auto 0px auto; 
-            display: block;
-            box-shadow: 0 2px 2px rgba(0, 0, 0, 0.1);
-            transition: all 0.2s;
-                        }
-
-        @media (max-width: 360px) {
-            body {
-                padding: 10px 0;
-            }
-
-            .app-container {
-                border-radius: 0;
-                box-shadow: none;
-                max-width: 100%; 
-            }
-            
-            .header, .main-content {
-                padding-left: 15px;
-                padding-right: 15px;
-            }
-            
-            .contact-button {
-                width: calc(100% - 30px);
-                font-size: 15px;
-                padding: 12px 0;
-            }
-        }
-    </style>
-</head>
-<body>
-
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Arimo:ital,wght@0,400..700;1,400..700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
     <div class="app-container">
-        <header class="header">
-            <div class="header-top">
-                <a href="resumo-pedido.html" class="back-button-link">
-                    <i class="fas fa-arrow-left header-icon"></i> 
-                </a>
-        
-                <div class="order-info">
-                    <p class="order-title">Pedido</p>
-                    <p class="order-status">Para retirada na loja</p>
-                </div> 
+      <header class="header">
+        <div class="header-top">
+          <a href="resumo-pedido.html" class="back-button-link">
+            <i class="fas fa-arrow-left header-icon"></i>
+          </a>
 
-                <a href="Inicio.html" class="close-button-link">
-                    <i class="fas fa-times header-icon"></i> 
-                </a>
+          <div class="order-info">
+            <p class="order-title">Pedido</p>
+            <p class="order-status">Para retirada na loja</p>
+          </div>
+
+          <a href="Inicio.html" class="close-button-link">
+            <i class="fas fa-times header-icon"></i>
+          </a>
+        </div>
+      </header>
+
+      <main class="main-content">
+        <div class="status-card">
+          <p class="status-title">
+            <i class="fas fa-circle" style="font-size: 8px"></i>
+            Seu pedido está sendo preparado
+          </p>
+          <p class="status-subtitle">
+            Você receberá uma notificação quando estiver pronto para retirada
+          </p>
+        </div>
+
+        <div class="time-card">
+          <i class="fas fa-stopwatch time-card-icon"></i>
+          <div class="time-text-container">
+            <span class="time-card-title"
+              >Tempo até o pedido ficar pronto:</span
+            >
+            <span class="estimated-time-value"></span>
+          </div>
+        </div>
+
+        <h1 class="page-title">Resumo do Pedido</h1>
+
+        <div class="summary-card">
+          <div class="summary-item summary-items-list">
+            <i class="fas fa-bag-shopping summary-item-icon"></i>
+            <div class="summary-details">
+              <span class="summary-text">Resumo dos itens</span>
+              <div id="order-items-container"></div>
             </div>
-            
-            </header>
+          </div>
 
-        <main class="main-content">
-            
-            <div class="status-card">
-                <p class="status-title">
-                    <i class="fas fa-circle" style="font-size: 8px;"></i>
-                    Seu pedido está sendo preparado
-                </p>
-                <p class="status-subtitle">
-                    Você receberá uma notificação quando estiver pronto para retirada
-                </p>
+          <div class="summary-item summary-unit">
+            <i class="fas fa-store summary-item-icon"></i>
+            <div class="summary-details">
+              <span class="summary-text unit-name-display"></span>
+              <span class="summary-subtext unit-address-line"></span>
+              <span class="summary-subtext unit-distance-line"></span>
             </div>
-            
-            <div class="time-left-card">
-                <div class="time-details">
-                    <i class="fas fa-history time-left-icon"></i>
-                    <span class="time-left-text">Tempo até o pedido ficar pronto: <strong></strong></span>
-                </div>
+          </div>
+
+          <div class="summary-item summary-item-code">
+            <i class="fas fa-clipboard-list summary-item-icon"></i>
+            <div class="summary-details">
+              <span class="summary-text">Código do Pedido</span>
+              <span class="summary-text order-code"></span>
             </div>
+          </div>
+        </div>
 
+        <div class="instructions-card">
+          <p class="instructions-title">Instruções de Retirada:</p>
+          <ol class="instructions-list">
+            <li>Aguarde a notificação de pedido pronto</li>
+            <li>Vá até o locker selecionado</li>
+            <li>Aproxime o QR Code do leitor</li>
+            <li>Retire seu pedido e feche a porta</li>
+          </ol>
+        </div>
+      </main>
 
-            <div class="summary-card">
-                
-                <div class="summary-item">
-                    <i class="fas fa-home summary-item-icon" style="color:#555"></i> <div class="summary-details">
-                        <span class="summary-text">Resumo dos itens</span>
-                        <span class="summary-subtext"></span>
-                        <span class="summary-subtext"></span>
-                    </div>
-                </div>
-
-                <div class="summary-item">
-                    <i class="fas fa-map-marker-alt summary-item-icon"></i> <div class="summary-details">
-                        <span class="summary-text">Unidade</span>
-                        <span class="summary-subtext"></span>
-                        <span class="summary-subtext"></span>
-                    </div>
-                </div>
-
-                <div class="summary-item summary-item-code">
-                    <i class="fas fa-clipboard-list summary-item-icon"></i>
-                    <div class="summary-details">
-                        <span class="summary-text">Código do Pedido</span>
-                        <span class="summary-text"></span>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="instructions-card">
-                <p class="instructions-title">Instruções de Retirada:</p>
-                <ol class="instructions-list">
-                    <li>Aguarde a notificação de pedido pronto</li>
-                    <li>Vá até o locker selecionado</li>
-                    <li>Aproxime o QR Code do leitor</li>
-                    <li>Retire seu pedido e feche a porta</li>
-                </ol>
-            </div>
-            
-        </main>
-        
-        <a href="tel:+551132303223" class="contact-button">
-            Falar com atendimento
-        </a>
-        </button>
+      <button class="contact-button">Falar com atendimento</button>
     </div>
-    
-</body>
+  </body>
 </html>

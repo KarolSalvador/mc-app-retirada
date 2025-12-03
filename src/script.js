@@ -223,7 +223,7 @@ function carregarResumoPedido() {
 
 
         if (unitNameElement) {
-            // Ajuste: O nome do restaurante se torna o texto principal
+            //O nome do restaurante se torna o texto principal
             unitNameElement.textContent = restaurant.nome;
         }
 
@@ -236,10 +236,10 @@ function carregarResumoPedido() {
         }
 
 
-        // 3. Atualiza o Tempo Estimado (no strong)
-        const timeElement = document.querySelector('.estimated-time');
-        if (timeElement) {
-            timeElement.textContent = mockOrder.estimatedTime;
+        // 3. Atualiza o Tempo Estimado 
+        const timeElementValue = document.querySelector('.estimated-time-value');
+        if (timeElementValue) {
+            timeElementValue.textContent = mockOrder.estimatedTime;
         }
 
         // MOCK: Código do pedido 

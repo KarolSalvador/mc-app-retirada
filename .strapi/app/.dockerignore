@@ -1,0 +1,7 @@
+# Ignora a pasta de dependências
+node_modules
+# Ignora a pasta de build (produção)
+dist
+# Arquivos de log e cache
+*.log
+.cache

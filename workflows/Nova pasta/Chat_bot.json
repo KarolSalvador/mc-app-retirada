@@ -1,0 +1,800 @@
+{
+  "name": "Chat-Bot",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "wpp",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        -704,
+        48
+      ],
+      "id": "0cda4e2a-48cf-4e16-88a6-67ca495bdab7",
+      "name": "Webhook",
+      "webhookId": "cd92c247-47b5-49bd-8426-f3656cadbe3e"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=http://evolution-api:8080/message/sendText/{{ $json.body.instance }}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "apikey",
+              "value": "0R10NdrAfl2sc3IozIarMSCG"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "number",
+              "value": "={{ $json.body.data.key.remoteJid }}"
+            },
+            {
+              "name": "text",
+              "value": "Chatbot:  🍔 E aí, tudo beleza? Bem-vindo ao MéquiZap!  Manda ver: como posso te dar uma força hoje?\nOpções: \n1 - Quero fazer um pedido  \n2 - Consultar cardápio"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        -448,
+        48
+      ],
+      "id": "d8d5cc93-e3b4-479b-8812-2dc39bb8faf3",
+      "name": "HTTP Request"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=http://evolution-api:8080/message/sendText/{{ $('Webhook').item.json.body.data.instanceId }}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "apikey",
+              "value": "0R10NdrAfl2sc3IozIarMSCG"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "number",
+              "value": "={{ $('Webhook').item.json.body.data.key.remoteJid }}"
+            },
+            {
+              "name": "text",
+              "value": " Bora matar essa fome? 😋   Aqui você consegue fazer seu pedido de forma rápida e prática.  💳 Importante: o pagamento é feito diretamente no local da retirada, tudo bem?  Me conta:  1. Já sei o que quero  2. Quero dar uma olhada no cardápio "
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        -32,
+        -208
+      ],
+      "id": "d70cc395-f38f-4bfb-9e9d-57341d64651c",
+      "name": "HTTP Request1"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=http://evolution-api:8080/message/sendText/{{ $('Webhook').item.json.body.data.instanceId }}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "apikey",
+              "value": "0R10NdrAfl2sc3IozIarMSCG"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "text",
+              "value": "Cardapio:"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        -16,
+        272
+      ],
+      "id": "e10e3f3d-378f-438c-920a-3bb869ff1d55",
+      "name": "HTTP Request2"
+    },
+    {
+      "parameters": {
+        "content": "ENVIAR CARDAPIO REDUZIDO",
+        "height": 272,
+        "width": 432,
+        "color": 6
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -176,
+        160
+      ],
+      "typeVersion": 1,
+      "id": "5df68ec1-d468-4963-8515-84a77fbeeaa9",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "content": "Ja sei oque eu quero",
+        "height": 272,
+        "width": 432,
+        "color": 3
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -192,
+        -256
+      ],
+      "typeVersion": 1,
+      "id": "d83b1614-7da9-4d8d-817f-ced97e86db30",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "content": "Manda aí por escrito: qual vai ser a boa de hoje? Você pode digitar os números ou o nome do combo ;)",
+        "width": 150
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        272,
+        -112
+      ],
+      "typeVersion": 1,
+      "id": "4ba00037-6814-46b2-838c-19e270201dd4",
+      "name": "Sticky Note2"
+    },
+    {
+      "parameters": {
+        "content": "Entrar a IA nos pedidos",
+        "height": 80,
+        "width": 150
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        272,
+        -208
+      ],
+      "typeVersion": 1,
+      "id": "f152c578-438a-4f60-b6ec-5c46951aa9a5",
+      "name": "Sticky Note3"
+    },
+    {
+      "parameters": {
+        "content": " “Show! Só pra garantir que tá tudo certinho…  Seu pedido é: ‘repete o pedido’.  Confere aí, beleza?”\nOpções: \n1.  ✔️ É isso! \n2. ❌ Não, Mc! Preciso corrigir.\n",
+        "height": 144,
+        "width": 262
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        560,
+        -176
+      ],
+      "typeVersion": 1,
+      "id": "8124fee0-18e2-4c17-8e82-cacbe9db85f2",
+      "name": "Sticky Note4"
+    },
+    {
+      "parameters": {
+        "content": "SIM",
+        "height": 80,
+        "width": 150,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        880,
+        -240
+      ],
+      "typeVersion": 1,
+      "id": "70fa8867-0a04-46f0-9f7c-130d51cbb54f",
+      "name": "Sticky Note5"
+    },
+    {
+      "parameters": {
+        "content": "NÂO",
+        "height": 80,
+        "width": 150,
+        "color": 3
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        880,
+        -80
+      ],
+      "typeVersion": 1,
+      "id": "cdf00cd1-5db9-411e-a1da-49cdb147140f",
+      "name": "Sticky Note6"
+    },
+    {
+      "parameters": {
+        "content": "Olá! Antes de confirmar o seu pedido, me envia sua localização aqui no Zap? 📍  É rapidinho e eu já consigo te dizer onde tá o Méqui mais próximo!\n\n1. Toque no ícone de clipe 📎 (no Android)  ou no “+” ➕ (no iPhone), que fica ao lado da caixa de mensagem.\n2. Selecione a opção “Localização”.  Pode aparecer como “Location” se o seu estiver em inglês.\n3. Escolha o que você quer enviar:\nEnviar minha localização atual → mostra exatamente onde você está agora.\n4. Confirmar e pronto!  Sua localização chega aqui na hora e eu já te digo qual Méqui tá mais pertinho. 🍔✨",
+        "height": 368,
+        "width": 326,
+        "color": 6
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        1104,
+        -496
+      ],
+      "typeVersion": 1,
+      "id": "30078a16-5550-4b93-9a3e-0c3fab25e28a",
+      "name": "Sticky Note7"
+    },
+    {
+      "parameters": {
+        "content": "Opção de voltar ao menu\n",
+        "height": 80,
+        "width": 150,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        1104,
+        -576
+      ],
+      "typeVersion": 1,
+      "id": "48412263-cfda-42b0-9f4d-4d4f1bac3b70",
+      "name": "Sticky Note8"
+    },
+    {
+      "parameters": {
+        "content": "Recebeu a loc",
+        "height": 80,
+        "width": 150,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        1424,
+        -208
+      ],
+      "typeVersion": 1,
+      "id": "0e81be2a-ff2b-458b-9a06-3258b133b2ea",
+      "name": "Sticky Note9"
+    },
+    {
+      "parameters": {
+        "content": "Não mandou a loc",
+        "height": 80,
+        "width": 150,
+        "color": 3
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        1424,
+        -496
+      ],
+      "typeVersion": 1,
+      "id": "5d98255a-91f6-42b2-8ae6-3dd8f152ef2f",
+      "name": "Sticky Note10"
+    },
+    {
+      "parameters": {
+        "content": "Opa! Acho que não entendi essa última mensagem 😅  Pra eu te ajudar direitinho, me manda sua localização aqui no Zap?  Tô por aqui esperando! 📍🍔\n\nPasso a passo para compartilhar sua localização atual:\nAbra o chat do WhatsApp com a pessoa ou bot para quem quer enviar a localização.\nToque no ícone de “+” (no iPhone) ou “📎” (no Android), que fica ao lado da caixa de digitação da mensagem. (Como mostrado na “1ª passo” da imagem.)\nNo menu que aparece, selecione “Localização”.\nEscolha a opção “Localização atual” ou “Compartilhar localização ao vivo” — dependendo do que você quiser enviar. (Na imagem aparece “Localização atual”, com precisão indicada.)\nConfirme o envio; a sua localização será enviada ao destinatário.\nPronto! Assim você envia sua localização pelo WhatsApp de forma simples e rápida 👍",
+        "height": 464,
+        "width": 342,
+        "color": 3
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        1568,
+        -880
+      ],
+      "typeVersion": 1,
+      "id": "44ae53a2-8e32-4803-b2a5-0444a6e8faca",
+      "name": "Sticky Note11"
+    },
+    {
+      "parameters": {
+        "content": " “Então vamos lá!  📦 Pedido: ‘resumo dos itens’  🏪 Retirada em: ‘xxx’  💰 Total: R$ xx,xx\nFechamos?”\nOpções: \n1. ✔️ Sim \n2.  ❌ Não, quero ajustar \n3. 🚫 Cancelar pedido\n",
+        "height": 192,
+        "width": 278,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        1568,
+        -320
+      ],
+      "typeVersion": 1,
+      "id": "1c1229b7-b813-4bc5-8734-31d1073a76cb",
+      "name": "Sticky Note12"
+    },
+    {
+      "parameters": {
+        "content": "“Opa! Pode mandar de novo qual o seu pedido ou apontar o erro?”\n\nRETORNAR PARA ELE CONFERIR O PEDIDO",
+        "height": 144,
+        "width": 230
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        1248,
+        -128
+      ],
+      "typeVersion": 1,
+      "id": "a12d9139-b7eb-4319-921e-f7cc95187f28",
+      "name": "Sticky Note13"
+    },
+    {
+      "parameters": {
+        "content": "Sem problemas! Se quiser começar um pedido, é só avisar por aqui que eu faço acontecer.",
+        "width": 150,
+        "color": 3
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        752,
+        352
+      ],
+      "typeVersion": 1,
+      "id": "5ed596ec-2bbd-405f-a511-678e380855fc",
+      "name": "Sticky Note14"
+    },
+    {
+      "parameters": {
+        "content": "2 - Quero ajustar",
+        "height": 80,
+        "width": 150
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        1472,
+        -128
+      ],
+      "typeVersion": 1,
+      "id": "f3a9f287-d4ce-4162-a0ac-d3d6a493206a",
+      "name": "Sticky Note15"
+    },
+    {
+      "parameters": {
+        "content": "3- Cancelou\n",
+        "height": 80,
+        "width": 150,
+        "color": 3
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        1616,
+        -128
+      ],
+      "typeVersion": 1,
+      "id": "23e65ae4-9a72-44e3-91a4-fa7621eb93fe",
+      "name": "Sticky Note16"
+    },
+    {
+      "parameters": {
+        "content": "Tudo certo! Pedido cancelado, sem estresse 😉  Se bater aquela fome depois, é só me chamar que eu preparo tudo de novo pra você.  Tamo junto!\n\nFIM DO FLUXO",
+        "height": 176,
+        "width": 198,
+        "color": 3
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        1616,
+        -48
+      ],
+      "typeVersion": 1,
+      "id": "9b48e86b-ced8-4280-99bd-963c08d3f91f",
+      "name": "Sticky Note17"
+    },
+    {
+      "parameters": {
+        "content": "Se mandar mensagem recebw\n\nSeu pedido está sendo preparado! Você precisa de alguma coisa?\n1-Aguardar preparo\n2-Quero cancelar o pedido\n",
+        "height": 208,
+        "width": 166,
+        "color": 3
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        2352,
+        -384
+      ],
+      "typeVersion": 1,
+      "id": "4df4bd56-8743-418b-9d6c-67bf138db4fe",
+      "name": "Sticky Note18"
+    },
+    {
+      "parameters": {
+        "content": "1- SIM",
+        "height": 80,
+        "width": 150,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        1840,
+        -208
+      ],
+      "typeVersion": 1,
+      "id": "4a471bcf-c091-479b-bb58-a6cc85fc6fd7",
+      "name": "Sticky Note19"
+    },
+    {
+      "parameters": {
+        "content": "🎉Aêê Pedido confirmado com sucesso!\n⏱️ Preparo estimado: 10 minutinhos \n🧾 Código do pedido: #ORD-6147\n\nAtenção: O pagamento é feito diretamente nos totens da loja! Assim que o seu pedido estiver pronto, avisamos para que você possa pagar e liberar.\n",
+        "height": 288,
+        "width": 198,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        2064,
+        -416
+      ],
+      "typeVersion": 1,
+      "id": "25beb353-78ad-4f18-8cab-a22a2504bdd4",
+      "name": "Sticky Note20"
+    },
+    {
+      "parameters": {
+        "content": "Cancelou, fim do fluxo\n",
+        "height": 80,
+        "width": 150,
+        "color": 3
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        2352,
+        -176
+      ],
+      "typeVersion": 1,
+      "id": "d815b5e1-7760-4446-adbc-30607a668527",
+      "name": "Sticky Note21"
+    },
+    {
+      "parameters": {
+        "content": "Combinado! Assim que o seu pedido estiver pronto, mandamos mensagem para você, ok?",
+        "height": 144,
+        "width": 166,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        2592,
+        -512
+      ],
+      "typeVersion": 1,
+      "id": "8d8d39c0-940b-4ccf-bab4-4ac0ef304fe2",
+      "name": "Sticky Note22"
+    },
+    {
+      "parameters": {
+        "content": "\nSe a pessoa manda mensagem ou nao vem pra essa mensgaem \n\n\nSeu Méqui tá prontinho te esperando! 🤩  📦 Pra retirar:  • Vá até a loja escolhida  • Digite o código do pedido nos armários inteligentes\nFaça o pagamento  • E pronto: só aproveitar o seu Méqui!\n",
+        "height": 240,
+        "width": 278,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        2768,
+        -368
+      ],
+      "typeVersion": 1,
+      "id": "7628cbf0-d330-4789-914f-26e6b474e7d4",
+      "name": "Sticky Note23"
+    },
+    {
+      "parameters": {
+        "content": "Valeu demais por escolher o Méqui! 😍  Você é sempre bem-vindo por aqui — quando bater aquela fome de respeito, é só chamar que eu já deixo tudo no ponto.  Aproveita seu pedido e até a próxima!\n\nFIM DO FLUXO",
+        "height": 240,
+        "width": 278,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        3088,
+        -368
+      ],
+      "typeVersion": 1,
+      "id": "2fb687cb-b1e7-4be4-b782-357229566361",
+      "name": "Sticky Note24"
+    },
+    {
+      "parameters": {
+        "content": "[enviar cardápio reduzido com preços]",
+        "height": 80,
+        "width": 150,
+        "color": 5
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        256,
+        240
+      ],
+      "typeVersion": 1,
+      "id": "f5e5eaf0-a944-4c87-a914-112ba505e332",
+      "name": "Sticky Note25"
+    },
+    {
+      "parameters": {
+        "content": "SIM",
+        "height": 80,
+        "width": 150,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        576,
+        192
+      ],
+      "typeVersion": 1,
+      "id": "9fcac7d3-1bc0-4bb2-accc-c74217d35087",
+      "name": "Sticky Note26"
+    },
+    {
+      "parameters": {
+        "content": "E aí, já decidiu o que vai pedir?\nSIM\nAINDA NÃO!",
+        "height": 96,
+        "width": 166,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        416,
+        240
+      ],
+      "typeVersion": 1,
+      "id": "0e468cf7-1aed-47ab-9b84-eca51a4f32da",
+      "name": "Sticky Note27"
+    },
+    {
+      "parameters": {
+        "content": "NÂO",
+        "height": 80,
+        "width": 150,
+        "color": 3
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        576,
+        320
+      ],
+      "typeVersion": 1,
+      "id": "116510a3-9ac1-46a9-a3cd-022ede9ac3df",
+      "name": "Sticky Note28"
+    },
+    {
+      "parameters": {
+        "content": "Fluxo de pedido ",
+        "height": 80,
+        "width": 150,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        416,
+        80
+      ],
+      "typeVersion": 1,
+      "id": "323e1f17-1a42-4f99-b160-b308c83b5975",
+      "name": "Sticky Note29"
+    },
+    {
+      "parameters": {
+        "content": "Recebeu mensagem manda pro fluxo do pedido\n\nse nao inatividade(mas acho que nao tem necessidade de focar nisso agora",
+        "height": 144,
+        "width": 262,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        928,
+        320
+      ],
+      "typeVersion": 1,
+      "id": "14bb9233-5d02-44ac-930a-ed7fb449e4cf",
+      "name": "Sticky Note30"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $('Webhook').item.json.body.data.message.conversation }}",
+                    "rightValue": "1",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "247045db-0a33-4f21-ae2c-34741afc7b3f"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "1"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "16cd4e47-ab97-4f7e-b9c6-8d8cc0a2b449",
+                    "leftValue": "={{ $('Webhook').item.json.body.data.message.conversation }}",
+                    "rightValue": "2",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "2"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.3,
+      "position": [
+        -256,
+        48
+      ],
+      "id": "78e61c9a-c8a0-4df8-a906-70f5995df125",
+      "name": "Switch"
+    },
+    {
+      "parameters": {
+        "path": "2f6aac5e-f10d-4000-86b2-d225fbbef006",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        -368,
+        -128
+      ],
+      "id": "7dbb22f2-4567-46bd-a765-789d2fffad14",
+      "name": "Webhook1",
+      "webhookId": "2f6aac5e-f10d-4000-86b2-d225fbbef006"
+    }
+  ],
+  "pinData": {
+    "Webhook": [
+      {
+        "json": {
+          "headers": {
+            "content-type": "application/json",
+            "user-agent": "axios/1.7.7",
+            "content-length": "552",
+            "accept-encoding": "gzip, compress, deflate, br",
+            "host": "n8n:5678",
+            "connection": "keep-alive"
+          },
+          "params": {},
+          "query": {},
+          "body": {
+            "event": "messages.upsert",
+            "instance": "n8n",
+            "data": {
+              "key": {
+                "remoteJid": "553196360018@s.whatsapp.net",
+                "fromMe": true,
+                "id": "3A6AAF654184FC79E9E9"
+              },
+              "pushName": "Iago",
+              "status": "SERVER_ACK",
+              "message": {
+                "conversation": "Teste"
+              },
+              "messageType": "conversation",
+              "messageTimestamp": 1764820462,
+              "instanceId": "67dee909-d985-4517-b0dd-ca80028ef4f3",
+              "source": "ios"
+            },
+            "destination": "http://n8n:5678/webhook/wpp",
+            "date_time": "2025-12-04T00:54:21.476Z",
+            "sender": "553196360018@s.whatsapp.net",
+            "server_url": "http://localhost:8080",
+            "apikey": "11FEB83D922E-46CB-B131-C5F2874C78B8"
+          },
+          "webhookUrl": "http://localhost:5678/webhook/wpp",
+          "executionMode": "production"
+        }
+      }
+    ]
+  },
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "Switch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request1": {
+      "main": [
+        []
+      ]
+    },
+    "Switch": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "HTTP Request2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "3fea3b90-25fe-4b7f-966d-154dfead6350",
+  "meta": {
+    "instanceId": "17576d04a48f54985c12ebc1d2b2cfafcb6d27445b37136e1fd9c012527b9a9e"
+  },
+  "id": "MpEsfotZppzM29y2",
+  "tags": []
+}

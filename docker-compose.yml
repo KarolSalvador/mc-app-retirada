@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   # ==========================================
-  # Banco de Dados (Isolado, sem porta externa)
+  # Banco de Dados
   # ==========================================
   database:
     image: pgvector/pgvector:pg14
@@ -41,10 +41,10 @@ services:
       retries: 5
 
   # ==========================================
-  # N8N (Root)
+  # N8N (Modo Regular Forçado)
   # ==========================================
   n8n:
-    image: docker.n8n.io/n8nio/n8n
+    image: docker.n8n.io/n8nio/n8n:latest
     container_name: orion-n8n-main
     restart: always
     user: root
@@ -56,7 +56,10 @@ services:
       - N8N_PROTOCOL=http
       - WEBHOOK_URL=http://localhost:5678/
       
-      # Banco
+      # FORÇANDO O MODO REGULAR (Isso resolve o problema da fila)
+      - EXECUTIONS_MODE=regular
+      
+      # Banco de Dados
       - DB_TYPE=postgresdb
       - DB_POSTGRESDB_HOST=database
       - DB_POSTGRESDB_PORT=5432
@@ -64,17 +67,9 @@ services:
       - DB_POSTGRESDB_USER=orion
       - DB_POSTGRESDB_PASSWORD=orion
       
-      # Redis (Queue)
-      - EXECUTIONS_MODE=queue
-      - QUEUE_BULL_REDIS_HOST=redis
-      - QUEUE_BULL_REDIS_PASSWORD=orion
-      
-      # Segurança/Login
       - N8N_ENCRYPTION_KEY=0R10N
       - N8N_USER_MANAGEMENT_DISABLED=false
-      - N8N_BASIC_AUTH_ACTIVE=true
-      - N8N_BASIC_AUTH_USER=admin
-      - N8N_BASIC_AUTH_PASSWORD=senha123
+      
     volumes:
       - n8n_data_internal:/home/node/.n8n
     networks:
@@ -82,18 +77,16 @@ services:
     depends_on:
       database:
         condition: service_healthy
-      redis:
-        condition: service_healthy
 
   # ==========================================
-  # Evolution API (Porta Alterada para 8081)
+  # Evolution API
   # ==========================================
   evolution-api:
     container_name: orion-evolution-api
     image: atendai/evolution-api:v2.2.0
     restart: always
     ports:
-      - "8081:8080" # <--- ALTERADO PARA EVITAR CONFLITO
+      - "8081:8080"
     environment:
       - DEBUG=true
       - CONFIG_SESSION_PHONE_VERSION=2.3000.1029271501

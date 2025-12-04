@@ -2,6 +2,7 @@ import styles from "./MenuScreen.module.css";
 import McZapBanner from "../McZapBanner/McZapBanner";
 import { useEffect, useState } from "react";
 import OfferCard from "../OfferCard/OfferCard";
+import { href } from "react-router-dom";
 
 export default function MenuScreen() {
   // Estado para armazenar a localização
@@ -35,6 +36,13 @@ export default function MenuScreen() {
     }
   }, []);
 
+  const handleWhatsappRedirect = () => {
+    const whatsappUrl =
+      "https://wa.me/5531996360018?text=Olá,%20quero%20fazer%20um%20pedido.";
+
+    window.open(whatsappUrl, "_blank");
+  };
+
   return (
     <div className={styles.appContainer}>
       <div className={styles.mainContent}>
@@ -45,7 +53,7 @@ export default function MenuScreen() {
           secondaryText="Peça seu Méqui favorito de forma super fácil e rápida"
           warningText="Seu plano tem WhatsApp ilimitado? Peça agora seu Méqui, sem descontar seus dados!"
           buttonText="FAZER PEDIDO AGORA"
-          onClick={() => alert("Redirecionamento em breve!")}
+          onClick={() => handleWhatsappRedirect()}
         />
 
         {/* Conteúdo Principal - Lista de Ofertas*/}

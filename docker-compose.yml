@@ -1,19 +1,19 @@
-version: '3.8'
-
 services:
   # ==========================================
   # Banco de Dados
   # ==========================================
   database:
-    image: pgvector/pgvector:pg14
+    image: postgres:14
     container_name: orion-database
     restart: always
+    ports:
+      - "5432:5432"
     environment:
       POSTGRES_USER: orion
       POSTGRES_PASSWORD: orion
       POSTGRES_DB: orion
     volumes:
-      - pg_data_internal:/var/lib/postgresql/data
+      - pg_data_unified:/var/lib/postgresql/data
     networks:
       - orion-network
     healthcheck:
@@ -31,7 +31,7 @@ services:
     restart: always
     command: redis-server --requirepass orion
     volumes:
-      - redis_data_internal:/data
+      - redis_data_unified:/data
     networks:
       - orion-network
     healthcheck:
@@ -41,79 +41,27 @@ services:
       retries: 5
 
   # ==========================================
-  # N8N (Modo Regular Forçado)
-  # ==========================================
-  n8n:
-    image: docker.n8n.io/n8nio/n8n:latest
-    container_name: orion-n8n-main
-    restart: always
-    user: root
-    ports:
-      - "5678:5678"
-    environment:
-      - N8N_HOST=localhost
-      - N8N_PORT=5678
-      - N8N_PROTOCOL=http
-      - WEBHOOK_URL=http://localhost:5678/
-      
-      # FORÇANDO O MODO REGULAR (Isso resolve o problema da fila)
-      - EXECUTIONS_MODE=regular
-      
-      # Banco de Dados
-      - DB_TYPE=postgresdb
-      - DB_POSTGRESDB_HOST=database
-      - DB_POSTGRESDB_PORT=5432
-      - DB_POSTGRESDB_DATABASE=orion
-      - DB_POSTGRESDB_USER=orion
-      - DB_POSTGRESDB_PASSWORD=orion
-      
-      - N8N_ENCRYPTION_KEY=0R10N
-      - N8N_USER_MANAGEMENT_DISABLED=false
-      
-    volumes:
-      - n8n_data_internal:/home/node/.n8n
-    networks:
-      - orion-network
-    depends_on:
-      database:
-        condition: service_healthy
-
-  # ==========================================
-  # Evolution API
+  # Evolution API (Sintaxe Corrigida)
   # ==========================================
   evolution-api:
     container_name: orion-evolution-api
-    image: atendai/evolution-api:v2.2.0
+    image: evoapicloud/evolution-api:v2.2.2
     restart: always
-    ports:
+    ports: 
       - "8081:8080"
     environment:
-      - DEBUG=true
-      - CONFIG_SESSION_PHONE_VERSION=2.3000.1029271501
-      - AUTHENTICATION_API_KEY=0R10NdrAfl2sc3IozIarMSCG
+      # Sintaxe correta: CHAVE: "VALOR" (Sem tracinhos -)
+      CONFIG_SESSION_PHONE_VERSION: "2.3000.1030618351"
+      AUTHENTICATION_API_KEY: "0R10NdrAfl2sc3IozIarMSCG"
       
-      # Banco
-      - DATABASE_ENABLED=true
-      - DATABASE_PROVIDER=postgresql
-      - DATABASE_CONNECTION_URI=postgresql://orion:orion@database:5432/orion
-      - DATABASE_SAVE_DATA_INSTANCE=true
-      - DATABASE_SAVE_DATA_NEW_MESSAGE=true
-      - DATABASE_SAVE_MESSAGE_UPDATE=true
-      - DATABASE_SAVE_DATA_CONTACTS=true
-      - DATABASE_SAVE_DATA_CHATS=true
-      - DATABASE_SAVE_DATA_LABELS=true
-      - DATABASE_SAVE_DATA_HISTORIC=false
-      - DATABASE_SAVE_IS_ON_WHATSAPP=true
-      - DATABASE_DELETE_MESSAGE=true
+      # Banco de Dados
+      DATABASE_ENABLED: "true"
+      DATABASE_PROVIDER: postgresql
+      DATABASE_CONNECTION_URI: postgresql://orion:orion@database:5432/orion
       
       # Redis
-      - CACHE_REDIS_ENABLED=true
-      - CACHE_REDIS_URI=redis://:orion@redis:6379/0
-      - CACHE_REDIS_PREFIX_KEY=evolution
-      - CACHE_REDIS_SAVE_INSTANCES=true
-      - CACHE_LOCAL_ENABLED=false
-    volumes:
-      - evolution_instances_internal:/evolution/instances
+      CACHE_REDIS_ENABLED: "true"
+      CACHE_REDIS_URI: redis://:orion@redis:6379/0
     networks:
       - orion-network
     depends_on:
@@ -122,11 +70,68 @@ services:
       redis:
         condition: service_healthy
 
+  # ==========================================
+  # N8N
+  # ==========================================
+  n8n:
+    image: docker.n8n.io/n8nio/n8n:latest
+    container_name: orion-n8n-main
+    restart: always
+    ports:
+      - "5678:5678"
+    environment:
+      DB_TYPE: postgresdb
+      DB_POSTGRESDB_HOST: database
+      DB_POSTGRESDB_PORT: 5432
+      DB_POSTGRESDB_DATABASE: orion
+      DB_POSTGRESDB_USER: orion
+      DB_POSTGRESDB_PASSWORD: orion
+      N8N_ENCRYPTION_KEY: 0R10N
+    volumes:
+      - n8n_data_unified:/home/node/.n8n
+    networks:
+      - orion-network
+    depends_on:
+      database:
+        condition: service_healthy
+
+  # ==========================================
+  # Strapi
+  # ==========================================
+  strapi:
+    build:
+      context: ./.strapi/app
+      dockerfile: Dockerfile.dev
+    container_name: mcdonalds-strapi
+    restart: unless-stopped
+    volumes:
+      - ./.strapi/app:/opt/app
+      - strapi_node_modules:/opt/app/node_modules
+    env_file: .env
+    environment:
+      NODE_ENV: development
+      STRAPI_ADMIN_URL: http://localhost:1337/admin
+      STRAPI_URL: http://localhost:1337
+      DATABASE_HOST: database
+      DATABASE_PORT: 5432
+      DATABASE_NAME: orion
+      DATABASE_USERNAME: orion
+      DATABASE_PASSWORD: orion
+      DATABASE_SSL: 'false'
+    ports:
+      - '1337:1337'
+    networks:
+      - orion-network
+    depends_on:
+      database:
+        condition: service_healthy
+    command: sh -c "npm run develop"
+
 volumes:
-  pg_data_internal:
-  redis_data_internal:
-  n8n_data_internal:
-  evolution_instances_internal:
+  pg_data_unified:
+  redis_data_unified:
+  n8n_data_unified:
+  strapi_node_modules:
 
 networks:
   orion-network:

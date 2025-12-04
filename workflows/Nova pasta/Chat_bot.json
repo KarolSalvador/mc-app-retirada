@@ -10,10 +10,10 @@
       "type": "n8n-nodes-base.webhook",
       "typeVersion": 2.1,
       "position": [
-        -704,
-        48
+        -2768,
+        944
       ],
-      "id": "0cda4e2a-48cf-4e16-88a6-67ca495bdab7",
+      "id": "8e69ec6d-c489-417d-ae65-fd72dd919d20",
       "name": "Webhook",
       "webhookId": "cd92c247-47b5-49bd-8426-f3656cadbe3e"
     },
@@ -48,81 +48,11 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.3,
       "position": [
-        -448,
-        48
+        -2192,
+        736
       ],
-      "id": "d8d5cc93-e3b4-479b-8812-2dc39bb8faf3",
+      "id": "c1c9d258-8b26-405a-9d4e-8c2f7efe0b87",
       "name": "HTTP Request"
-    },
-    {
-      "parameters": {
-        "method": "POST",
-        "url": "=http://evolution-api:8080/message/sendText/{{ $('Webhook').item.json.body.data.instanceId }}",
-        "sendHeaders": true,
-        "headerParameters": {
-          "parameters": [
-            {
-              "name": "apikey",
-              "value": "0R10NdrAfl2sc3IozIarMSCG"
-            }
-          ]
-        },
-        "sendBody": true,
-        "bodyParameters": {
-          "parameters": [
-            {
-              "name": "number",
-              "value": "={{ $('Webhook').item.json.body.data.key.remoteJid }}"
-            },
-            {
-              "name": "text",
-              "value": " Bora matar essa fome? 😋   Aqui você consegue fazer seu pedido de forma rápida e prática.  💳 Importante: o pagamento é feito diretamente no local da retirada, tudo bem?  Me conta:  1. Já sei o que quero  2. Quero dar uma olhada no cardápio "
-            }
-          ]
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.httpRequest",
-      "typeVersion": 4.3,
-      "position": [
-        -32,
-        -208
-      ],
-      "id": "d70cc395-f38f-4bfb-9e9d-57341d64651c",
-      "name": "HTTP Request1"
-    },
-    {
-      "parameters": {
-        "method": "POST",
-        "url": "=http://evolution-api:8080/message/sendText/{{ $('Webhook').item.json.body.data.instanceId }}",
-        "sendHeaders": true,
-        "headerParameters": {
-          "parameters": [
-            {
-              "name": "apikey",
-              "value": "0R10NdrAfl2sc3IozIarMSCG"
-            }
-          ]
-        },
-        "sendBody": true,
-        "bodyParameters": {
-          "parameters": [
-            {
-              "name": "text",
-              "value": "Cardapio:"
-            }
-          ]
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.httpRequest",
-      "typeVersion": 4.3,
-      "position": [
-        -16,
-        272
-      ],
-      "id": "e10e3f3d-378f-438c-920a-3bb869ff1d55",
-      "name": "HTTP Request2"
     },
     {
       "parameters": {
@@ -133,11 +63,11 @@
       },
       "type": "n8n-nodes-base.stickyNote",
       "position": [
-        -176,
-        160
+        -1744,
+        1040
       ],
       "typeVersion": 1,
-      "id": "5df68ec1-d468-4963-8515-84a77fbeeaa9",
+      "id": "f90b28e1-d3f7-4d5c-a023-884c06f92afd",
       "name": "Sticky Note"
     },
     {
@@ -149,11 +79,11 @@
       },
       "type": "n8n-nodes-base.stickyNote",
       "position": [
-        -192,
-        -256
+        -1776,
+        624
       ],
       "typeVersion": 1,
-      "id": "d83b1614-7da9-4d8d-817f-ced97e86db30",
+      "id": "82e908de-835c-44f6-a7db-1cfd58a5074d",
       "name": "Sticky Note1"
     },
     {
@@ -163,11 +93,11 @@
       },
       "type": "n8n-nodes-base.stickyNote",
       "position": [
-        272,
-        -112
+        -1424,
+        496
       ],
       "typeVersion": 1,
-      "id": "4ba00037-6814-46b2-838c-19e270201dd4",
+      "id": "eb72fa84-9504-4275-bc56-4eb6a0f7ab30",
       "name": "Sticky Note2"
     },
     {
@@ -178,123 +108,12 @@
       },
       "type": "n8n-nodes-base.stickyNote",
       "position": [
-        272,
-        -208
+        -1456,
+        912
       ],
       "typeVersion": 1,
-      "id": "f152c578-438a-4f60-b6ec-5c46951aa9a5",
+      "id": "cba38dcf-e967-4c63-9b77-fbe4098d6850",
       "name": "Sticky Note3"
-    },
-    {
-      "parameters": {
-        "content": " “Show! Só pra garantir que tá tudo certinho…  Seu pedido é: ‘repete o pedido’.  Confere aí, beleza?”\nOpções: \n1.  ✔️ É isso! \n2. ❌ Não, Mc! Preciso corrigir.\n",
-        "height": 144,
-        "width": 262
-      },
-      "type": "n8n-nodes-base.stickyNote",
-      "position": [
-        560,
-        -176
-      ],
-      "typeVersion": 1,
-      "id": "8124fee0-18e2-4c17-8e82-cacbe9db85f2",
-      "name": "Sticky Note4"
-    },
-    {
-      "parameters": {
-        "content": "SIM",
-        "height": 80,
-        "width": 150,
-        "color": 4
-      },
-      "type": "n8n-nodes-base.stickyNote",
-      "position": [
-        880,
-        -240
-      ],
-      "typeVersion": 1,
-      "id": "70fa8867-0a04-46f0-9f7c-130d51cbb54f",
-      "name": "Sticky Note5"
-    },
-    {
-      "parameters": {
-        "content": "NÂO",
-        "height": 80,
-        "width": 150,
-        "color": 3
-      },
-      "type": "n8n-nodes-base.stickyNote",
-      "position": [
-        880,
-        -80
-      ],
-      "typeVersion": 1,
-      "id": "cdf00cd1-5db9-411e-a1da-49cdb147140f",
-      "name": "Sticky Note6"
-    },
-    {
-      "parameters": {
-        "content": "Olá! Antes de confirmar o seu pedido, me envia sua localização aqui no Zap? 📍  É rapidinho e eu já consigo te dizer onde tá o Méqui mais próximo!\n\n1. Toque no ícone de clipe 📎 (no Android)  ou no “+” ➕ (no iPhone), que fica ao lado da caixa de mensagem.\n2. Selecione a opção “Localização”.  Pode aparecer como “Location” se o seu estiver em inglês.\n3. Escolha o que você quer enviar:\nEnviar minha localização atual → mostra exatamente onde você está agora.\n4. Confirmar e pronto!  Sua localização chega aqui na hora e eu já te digo qual Méqui tá mais pertinho. 🍔✨",
-        "height": 368,
-        "width": 326,
-        "color": 6
-      },
-      "type": "n8n-nodes-base.stickyNote",
-      "position": [
-        1104,
-        -496
-      ],
-      "typeVersion": 1,
-      "id": "30078a16-5550-4b93-9a3e-0c3fab25e28a",
-      "name": "Sticky Note7"
-    },
-    {
-      "parameters": {
-        "content": "Opção de voltar ao menu\n",
-        "height": 80,
-        "width": 150,
-        "color": 4
-      },
-      "type": "n8n-nodes-base.stickyNote",
-      "position": [
-        1104,
-        -576
-      ],
-      "typeVersion": 1,
-      "id": "48412263-cfda-42b0-9f4d-4d4f1bac3b70",
-      "name": "Sticky Note8"
-    },
-    {
-      "parameters": {
-        "content": "Recebeu a loc",
-        "height": 80,
-        "width": 150,
-        "color": 4
-      },
-      "type": "n8n-nodes-base.stickyNote",
-      "position": [
-        1424,
-        -208
-      ],
-      "typeVersion": 1,
-      "id": "0e81be2a-ff2b-458b-9a06-3258b133b2ea",
-      "name": "Sticky Note9"
-    },
-    {
-      "parameters": {
-        "content": "Não mandou a loc",
-        "height": 80,
-        "width": 150,
-        "color": 3
-      },
-      "type": "n8n-nodes-base.stickyNote",
-      "position": [
-        1424,
-        -496
-      ],
-      "typeVersion": 1,
-      "id": "5d98255a-91f6-42b2-8ae6-3dd8f152ef2f",
-      "name": "Sticky Note10"
     },
     {
       "parameters": {
@@ -305,105 +124,12 @@
       },
       "type": "n8n-nodes-base.stickyNote",
       "position": [
-        1568,
-        -880
+        144,
+        -304
       ],
       "typeVersion": 1,
-      "id": "44ae53a2-8e32-4803-b2a5-0444a6e8faca",
+      "id": "318ebb12-0472-4160-8043-b7c94ec5f3da",
       "name": "Sticky Note11"
-    },
-    {
-      "parameters": {
-        "content": " “Então vamos lá!  📦 Pedido: ‘resumo dos itens’  🏪 Retirada em: ‘xxx’  💰 Total: R$ xx,xx\nFechamos?”\nOpções: \n1. ✔️ Sim \n2.  ❌ Não, quero ajustar \n3. 🚫 Cancelar pedido\n",
-        "height": 192,
-        "width": 278,
-        "color": 4
-      },
-      "type": "n8n-nodes-base.stickyNote",
-      "position": [
-        1568,
-        -320
-      ],
-      "typeVersion": 1,
-      "id": "1c1229b7-b813-4bc5-8734-31d1073a76cb",
-      "name": "Sticky Note12"
-    },
-    {
-      "parameters": {
-        "content": "“Opa! Pode mandar de novo qual o seu pedido ou apontar o erro?”\n\nRETORNAR PARA ELE CONFERIR O PEDIDO",
-        "height": 144,
-        "width": 230
-      },
-      "type": "n8n-nodes-base.stickyNote",
-      "position": [
-        1248,
-        -128
-      ],
-      "typeVersion": 1,
-      "id": "a12d9139-b7eb-4319-921e-f7cc95187f28",
-      "name": "Sticky Note13"
-    },
-    {
-      "parameters": {
-        "content": "Sem problemas! Se quiser começar um pedido, é só avisar por aqui que eu faço acontecer.",
-        "width": 150,
-        "color": 3
-      },
-      "type": "n8n-nodes-base.stickyNote",
-      "position": [
-        752,
-        352
-      ],
-      "typeVersion": 1,
-      "id": "5ed596ec-2bbd-405f-a511-678e380855fc",
-      "name": "Sticky Note14"
-    },
-    {
-      "parameters": {
-        "content": "2 - Quero ajustar",
-        "height": 80,
-        "width": 150
-      },
-      "type": "n8n-nodes-base.stickyNote",
-      "position": [
-        1472,
-        -128
-      ],
-      "typeVersion": 1,
-      "id": "f3a9f287-d4ce-4162-a0ac-d3d6a493206a",
-      "name": "Sticky Note15"
-    },
-    {
-      "parameters": {
-        "content": "3- Cancelou\n",
-        "height": 80,
-        "width": 150,
-        "color": 3
-      },
-      "type": "n8n-nodes-base.stickyNote",
-      "position": [
-        1616,
-        -128
-      ],
-      "typeVersion": 1,
-      "id": "23e65ae4-9a72-44e3-91a4-fa7621eb93fe",
-      "name": "Sticky Note16"
-    },
-    {
-      "parameters": {
-        "content": "Tudo certo! Pedido cancelado, sem estresse 😉  Se bater aquela fome depois, é só me chamar que eu preparo tudo de novo pra você.  Tamo junto!\n\nFIM DO FLUXO",
-        "height": 176,
-        "width": 198,
-        "color": 3
-      },
-      "type": "n8n-nodes-base.stickyNote",
-      "position": [
-        1616,
-        -48
-      ],
-      "typeVersion": 1,
-      "id": "9b48e86b-ced8-4280-99bd-963c08d3f91f",
-      "name": "Sticky Note17"
     },
     {
       "parameters": {
@@ -414,28 +140,12 @@
       },
       "type": "n8n-nodes-base.stickyNote",
       "position": [
-        2352,
-        -384
+        1504,
+        848
       ],
       "typeVersion": 1,
-      "id": "4df4bd56-8743-418b-9d6c-67bf138db4fe",
+      "id": "dbe76ae4-8723-47e4-9ba5-05c69397ca4d",
       "name": "Sticky Note18"
-    },
-    {
-      "parameters": {
-        "content": "1- SIM",
-        "height": 80,
-        "width": 150,
-        "color": 4
-      },
-      "type": "n8n-nodes-base.stickyNote",
-      "position": [
-        1840,
-        -208
-      ],
-      "typeVersion": 1,
-      "id": "4a471bcf-c091-479b-bb58-a6cc85fc6fd7",
-      "name": "Sticky Note19"
     },
     {
       "parameters": {
@@ -446,44 +156,28 @@
       },
       "type": "n8n-nodes-base.stickyNote",
       "position": [
-        2064,
-        -416
+        1824,
+        400
       ],
       "typeVersion": 1,
-      "id": "25beb353-78ad-4f18-8cab-a22a2504bdd4",
+      "id": "c9a2f3ba-6d00-43ef-ac5c-ba1b3d8fa164",
       "name": "Sticky Note20"
     },
     {
       "parameters": {
         "content": "Cancelou, fim do fluxo\n",
         "height": 80,
-        "width": 150,
+        "width": 614,
         "color": 3
       },
       "type": "n8n-nodes-base.stickyNote",
       "position": [
-        2352,
-        -176
+        1424,
+        736
       ],
       "typeVersion": 1,
-      "id": "d815b5e1-7760-4446-adbc-30607a668527",
+      "id": "102e3bf0-32b6-4470-bde6-fabf18909acc",
       "name": "Sticky Note21"
-    },
-    {
-      "parameters": {
-        "content": "Combinado! Assim que o seu pedido estiver pronto, mandamos mensagem para você, ok?",
-        "height": 144,
-        "width": 166,
-        "color": 4
-      },
-      "type": "n8n-nodes-base.stickyNote",
-      "position": [
-        2592,
-        -512
-      ],
-      "typeVersion": 1,
-      "id": "8d8d39c0-940b-4ccf-bab4-4ac0ef304fe2",
-      "name": "Sticky Note22"
     },
     {
       "parameters": {
@@ -494,11 +188,11 @@
       },
       "type": "n8n-nodes-base.stickyNote",
       "position": [
-        2768,
-        -368
+        1936,
+        784
       ],
       "typeVersion": 1,
-      "id": "7628cbf0-d330-4789-914f-26e6b474e7d4",
+      "id": "04e7b90e-b1f9-4391-9726-318302a1d951",
       "name": "Sticky Note23"
     },
     {
@@ -510,76 +204,12 @@
       },
       "type": "n8n-nodes-base.stickyNote",
       "position": [
-        3088,
-        -368
+        2256,
+        784
       ],
       "typeVersion": 1,
-      "id": "2fb687cb-b1e7-4be4-b782-357229566361",
+      "id": "a014ca1d-e04a-4ebb-ac4b-b6b7eaf38080",
       "name": "Sticky Note24"
-    },
-    {
-      "parameters": {
-        "content": "[enviar cardápio reduzido com preços]",
-        "height": 80,
-        "width": 150,
-        "color": 5
-      },
-      "type": "n8n-nodes-base.stickyNote",
-      "position": [
-        256,
-        240
-      ],
-      "typeVersion": 1,
-      "id": "f5e5eaf0-a944-4c87-a914-112ba505e332",
-      "name": "Sticky Note25"
-    },
-    {
-      "parameters": {
-        "content": "SIM",
-        "height": 80,
-        "width": 150,
-        "color": 4
-      },
-      "type": "n8n-nodes-base.stickyNote",
-      "position": [
-        576,
-        192
-      ],
-      "typeVersion": 1,
-      "id": "9fcac7d3-1bc0-4bb2-accc-c74217d35087",
-      "name": "Sticky Note26"
-    },
-    {
-      "parameters": {
-        "content": "E aí, já decidiu o que vai pedir?\nSIM\nAINDA NÃO!",
-        "height": 96,
-        "width": 166,
-        "color": 4
-      },
-      "type": "n8n-nodes-base.stickyNote",
-      "position": [
-        416,
-        240
-      ],
-      "typeVersion": 1,
-      "id": "0e468cf7-1aed-47ab-9b84-eca51a4f32da",
-      "name": "Sticky Note27"
-    },
-    {
-      "parameters": {
-        "content": "NÂO",
-        "height": 80,
-        "width": 150,
-        "color": 3
-      },
-      "type": "n8n-nodes-base.stickyNote",
-      "position": [
-        576,
-        320
-      ],
-      "typeVersion": 1,
-      "id": "116510a3-9ac1-46a9-a3cd-022ede9ac3df",
-      "name": "Sticky Note28"
     },
     {
       "parameters": {
@@ -590,28 +220,12 @@
       },
       "type": "n8n-nodes-base.stickyNote",
       "position": [
-        416,
-        80
+        -1616,
+        928
       ],
       "typeVersion": 1,
-      "id": "323e1f17-1a42-4f99-b160-b308c83b5975",
+      "id": "84245ebf-9f70-4e5b-a552-9b8eca70c00f",
       "name": "Sticky Note29"
-    },
-    {
-      "parameters": {
-        "content": "Recebeu mensagem manda pro fluxo do pedido\n\nse nao inatividade(mas acho que nao tem necessidade de focar nisso agora",
-        "height": 144,
-        "width": 262,
-        "color": 4
-      },
-      "type": "n8n-nodes-base.stickyNote",
-      "position": [
-        928,
-        320
-      ],
-      "typeVersion": 1,
-      "id": "14bb9233-5d02-44ac-930a-ed7fb449e4cf",
-      "name": "Sticky Note30"
     },
     {
       "parameters": {
@@ -639,7 +253,7 @@
                 "combinator": "and"
               },
               "renameOutput": true,
-              "outputKey": "1"
+              "outputKey": "PEDIDO"
             },
             {
               "conditions": {
@@ -664,7 +278,32 @@
                 "combinator": "and"
               },
               "renameOutput": true,
-              "outputKey": "2"
+              "outputKey": "CARDAPIO"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "d6206ebb-d9f2-410a-b2d7-ef536542dff3",
+                    "leftValue": "",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "0"
             }
           ]
         },
@@ -673,79 +312,643 @@
       "type": "n8n-nodes-base.switch",
       "typeVersion": 3.3,
       "position": [
-        -256,
-        48
+        -1888,
+        928
       ],
-      "id": "78e61c9a-c8a0-4df8-a906-70f5995df125",
+      "id": "8e32dc89-c558-471c-918a-d96479b60fed",
       "name": "Switch"
     },
     {
       "parameters": {
-        "path": "2f6aac5e-f10d-4000-86b2-d225fbbef006",
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "9472bd4a-d99b-4250-bef7-20cb038cf132",
+              "leftValue": "={{ $json.body.data.message.conversation }}",
+              "rightValue": "chatbot",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -2512,
+        944
+      ],
+      "id": "4c244231-f390-4af2-9655-5bda8f175107",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=http://evolution-api:8080/message/sendText/{{ $json.body.instance }}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "apikey",
+              "value": "0R10NdrAfl2sc3IozIarMSCG"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "number",
+              "value": "={{ $json.body.data.key.remoteJid }}"
+            },
+            {
+              "name": "text",
+              "value": "Manda aí por escrito: qual vai ser a boa de hoje? Você pode digitar os números ou o nome do combo ;)"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        -1712,
+        720
+      ],
+      "id": "87a44bc9-338d-441f-ba8c-c7bb512bebd6",
+      "name": "HTTP Request3"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=http://evolution-api:8080/message/sendText/{{ $json.body.instance }}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "apikey",
+              "value": "0R10NdrAfl2sc3IozIarMSCG"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "number",
+              "value": "={{ $json.body.data.key.remoteJid }}"
+            },
+            {
+              "name": "text",
+              "value": "Combinado! O que você quer ver primeiro? \n3. Sanduíches de carne bovina \n4. Sanduíches de frango \n5. Família Tasty \n6. Família Brabos \n7. MC Lanche Feliz \n8. Acompanhamentos \n9. Sobremesas \n10. Bebidas"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        -1712,
+        1152
+      ],
+      "id": "1303dc5f-0bbc-4aac-90f9-99f1953d0fb0",
+      "name": "HTTP Request4"
+    },
+    {
+      "parameters": {
+        "content": "RETORNAR PARA A IA DE PEDIDO",
+        "height": 224,
+        "width": 262,
+        "color": 3
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -720,
+        976
+      ],
+      "typeVersion": 1,
+      "id": "e7cceec3-74f4-4c10-ae12-7b8077873be8",
+      "name": "Sticky Note27"
+    },
+    {
+      "parameters": {
+        "content": "### Cálculo da distância dos restaurantes dentro do raio de 5km",
+        "height": 240,
+        "color": 7
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        560,
+        176
+      ],
+      "typeVersion": 1,
+      "id": "46e4ffb3-386a-4e18-91da-4e521a70ef80",
+      "name": "Sticky Note26"
+    },
+    {
+      "parameters": {
+        "content": "### Retorna os dados dos restaurantes",
+        "height": 240,
+        "color": 7
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        816,
+        176
+      ],
+      "typeVersion": 1,
+      "id": "4c91b482-9bb2-4368-95e7-1bda537093d7",
+      "name": "Sticky Note25"
+    },
+    {
+      "parameters": {
+        "content": "### Busca no Postgres os restaurantes",
+        "height": 240,
+        "color": 7
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        304,
+        176
+      ],
+      "typeVersion": 1,
+      "id": "4b1e41e9-5c0b-42d2-9e45-cca8c2b1233a",
+      "name": "Sticky Note14"
+    },
+    {
+      "parameters": {
+        "content": "### Recebe a requisição do Front-End",
+        "height": 240,
+        "color": 7
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        32,
+        176
+      ],
+      "typeVersion": 1,
+      "id": "6901887f-1c43-439c-b03e-6aeb188d6259",
+      "name": "Sticky Note8"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Limite máximo do raio em quilômetros\nconst MAX_DISTANCE_KM = 5;\nconst EARTH_RADIUS_KM = 6371;\n\n// Função Haversine para calcular a distância entre duas coordenadas\nfunction haversineDistance(lat1, long1, lat2, long2) {\n  const toRad = (angle) => angle * (Math.PI / 180);\n\n  const dLat = toRad(lat2 - lat1);\n  const dLon = toRad(lon2 - lon1);\n  const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) + Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) * Math.sin(dLon /2 ) * Math.sin(dLon / 2);\n  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));\n  const distance = EARTH_RADIUS_KM * c;\n\n  //retorna distância em km\n  return distance;\n}\n\n// Obter coordenadas do usuário do webhook (enviadas pelo Front End)\nconst userLat = parseFloat($nodeVersion.Webhook.json.query.lat);\nconst userLon = parseFloat($nodeVersion.Webhook.json.query.lon);\n\n// Array para armazenar os restaurantes filtrados\nconst nearbyRestaurants = [];\n\n// iterar sobre os restaurantes vindos do Postgres\nfor (const restaurant of $input.json) {\n    const resLat = parseFloat(restaurant.latitude);\n    const resLon = parseFloat(restaurant.longitude);\n\n    // Ignora restaurantes sem coordenadas válidas\n    if (isNaN(resLat) || isNaN(resLon)) continue;\n\n    // Calcula a distância\n    const distance = haversineDistance(userLat, userLon, resLat, resLon);\n\n    // Se a distância for menor ou igual ao raio máximo\n    if (distance <= MAX_DISTANCE_KM) {\n        // Adiciona a distância e arredonda-a para 1 casa decimai para exibição\n        const distanceStr = distance.toFixed(1);\n        \n        nearbyRestaurants.push({\n            // Mantém todos os dados do restaurante\n            ...restaurant,\n            // Adiciona a distância em um formato amigável\n            distancia: `${distanceStr} km de você`\n        });\n    }\n}\n\n// 3. Retornar a lista filtrada (o n8n espera um array de objetos)\nreturn nearbyRestaurants;\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        640,
+        272
+      ],
+      "id": "ad541c24-cc96-48c8-847d-57ca732f3f7c",
+      "name": "Code: Calcular Distância e Filtrar"
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{JSON.stringify({data: $node[\"Code: Filtrar Restaurantes\"].json})}}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.4,
+      "position": [
+        880,
+        272
+      ],
+      "id": "4464fc57-8493-4bdf-98e1-6487e230dc72",
+      "name": "Respond to Webhook"
+    },
+    {
+      "parameters": {
+        "content": "Combinado! Assim que o seu pedido estiver pronto, mandamos mensagem para você, ok?",
+        "height": 144,
+        "width": 166,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        1232,
+        880
+      ],
+      "typeVersion": 1,
+      "id": "a7a073a7-9cf1-44db-8353-67f3ea98e90a",
+      "name": "Sticky Note22"
+    },
+    {
+      "parameters": {
+        "content": "1- SIM",
+        "height": 80,
+        "width": 150,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        1008,
+        944
+      ],
+      "typeVersion": 1,
+      "id": "0b3f146d-9037-446c-8200-53ab880fa59e",
+      "name": "Sticky Note19"
+    },
+    {
+      "parameters": {
+        "content": "Tudo certo! Pedido cancelado, sem estresse 😉  Se bater aquela fome depois, é só me chamar que eu preparo tudo de novo pra você.  Tamo junto!\n\nFIM DO FLUXO",
+        "height": 176,
+        "width": 198,
+        "color": 3
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        736,
+        1104
+      ],
+      "typeVersion": 1,
+      "id": "d8763ee4-921c-4ff8-a340-3ce27a9ed6f7",
+      "name": "Sticky Note17"
+    },
+    {
+      "parameters": {
+        "content": "3- Cancelou\n",
+        "height": 80,
+        "width": 150,
+        "color": 3
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        768,
+        1024
+      ],
+      "typeVersion": 1,
+      "id": "4b03c531-9a59-42e8-a5da-078a1b5a2d29",
+      "name": "Sticky Note16"
+    },
+    {
+      "parameters": {
+        "content": "2 - Quero ajustar",
+        "height": 80,
+        "width": 150
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        928,
+        1024
+      ],
+      "typeVersion": 1,
+      "id": "c436517d-9996-4a71-9be8-0548c82f3d65",
+      "name": "Sticky Note15"
+    },
+    {
+      "parameters": {
+        "content": "“Opa! Pode mandar de novo qual o seu pedido ou apontar o erro?”\n\nRETORNAR PARA ELE CONFERIR O PEDIDO",
+        "height": 144,
+        "width": 230
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        992,
+        1184
+      ],
+      "typeVersion": 1,
+      "id": "144fcb45-9427-4614-8c8e-82973a9bb771",
+      "name": "Sticky Note13"
+    },
+    {
+      "parameters": {
+        "content": " “Então vamos lá!  📦 Pedido: ‘resumo dos itens’  🏪 Retirada em: ‘xxx’  💰 Total: R$ xx,xx\nFechamos?”\nOpções: \n1. ✔️ Sim \n2.  ❌ Não, quero ajustar \n3. 🚫 Cancelar pedido\n",
+        "height": 192,
+        "width": 278,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        736,
+        832
+      ],
+      "typeVersion": 1,
+      "id": "ff2919f3-bb32-4a6c-9baf-e8b5ab4c6a94",
+      "name": "Sticky Note12"
+    },
+    {
+      "parameters": {
+        "content": "Não mandou a loc",
+        "height": 80,
+        "width": 150,
+        "color": 3
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        0,
+        64
+      ],
+      "typeVersion": 1,
+      "id": "8535ad45-c42b-4fb5-b6a1-dcaa216d2ba7",
+      "name": "Sticky Note10"
+    },
+    {
+      "parameters": {
+        "content": "Recebeu a loc",
+        "height": 80,
+        "width": 150,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        592,
+        944
+      ],
+      "typeVersion": 1,
+      "id": "bcaeff35-8b48-489a-b7a1-1c4bf2ef7b8b",
+      "name": "Sticky Note9"
+    },
+    {
+      "parameters": {
+        "content": "Olá! Antes de confirmar o seu pedido, me envia sua localização aqui no Zap? 📍  É rapidinho e eu já consigo te dizer onde tá o Méqui mais próximo!\n\n1. Toque no ícone de clipe 📎 (no Android)  ou no “+” ➕ (no iPhone), que fica ao lado da caixa de mensagem.\n2. Selecione a opção “Localização”.  Pode aparecer como “Location” se o seu estiver em inglês.\n3. Escolha o que você quer enviar:\nEnviar minha localização atual → mostra exatamente onde você está agora.\n4. Confirmar e pronto!  Sua localização chega aqui na hora e eu já te digo qual Méqui tá mais pertinho. 🍔✨",
+        "height": 368,
+        "width": 326,
+        "color": 6
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -528,
+        0
+      ],
+      "typeVersion": 1,
+      "id": "c2ce0d91-302f-4892-a92b-2f8a9fdd74c9",
+      "name": "Sticky Note7"
+    },
+    {
+      "parameters": {
+        "content": "NÂO",
+        "height": 80,
+        "width": 150,
+        "color": 3
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -720,
+        880
+      ],
+      "typeVersion": 1,
+      "id": "22763e92-a401-4d40-9a2a-6133d7873ada",
+      "name": "Sticky Note6"
+    },
+    {
+      "parameters": {
+        "content": "SIM",
+        "height": 80,
+        "width": 150,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -704,
+        592
+      ],
+      "typeVersion": 1,
+      "id": "2725c11c-1a34-4dfc-8e52-6fce08569f3e",
+      "name": "Sticky Note5"
+    },
+    {
+      "parameters": {
+        "content": " “Show! Só pra garantir que tá tudo certinho…  Seu pedido é: ‘repete o pedido’.  Confere aí, beleza?”\nOpções: \n1.  ✔️ É isso! \n2. ❌ Não, Mc! Preciso corrigir.\n",
+        "height": 144,
+        "width": 262
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -1008,
+        704
+      ],
+      "typeVersion": 1,
+      "id": "a5c1ac80-643e-4c1a-b91a-525407fbc34b",
+      "name": "Sticky Note4"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $('Webhook').item.json.body.data.message.conversation }}",
+                    "rightValue": "11",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "247045db-0a33-4f21-ae2c-34741afc7b3f"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "LOCALIZAÇÃO"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "16cd4e47-ab97-4f7e-b9c6-8d8cc0a2b449",
+                    "leftValue": "={{ $('Webhook').item.json.body.data.message.conversation }}",
+                    "rightValue": "12",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "erro pedido"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.3,
+      "position": [
+        -368,
+        752
+      ],
+      "id": "218a5dfe-00b0-4e7b-aeb7-b1ce5f1d7b02",
+      "name": "Switch1"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=http://evolution-api:8080/message/sendText/{{ $json.body.instance }}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "apikey",
+              "value": "0R10NdrAfl2sc3IozIarMSCG"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "number",
+              "value": "={{ $json.body.data.key.remoteJid }}"
+            },
+            {
+              "name": "text",
+              "value": " “Show! Só pra garantir que tá tudo certinho…  Seu pedido é: ‘repete o pedido’.  Confere aí, beleza?”\nOpções: \n11.  ✔️ É isso! \n12. ❌ Não, Mc! Preciso corrigir.\n"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        -560,
+        720
+      ],
+      "id": "8504def3-a786-4a01-951d-2756d538b39a",
+      "name": "HTTP Request5"
+    },
+    {
+      "parameters": {
+        "path": "restaurantes",
+        "responseMode": "responseNode",
         "options": {}
       },
       "type": "n8n-nodes-base.webhook",
       "typeVersion": 2.1,
       "position": [
-        -368,
-        -128
+        80,
+        272
       ],
-      "id": "7dbb22f2-4567-46bd-a765-789d2fffad14",
-      "name": "Webhook1",
-      "webhookId": "2f6aac5e-f10d-4000-86b2-d225fbbef006"
+      "id": "ae4f920b-7e1a-42c7-8466-48cca1a60bb0",
+      "name": "Webhook2",
+      "webhookId": "f570395c-961d-41b4-976d-60abf59e02f4"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=http://evolution-api:8080/message/sendText/{{ $json.body.instance }}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "apikey",
+              "value": "0R10NdrAfl2sc3IozIarMSCG"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "number",
+              "value": "={{ $json.body.data.key.remoteJid }}"
+            },
+            {
+              "name": "text",
+              "value": "“Opa! Pode mandar de novo qual o seu pedido ou apontar o erro?”"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        -640,
+        1040
+      ],
+      "id": "dc8f3c48-9926-4151-9455-c19a0cfcad36",
+      "name": "HTTP Request6"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=http://evolution-api:8080/message/sendText/{{ $json.body.instance }}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "apikey",
+              "value": "0R10NdrAfl2sc3IozIarMSCG"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "number",
+              "value": "={{ $json.body.data.key.remoteJid }}"
+            },
+            {
+              "name": "text",
+              "value": "Olá! Antes de confirmar o seu pedido, me envia sua localização aqui no Zap? 📍  É rapidinho e eu já consigo te dizer onde tá o Méqui mais próximo!  1. Toque no ícone de clipe 📎 (no Android)  ou no “+” ➕ (no iPhone), que fica ao lado da caixa de mensagem. 2. Selecione a opção “Localização”.  Pode aparecer como “Location” se o seu estiver em inglês. 3. Escolha o que você quer enviar: Enviar minha localização atual → mostra exatamente onde você está agora. 4. Confirmar e pronto!  Sua localização chega aqui na hora e eu já te digo qual Méqui tá mais pertinho. 🍔✨"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        -208,
+        288
+      ],
+      "id": "e9072e85-a363-4b6b-a662-2516b88cd6bd",
+      "name": "HTTP Request7"
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.6,
+      "position": [
+        368,
+        256
+      ],
+      "id": "bf241f46-ea42-46c2-9fd5-82028f4ce81d",
+      "name": "Execute a SQL query"
     }
   ],
-  "pinData": {
-    "Webhook": [
-      {
-        "json": {
-          "headers": {
-            "content-type": "application/json",
-            "user-agent": "axios/1.7.7",
-            "content-length": "552",
-            "accept-encoding": "gzip, compress, deflate, br",
-            "host": "n8n:5678",
-            "connection": "keep-alive"
-          },
-          "params": {},
-          "query": {},
-          "body": {
-            "event": "messages.upsert",
-            "instance": "n8n",
-            "data": {
-              "key": {
-                "remoteJid": "553196360018@s.whatsapp.net",
-                "fromMe": true,
-                "id": "3A6AAF654184FC79E9E9"
-              },
-              "pushName": "Iago",
-              "status": "SERVER_ACK",
-              "message": {
-                "conversation": "Teste"
-              },
-              "messageType": "conversation",
-              "messageTimestamp": 1764820462,
-              "instanceId": "67dee909-d985-4517-b0dd-ca80028ef4f3",
-              "source": "ios"
-            },
-            "destination": "http://n8n:5678/webhook/wpp",
-            "date_time": "2025-12-04T00:54:21.476Z",
-            "sender": "553196360018@s.whatsapp.net",
-            "server_url": "http://localhost:8080",
-            "apikey": "11FEB83D922E-46CB-B131-C5F2874C78B8"
-          },
-          "webhookUrl": "http://localhost:5678/webhook/wpp",
-          "executionMode": "production"
-        }
-      }
-    ]
-  },
+  "pinData": {},
   "connections": {
     "Webhook": {
       "main": [
         [
           {
-            "node": "HTTP Request",
+            "node": "If",
             "type": "main",
             "index": 0
           }
@@ -754,6 +957,37 @@
     },
     "HTTP Request": {
       "main": [
+        []
+      ]
+    },
+    "Switch": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request3",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "HTTP Request4",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        []
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ],
         [
           {
             "node": "Switch",
@@ -763,38 +997,61 @@
         ]
       ]
     },
-    "HTTP Request1": {
-      "main": [
-        []
-      ]
-    },
-    "Switch": {
+    "Code: Calcular Distância e Filtrar": {
       "main": [
         [
           {
-            "node": "HTTP Request1",
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request5": {
+      "main": [
+        [
+          {
+            "node": "Switch1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch1": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request7",
             "type": "main",
             "index": 0
           }
         ],
         [
           {
-            "node": "HTTP Request2",
+            "node": "HTTP Request6",
             "type": "main",
             "index": 0
           }
         ]
       ]
+    },
+    "Webhook2": {
+      "main": [
+        []
+      ]
     }
   },
-  "active": true,
+  "active": false,
   "settings": {
     "executionOrder": "v1"
   },
-  "versionId": "3fea3b90-25fe-4b7f-966d-154dfead6350",
+  "versionId": "23823418-7691-486f-b727-4a2c9b89fa05",
   "meta": {
+    "templateCredsSetupCompleted": true,
     "instanceId": "17576d04a48f54985c12ebc1d2b2cfafcb6d27445b37136e1fd9c012527b9a9e"
   },
-  "id": "MpEsfotZppzM29y2",
+  "id": "Oh71pHu2nmUfqYDS",
   "tags": []
 }

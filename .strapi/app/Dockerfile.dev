@@ -1,0 +1,18 @@
+# karolsalvador/mc-app-retirada/.strapi/app/Dockerfile.dev
+FROM node:20-alpine
+
+# Define o diretório de trabalho
+WORKDIR /opt/app
+
+# Copia os arquivos de dependência
+COPY package*.json ./
+
+# Instala as dependências, aproveitando o cache do Docker
+# O --silent reduz a saída de logs.
+RUN npm install --silent
+
+# Copia o restante do código da aplicação Strapi
+COPY . .
+
+# Comando para iniciar o servidor Strapi em modo de desenvolvimento
+CMD ["npm", "run", "develop"]

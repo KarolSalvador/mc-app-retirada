@@ -1,5 +1,7 @@
 services:
+  # ==========================================
   # Configurações N8N
+  # ==========================================
   n8n:
     image: n8nio/n8n
     restart: always
@@ -12,11 +14,13 @@ services:
       - N8N_PROTOCOL=http
       - WEBHOOK_URL=${WEBHOOK_URL}
       - VUE_APP_URL_BASE_API=http://localhost:5678/ # Usado pelo n8n internamente
-      # --- CONFIGURAÇÃO DE AUTENTICAÇÃO E CORS (Solução do Erro de Frontend) ---
+      
+      # --- CONFIGURAÇÃO DE AUTENTICAÇÃO E CORS ---
       # Basic Auth desligado para testes de CORS/Conexão:
       - N8N_BASIC_AUTH_ACTIVE=false
       - N8N_BASIC_AUTH_USER=${N8N_BASIC_AUTH_USER}
       - N8N_BASIC_AUTH_PASSWORD=${N8N_BASIC_AUTH_PASSWORD}
+      
       # Permissões de CORS ajustadas para o Live Server (127.0.0.1:5500)
       - N8N_CORS_ENABLED=true
       - N8N_CORS_ORIGIN=http://127.0.0.1:5500,http://localhost:5500
@@ -26,7 +30,9 @@ services:
     networks:
       - chatbot_network
 
+  # ==========================================
   # Configurações Postgres
+  # ==========================================
   postgres:
     image: postgres:14
     container_name: mcdonalds-postgres
@@ -42,7 +48,9 @@ services:
     networks:
       - chatbot_network
 
+  # ==========================================
   # Configurações Strapi
+  # ==========================================
   strapi:
     build:
       context: ./.strapi/app
@@ -62,12 +70,14 @@ services:
       - '1337:1337'
     depends_on:
       - postgres
-    # Ajusta permissões no diretório de trabalho dentro do container e inicia o Strapi em modo de desenvolvimento
+    # Ajusta permissões e inicia
     command: sh -c "chmod -R 777 /opt/app || true && npm run develop"
-
     networks:
       - chatbot_network
 
+  # ==========================================
+  # React Dev
+  # ==========================================
   react-dev:
     build:
       context: ./frontend-react
@@ -78,7 +88,6 @@ services:
       # Monta a pasta do projeto Vite na raiz do container
       - ./frontend-react:/app
       - /app/node_modules # para impedir o host de sobrescrever o node_modules do container
-    # Porta padrão do vite mapeada para minha máquia
     ports:
       - '5173:5173'
     depends_on:
@@ -88,6 +97,9 @@ services:
     networks:
       - chatbot_network
 
+  # ==========================================
+  # Qdrant
+  # ==========================================
   qdrant:
     image: qdrant/qdrant:latest
     container_name: qdrant_db
@@ -103,13 +115,65 @@ services:
       QDRANT__SERVICE__API_KEY: ${QDRANT_API_KEY}
     env_file: ./.env
 
-# DEFINIÇÃO DE VOLUMES
+  # ==========================================
+  # [NOVO] Redis (Adicionado para Evolution)
+  # ==========================================
+  redis:
+    image: redis:6-alpine
+    container_name: orion-redis
+    restart: always
+    command: redis-server --requirepass orion
+    volumes:
+      - redis_data_unified:/data
+    networks:
+      - chatbot_network
+    healthcheck:
+      test: ["CMD", "redis-cli", "-a", "orion", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # ==========================================
+  # [NOVO] Evolution API
+  # ==========================================
+  evolution-api:
+    container_name: orion-evolution-api
+    image: evoapicloud/evolution-api:v2.2.2
+    restart: always
+    ports: 
+      - "8081:8080"
+    environment:
+      CONFIG_SESSION_PHONE_VERSION: "2.3000.1030618351"
+      AUTHENTICATION_API_KEY: "0R10NdrAfl2sc3IozIarMSCG"
+      
+      # Banco de Dados (Conectando no Postgres original)
+      DATABASE_ENABLED: "true"
+      DATABASE_PROVIDER: postgresql
+      DATABASE_CONNECTION_URI: postgresql://${DATABASE_USER}:${DATABASE_PASSWORD}@postgres:5432/${DATABASE_NAME}
+      
+      # Redis (Conectando no Redis novo)
+      CACHE_REDIS_ENABLED: "true"
+      CACHE_REDIS_URI: redis://:orion@redis:6379/0
+    networks:
+      - chatbot_network
+    depends_on:
+      postgres:
+        condition: service_started
+      redis:
+        condition: service_healthy
+
+# ==========================================
+# Definição de Volumes
+# ==========================================
 volumes:
   postgres_data: {}
   strapi_node_modules: {}
   qdrant_data: {}
+  redis_data_unified: {} # Volume novo do Redis
 
-# DEFINIÇÃO DE REDES 
+# ==========================================
+# Definição de Redes
+# ==========================================
 networks:
   chatbot_network:
     driver: bridge

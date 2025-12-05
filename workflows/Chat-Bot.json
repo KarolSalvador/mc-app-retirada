@@ -1,0 +1,1409 @@
+{
+  "name": "Chat-Bot",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "wpp",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        -2768,
+        944
+      ],
+      "id": "8e69ec6d-c489-417d-ae65-fd72dd919d20",
+      "name": "Webhook",
+      "webhookId": "cd92c247-47b5-49bd-8426-f3656cadbe3e"
+    },
+    {
+      "parameters": {
+        "content": "ENVIAR CARDAPIO REDUZIDO",
+        "height": 272,
+        "width": 432,
+        "color": 6
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -1744,
+        1040
+      ],
+      "typeVersion": 1,
+      "id": "f90b28e1-d3f7-4d5c-a023-884c06f92afd",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "content": "Ja sei oque eu quero",
+        "height": 272,
+        "width": 432,
+        "color": 3
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -1776,
+        624
+      ],
+      "typeVersion": 1,
+      "id": "82e908de-835c-44f6-a7db-1cfd58a5074d",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "content": "Manda aí por escrito: qual vai ser a boa de hoje? Você pode digitar os números ou o nome do combo ;)",
+        "width": 150
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -1488,
+        624
+      ],
+      "typeVersion": 1,
+      "id": "eb72fa84-9504-4275-bc56-4eb6a0f7ab30",
+      "name": "Sticky Note2"
+    },
+    {
+      "parameters": {
+        "content": "Entrar a IA nos pedidos",
+        "height": 80,
+        "width": 150
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -1152,
+        912
+      ],
+      "typeVersion": 1,
+      "id": "cba38dcf-e967-4c63-9b77-fbe4098d6850",
+      "name": "Sticky Note3"
+    },
+    {
+      "parameters": {
+        "content": "Opa! Acho que não entendi essa última mensagem 😅 Pra eu te ajudar direitinho, me manda sua localização aqui no Zap? Tô por aqui esperando! 📍🍔\n\nPasso a passo para compartilhar sua localização atual:\nAbra o chat do WhatsApp com a pessoa ou bot para quem quer enviar a localização.\nToque no ícone de “+” (no iPhone) ou “📎” (no Android), que fica ao lado da caixa de digitação da mensagem. (Como mostrado na “1ª passo” da imagem.)\nNo menu que aparece, selecione “Localização”.\nEscolha a opção “Localização atual” ou “Compartilhar localização ao vivo” — dependendo do que você quiser enviar. (Na imagem aparece “Localização atual”, com precisão indicada.)\nConfirme o envio; a sua localização será enviada ao destinatário.\nPronto! Assim você envia sua localização pelo WhatsApp de forma simples e rápida 👍",
+        "height": 464,
+        "width": 342,
+        "color": 3
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        256,
+        544
+      ],
+      "typeVersion": 1,
+      "id": "318ebb12-0472-4160-8043-b7c94ec5f3da",
+      "name": "Sticky Note11"
+    },
+    {
+      "parameters": {
+        "content": "🎉Aêê Pedido confirmado com sucesso!\n⏱️ Preparo estimado: 10 minutinhos \n🧾 Código do pedido: #ORD-6147\n\nAtenção: O pagamento é feito diretamente nos totens da loja! Assim que o seu pedido estiver pronto, avisamos para que você possa pagar e liberar.\n",
+        "height": 288,
+        "width": 198,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        1824,
+        128
+      ],
+      "typeVersion": 1,
+      "id": "c9a2f3ba-6d00-43ef-ac5c-ba1b3d8fa164",
+      "name": "Sticky Note20"
+    },
+    {
+      "parameters": {
+        "content": "Se for ajustar enviar para a IA analizar o pedido\nhttp request5\nswitch1",
+        "height": 112,
+        "width": 182,
+        "color": 3
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        1536,
+        624
+      ],
+      "typeVersion": 1,
+      "id": "102e3bf0-32b6-4470-bde6-fabf18909acc",
+      "name": "Sticky Note21"
+    },
+    {
+      "parameters": {
+        "content": "Valeu demais por escolher o Méqui! 😍 Você é sempre bem-vindo por aqui — quando bater aquela fome de respeito, é só chamar que eu já deixo tudo no ponto. Aproveita seu pedido e até a próxima!\n\nFIM DO FLUXO",
+        "height": 240,
+        "width": 278,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        2240,
+        176
+      ],
+      "typeVersion": 1,
+      "id": "a014ca1d-e04a-4ebb-ac4b-b6b7eaf38080",
+      "name": "Sticky Note24"
+    },
+    {
+      "parameters": {
+        "content": "Fluxo de pedido ",
+        "height": 80,
+        "width": 150,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -1312,
+        912
+      ],
+      "typeVersion": 1,
+      "id": "84245ebf-9f70-4e5b-a552-9b8eca70c00f",
+      "name": "Sticky Note29"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $('Webhook').item.json.body.data.message.conversation }}",
+                    "rightValue": "1",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "247045db-0a33-4f21-ae2c-34741afc7b3f"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "PEDIDO"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "16cd4e47-ab97-4f7e-b9c6-8d8cc0a2b449",
+                    "leftValue": "={{ $('Webhook').item.json.body.data.message.conversation }}",
+                    "rightValue": "2",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "CARDAPIO"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "d6206ebb-d9f2-410a-b2d7-ef536542dff3",
+                    "leftValue": "",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "0"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.3,
+      "position": [
+        -1888,
+        944
+      ],
+      "id": "8e32dc89-c558-471c-918a-d96479b60fed",
+      "name": "Switch"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "9472bd4a-d99b-4250-bef7-20cb038cf132",
+              "leftValue": "={{ $json.body.data.message.conversation }}",
+              "rightValue": "chatbot",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -2512,
+        944
+      ],
+      "id": "4c244231-f390-4af2-9655-5bda8f175107",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=http://evolution-api:8080/message/sendText/{{ $json.body.instance }}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "apikey",
+              "value": "0R10NdrAfl2sc3IozIarMSCG"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "number",
+              "value": "={{ $json.body.data.key.remoteJid }}"
+            },
+            {
+              "name": "text",
+              "value": "Manda aí por escrito: qual vai ser a boa de hoje? Você pode digitar os números ou o nome do combo ;)"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        -1712,
+        720
+      ],
+      "id": "87a44bc9-338d-441f-ba8c-c7bb512bebd6",
+      "name": "HTTP Request3"
+    },
+    {
+      "parameters": {
+        "content": "RETORNAR PARA A IA DE PEDIDO",
+        "height": 224,
+        "width": 262,
+        "color": 3
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -720,
+        976
+      ],
+      "typeVersion": 1,
+      "id": "e7cceec3-74f4-4c10-ae12-7b8077873be8",
+      "name": "Sticky Note27"
+    },
+    {
+      "parameters": {
+        "content": "### Cálculo da distância dos restaurantes dentro do raio de 5km",
+        "height": 240,
+        "width": 256,
+        "color": 7
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        464,
+        208
+      ],
+      "typeVersion": 1,
+      "id": "46e4ffb3-386a-4e18-91da-4e521a70ef80",
+      "name": "Sticky Note26"
+    },
+    {
+      "parameters": {
+        "content": "### Retorna os dados dos restaurantes",
+        "height": 240,
+        "color": 7
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        720,
+        208
+      ],
+      "typeVersion": 1,
+      "id": "4c91b482-9bb2-4368-95e7-1bda537093d7",
+      "name": "Sticky Note25"
+    },
+    {
+      "parameters": {
+        "content": "### Busca no Postgres os restaurantes",
+        "height": 240,
+        "color": 7
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        224,
+        208
+      ],
+      "typeVersion": 1,
+      "id": "4b1e41e9-5c0b-42d2-9e45-cca8c2b1233a",
+      "name": "Sticky Note14"
+    },
+    {
+      "parameters": {
+        "content": "### Recebe a requisição do Front-End",
+        "height": 240,
+        "color": 7
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        560,
+        -96
+      ],
+      "typeVersion": 1,
+      "id": "6901887f-1c43-439c-b03e-6aeb188d6259",
+      "name": "Sticky Note8"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Limite máximo do raio em quilômetros\nconst MAX_DISTANCE_KM = 5;\nconst EARTH_RADIUS_KM = 6371;\n\n// Função Haversine para calcular a distância entre duas coordenadas\nfunction haversineDistance(lat1, long1, lat2, long2) {\n  const toRad = (angle) => angle * (Math.PI / 180);\n\n  const dLat = toRad(lat2 - lat1);\n  const dLon = toRad(lon2 - lon1);\n  const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) + Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) * Math.sin(dLon /2 ) * Math.sin(dLon / 2);\n  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));\n  const distance = EARTH_RADIUS_KM * c;\n\n  //retorna distância em km\n  return distance;\n}\n\n// Obter coordenadas do usuário do webhook (enviadas pelo Front End)\nconst userLat = parseFloat($nodeVersion.Webhook.json.query.lat);\nconst userLon = parseFloat($nodeVersion.Webhook.json.query.lon);\n\n// Array para armazenar os restaurantes filtrados\nconst nearbyRestaurants = [];\n\n// iterar sobre os restaurantes vindos do Postgres\nfor (const restaurant of $input.json) {\n    const resLat = parseFloat(restaurant.latitude);\n    const resLon = parseFloat(restaurant.longitude);\n\n    // Ignora restaurantes sem coordenadas válidas\n    if (isNaN(resLat) || isNaN(resLon)) continue;\n\n    // Calcula a distância\n    const distance = haversineDistance(userLat, userLon, resLat, resLon);\n\n    // Se a distância for menor ou igual ao raio máximo\n    if (distance <= MAX_DISTANCE_KM) {\n        // Adiciona a distância e arredonda-a para 1 casa decimai para exibição\n        const distanceStr = distance.toFixed(1);\n        \n        nearbyRestaurants.push({\n            // Mantém todos os dados do restaurante\n            ...restaurant,\n            // Adiciona a distância em um formato amigável\n            distancia: `${distanceStr} km de você`\n        });\n    }\n}\n\n// 3. Retornar a lista filtrada (o n8n espera um array de objetos)\nreturn nearbyRestaurants;\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        528,
+        272
+      ],
+      "id": "ad541c24-cc96-48c8-847d-57ca732f3f7c",
+      "name": "Code: Calcular Distância e Filtrar"
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{JSON.stringify({data: $node[\"Code: Filtrar Restaurantes\"].json})}}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.4,
+      "position": [
+        784,
+        272
+      ],
+      "id": "4464fc57-8493-4bdf-98e1-6487e230dc72",
+      "name": "Respond to Webhook"
+    },
+    {
+      "parameters": {
+        "content": "Seu Méqui tá prontinho te esperando! 🤩 📦 Pra retirar: • Vá até a loja escolhida • Digite o código do pedido nos armários inteligentes\nFaça o pagamento • E pronto: só aproveitar o seu Méqui!\n",
+        "height": 192,
+        "width": 198,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        2032,
+        224
+      ],
+      "typeVersion": 1,
+      "id": "0b3f146d-9037-446c-8200-53ab880fa59e",
+      "name": "Sticky Note19"
+    },
+    {
+      "parameters": {
+        "content": "Tudo certo! Pedido cancelado, sem estresse 😉 Se bater aquela fome depois, é só me chamar que eu preparo tudo de novo pra você. Tamo junto!\n\nFIM DO FLUXO",
+        "height": 176,
+        "width": 198,
+        "color": 3
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        1536,
+        432
+      ],
+      "typeVersion": 1,
+      "id": "d8763ee4-921c-4ff8-a340-3ce27a9ed6f7",
+      "name": "Sticky Note17"
+    },
+    {
+      "parameters": {
+        "content": " “Então vamos lá! 📦 Pedido: ‘resumo dos itens’ 🏪 Retirada em: ‘xxx’ 💰 Total: R$ xx,xx\nFechamos?”\nOpções:\n1. ✔️ Sim\n2.  ❌ Não, quero ajustar\n3. 🚫 Cancelar pedido\n",
+        "height": 192,
+        "width": 278,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        1536,
+        224
+      ],
+      "typeVersion": 1,
+      "id": "ff2919f3-bb32-4a6c-9baf-e8b5ab4c6a94",
+      "name": "Sticky Note12"
+    },
+    {
+      "parameters": {
+        "content": "Não mandou a loc",
+        "height": 80,
+        "width": 150,
+        "color": 3
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        256,
+        464
+      ],
+      "typeVersion": 1,
+      "id": "8535ad45-c42b-4fb5-b6a1-dcaa216d2ba7",
+      "name": "Sticky Note10"
+    },
+    {
+      "parameters": {
+        "content": "Olá! Antes de confirmar o seu pedido, me envia sua localização aqui no Zap? 📍 É rapidinho e eu já consigo te dizer onde tá o Méqui mais próximo!\n\n1. Toque no ícone de clipe 📎 (no Android) ou no “+” ➕ (no iPhone), que fica ao lado da caixa de mensagem.\n2. Selecione a opção “Localização”. Pode aparecer como “Location” se o seu estiver em inglês.\n3. Escolha o que você quer enviar:\nEnviar minha localização atual → mostra exatamente onde você está agora.\n4. Confirmar e pronto! Sua localização chega aqui na hora e eu já te digo qual Méqui tá mais pertinho. 🍔✨",
+        "height": 368,
+        "width": 326,
+        "color": 6
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -384,
+        -80
+      ],
+      "typeVersion": 1,
+      "id": "c2ce0d91-302f-4892-a92b-2f8a9fdd74c9",
+      "name": "Sticky Note7"
+    },
+    {
+      "parameters": {
+        "content": "NÂO",
+        "height": 80,
+        "width": 150,
+        "color": 3
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -720,
+        880
+      ],
+      "typeVersion": 1,
+      "id": "22763e92-a401-4d40-9a2a-6133d7873ada",
+      "name": "Sticky Note6"
+    },
+    {
+      "parameters": {
+        "content": "SIM",
+        "height": 80,
+        "width": 150,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -736,
+        592
+      ],
+      "typeVersion": 1,
+      "id": "2725c11c-1a34-4dfc-8e52-6fce08569f3e",
+      "name": "Sticky Note5"
+    },
+    {
+      "parameters": {
+        "content": " “Show! Só pra garantir que tá tudo certinho… Seu pedido é: ‘repete o pedido’. Confere aí, beleza?”\nOpções:\n1.  ✔️ É isso!\n2. ❌ Não, Mc! Preciso corrigir.\n",
+        "height": 144,
+        "width": 262
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -848,
+        720
+      ],
+      "typeVersion": 1,
+      "id": "a5c1ac80-643e-4c1a-b91a-525407fbc34b",
+      "name": "Sticky Note4"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $('Webhook').item.json.body.data.message.conversation }}",
+                    "rightValue": "11",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "247045db-0a33-4f21-ae2c-34741afc7b3f"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "LOCALIZAÇÃO"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "16cd4e47-ab97-4f7e-b9c6-8d8cc0a2b449",
+                    "leftValue": "={{ $('Webhook').item.json.body.data.message.conversation }}",
+                    "rightValue": "12",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "erro pedido"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.3,
+      "position": [
+        -368,
+        752
+      ],
+      "id": "218a5dfe-00b0-4e7b-aeb7-b1ce5f1d7b02",
+      "name": "Switch1"
+    },
+    {
+      "parameters": {
+        "path": "restaurantes",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        640,
+        0
+      ],
+      "id": "ae4f920b-7e1a-42c7-8466-48cca1a60bb0",
+      "name": "Webhook2",
+      "webhookId": "f570395c-961d-41b4-976d-60abf59e02f4"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=http://evolution-api:8080/message/sendText/{{ $json.body.instance }}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "apikey",
+              "value": "0R10NdrAfl2sc3IozIarMSCG"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "number",
+              "value": "={{ $json.body.data.key.remoteJid }}"
+            },
+            {
+              "name": "text",
+              "value": "“Opa! Pode mandar de novo qual o seu pedido ou apontar o erro?”"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        -640,
+        1040
+      ],
+      "id": "dc8f3c48-9926-4151-9455-c19a0cfcad36",
+      "name": "HTTP Request6"
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.6,
+      "position": [
+        288,
+        272
+      ],
+      "id": "bf241f46-ea42-46c2-9fd5-82028f4ce81d",
+      "name": "Execute a SQL query"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $('Webhook').item.json.body.data.message.conversation }}",
+                    "rightValue": "13",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "247045db-0a33-4f21-ae2c-34741afc7b3f"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Restaurante"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "16cd4e47-ab97-4f7e-b9c6-8d8cc0a2b449",
+                    "leftValue": "={{ $('Webhook').item.json.body.data.message.conversation }}",
+                    "rightValue": "16",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Voltar no menu"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.3,
+      "position": [
+        1248,
+        272
+      ],
+      "id": "cfa91867-85d5-44da-86ce-de51e97a5e98",
+      "name": "Switch2"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=http://evolution-api:8080/message/sendText/{{ $json.body.instance }}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "apikey",
+              "value": "0R10NdrAfl2sc3IozIarMSCG"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "number",
+              "value": "={{ $json.body.data.key.remoteJid }}"
+            },
+            {
+              "name": "text",
+              "value": "Chatbot: 🍔 E aí, tudo beleza? Bem-vindo ao MéquiZap! Manda ver: como posso te dar uma força hoje?\nOpções:\n1 - Quero fazer um pedido \n2 - Consultar cardápio"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        1264,
+        496
+      ],
+      "id": "6ff582b3-930d-47d8-934e-eb5a33d0fe2e",
+      "name": "MENU"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=http://evolution-api:8080/message/sendText/{{ $json.body.instance }}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "apikey",
+              "value": "0R10NdrAfl2sc3IozIarMSCG"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "number",
+              "value": "={{ $json.body.data.key.remoteJid }}"
+            },
+            {
+              "name": "text",
+              "value": "Chatbot: 🍔 E aí, tudo beleza? Bem-vindo ao MéquiZap! Manda ver: como posso te dar uma força hoje?\nOpções:\n1 - Quero fazer um pedido \n2 - Consultar cardápio"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        -2192,
+        736
+      ],
+      "id": "c1c9d258-8b26-405a-9d4e-8c2f7efe0b87",
+      "name": "MENU1"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=http://evolution-api:8080/message/sendText/{{ $json.body.instance }}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "apikey",
+              "value": "0R10NdrAfl2sc3IozIarMSCG"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "number",
+              "value": "={{ $json.body.data.key.remoteJid }}"
+            },
+            {
+              "name": "text",
+              "value": "Combinado! O que você quer ver primeiro? \n3. Sanduíches de carne bovina \n4. Sanduíches de frango \n5. Família Tasty \n6. Família Brabos \n7. MC Lanche Feliz \n8. Acompanhamentos \n9. Sobremesas \n10. Bebidas"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        -1712,
+        1152
+      ],
+      "id": "1303dc5f-0bbc-4aac-90f9-99f1953d0fb0",
+      "name": "CARDAPIO"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{locationMessage}}",
+                    "rightValue": "={{locationMessage}}",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "247045db-0a33-4f21-ae2c-34741afc7b3f"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "LOCALIZAÇÃO"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "16cd4e47-ab97-4f7e-b9c6-8d8cc0a2b449",
+                    "leftValue": "={{locationMessage}}",
+                    "rightValue": "{{locationMessage}}",
+                    "operator": {
+                      "type": "string",
+                      "operation": "notEquals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "SEM LOCALIZAÇÂO"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.3,
+      "position": [
+        -16,
+        288
+      ],
+      "id": "95efd814-b363-4e6a-93fa-f5bf76d01ed4",
+      "name": "Switch3"
+    },
+    {
+      "parameters": {
+        "content": "Repetindo pedido de localização caso nao for uma localização",
+        "height": 112,
+        "width": 150,
+        "color": 6
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -48,
+        496
+      ],
+      "typeVersion": 1,
+      "id": "a5360144-e644-45b1-89d8-90424b36d594",
+      "name": "Sticky Note28"
+    },
+    {
+      "parameters": {
+        "content": "Restauranetes proximos do endereço",
+        "height": 80,
+        "width": 150,
+        "color": 3
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        1008,
+        176
+      ],
+      "typeVersion": 1,
+      "id": "17d3876a-a048-49bc-8f6f-404a049f4ef8",
+      "name": "Sticky Note30"
+    },
+    {
+      "parameters": {
+        "content": "Integração da IA",
+        "height": 80,
+        "width": 150,
+        "color": 3
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        1376,
+        144
+      ],
+      "typeVersion": 1,
+      "id": "14188bde-47f7-4651-ae05-9f6aa93a6cac",
+      "name": "Sticky Note31"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=http://evolution-api:8080/message/sendText/{{ $json.body.instance }}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "apikey",
+              "value": "0R10NdrAfl2sc3IozIarMSCG"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "number",
+              "value": "={{ $json.body.data.key.remoteJid }}"
+            },
+            {
+              "name": "text",
+              "value": " “Boa! Agora é só partir para a retirada. De acordo com a sua localização, as unidades mais próximas são:  \n13 - Jardins – Rua Oscar Freire, 287 \n14 - Angélica – Av. Angélica, 3945 \n15 - Higienópolis – Av. Higienópolis, 618 \n16- Voltar  Em qual você gostaria de retirar o seu pedido?"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        1024,
+        272
+      ],
+      "id": "fd710294-09c5-4b24-bae5-1bbc491b828d",
+      "name": "Restaurantes"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=http://evolution-api:8080/message/sendText/{{ $json.body.instance }}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "apikey",
+              "value": "0R10NdrAfl2sc3IozIarMSCG"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "number",
+              "value": "={{ $json.body.data.key.remoteJid }}"
+            },
+            {
+              "name": "text",
+              "value": "Opa! Acho que não entendi essa última mensagem 😅 Pra eu te ajudar direitinho, me manda sua localização aqui no Zap? Tô por aqui esperando! 📍🍔\n\nPasso a passo para compartilhar sua localização atual:\nAbra o chat do WhatsApp com a pessoa ou bot para quem quer enviar a localização.\nToque no ícone de “+” (no iPhone) ou “📎” (no Android), que fica ao lado da caixa de digitação da mensagem. (Como mostrado na “1ª passo” da imagem.)\nNo menu que aparece, selecione “Localização”.\nEscolha a opção “Localização atual” ou “Compartilhar localização ao vivo” — dependendo do que você quiser enviar. (Na imagem aparece “Localização atual”, com precisão indicada.)\nConfirme o envio; a sua localização será enviada ao destinatário.\nPronto! Assim você envia sua localização pelo WhatsApp de forma simples e rápida 👍"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        112,
+        608
+      ],
+      "id": "2f2ce64e-a181-4688-ae86-6e55492314a9",
+      "name": "Não enviou a loc"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=http://evolution-api:8080/message/sendText/{{ $json.body.instance }}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "apikey",
+              "value": "0R10NdrAfl2sc3IozIarMSCG"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "number",
+              "value": "={{ $json.body.data.key.remoteJid }}"
+            },
+            {
+              "name": "text",
+              "value": "Olá! Antes de confirmar o seu pedido, me envia sua localização aqui no Zap? 📍 É rapidinho e eu já consigo te dizer onde tá o Méqui mais próximo!  1. Toque no ícone de clipe 📎 (no Android) ou no “+” ➕ (no iPhone), que fica ao lado da caixa de mensagem. 2. Selecione a opção “Localização”. Pode aparecer como “Location” se o seu estiver em inglês. 3. Escolha o que você quer enviar: Enviar minha localização atual → mostra exatamente onde você está agora. 4. Confirmar e pronto! Sua localização chega aqui na hora e eu já te digo qual Méqui tá mais pertinho. 🍔✨"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        -256,
+        288
+      ],
+      "id": "e9072e85-a363-4b6b-a662-2516b88cd6bd",
+      "name": "Instrução enviar a loc"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=http://evolution-api:8080/message/sendText/{{ $json.body.instance }}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "apikey",
+              "value": "0R10NdrAfl2sc3IozIarMSCG"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "number",
+              "value": "={{ $json.body.data.key.remoteJid }}"
+            },
+            {
+              "name": "text",
+              "value": " “Show! Só pra garantir que tá tudo certinho… Seu pedido é: ‘repete o pedido’. Confere aí, beleza?”\nOpções:\n11.  ✔️ É isso!\n12. ❌ Não, Mc! Preciso corrigir.\n"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        -576,
+        752
+      ],
+      "id": "8504def3-a786-4a01-951d-2756d538b39a",
+      "name": "Confirmar pedido"
+    }
+  ],
+  "pinData": {
+    "Webhook": [
+      {
+        "json": {
+          "headers": {
+            "content-type": "application/json",
+            "user-agent": "axios/1.7.9",
+            "content-length": "4903",
+            "accept-encoding": "gzip, compress, deflate, br",
+            "host": "n8n:5678",
+            "connection": "keep-alive"
+          },
+          "params": {},
+          "query": {},
+          "body": {
+            "event": "messages.upsert",
+            "instance": "n8n",
+            "data": {
+              "key": {
+                "remoteJid": "553196360018@s.whatsapp.net",
+                "fromMe": true,
+                "id": "3A669B6DDB19772A9E8A"
+              },
+              "pushName": "Iago",
+              "status": "SERVER_ACK",
+              "message": {
+                "locationMessage": {
+                  "degreesLatitude": -19.931875228881836,
+                  "degreesLongitude": -43.97517395019531,
+                  "jpegThumbnail": "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"
+                }
+              },
+              "contextInfo": null,
+              "messageType": "locationMessage",
+              "messageTimestamp": 1764903038,
+              "instanceId": "5d1e7f3c-0e4c-4f13-995f-f0c52e027f4b",
+              "source": "ios"
+            },
+            "destination": "http://n8n:5678/webhook-test/wpp",
+            "date_time": "2025-12-04T23:50:39.021Z",
+            "sender": "553196360018@s.whatsapp.net",
+            "server_url": "http://localhost:8080",
+            "apikey": "8E2AD80F7418-4335-9FE4-85ABA4992B80"
+          },
+          "webhookUrl": "http://localhost:5678/webhook-test/wpp",
+          "executionMode": "test"
+        }
+      }
+    ],
+    "Switch3": [
+      {
+        "json": {
+          "headers": {
+            "content-type": "application/json",
+            "user-agent": "axios/1.7.9",
+            "content-length": "4903",
+            "accept-encoding": "gzip, compress, deflate, br",
+            "host": "n8n:5678",
+            "connection": "keep-alive"
+          },
+          "params": {},
+          "query": {},
+          "body": {
+            "event": "messages.upsert",
+            "instance": "n8n",
+            "data": {
+              "key": {
+                "remoteJid": "553196360018@s.whatsapp.net",
+                "fromMe": true,
+                "id": "3A669B6DDB19772A9E8A"
+              },
+              "pushName": "Iago",
+              "status": "SERVER_ACK",
+              "message": {
+                "locationMessage": {
+                  "degreesLatitude": -19.931875228881836,
+                  "degreesLongitude": -43.97517395019531,
+                  "jpegThumbnail": "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"
+                }
+              },
+              "contextInfo": null,
+              "messageType": "locationMessage",
+              "messageTimestamp": 1764903038,
+              "instanceId": "5d1e7f3c-0e4c-4f13-995f-f0c52e027f4b",
+              "source": "ios"
+            },
+            "destination": "http://n8n:5678/webhook-test/wpp",
+            "date_time": "2025-12-04T23:50:39.021Z",
+            "sender": "553196360018@s.whatsapp.net",
+            "server_url": "http://localhost:8080",
+            "apikey": "8E2AD80F7418-4335-9FE4-85ABA4992B80"
+          },
+          "webhookUrl": "http://localhost:5678/webhook-test/wpp",
+          "executionMode": "test"
+        }
+      }
+    ]
+  },
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request3",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "CARDAPIO",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        []
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "MENU1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Switch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code: Calcular Distância e Filtrar": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch1": {
+      "main": [
+        [
+          {
+            "node": "Instrução enviar a loc",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "HTTP Request6",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook2": {
+      "main": [
+        []
+      ]
+    },
+    "Switch2": {
+      "main": [
+        [],
+        [
+          {
+            "node": "MENU",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "MENU1": {
+      "main": [
+        []
+      ]
+    },
+    "Switch3": {
+      "main": [
+        [
+          {
+            "node": "Execute a SQL query",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Não enviou a loc",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Execute a SQL query": {
+      "main": [
+        [
+          {
+            "node": "Code: Calcular Distância e Filtrar",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Restaurantes": {
+      "main": [
+        [
+          {
+            "node": "Switch2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Não enviou a loc": {
+      "main": [
+        [
+          {
+            "node": "Switch3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Instrução enviar a loc": {
+      "main": [
+        [
+          {
+            "node": "Switch3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Confirmar pedido": {
+      "main": [
+        [
+          {
+            "node": "Switch1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "29206d23-118a-4fdb-9f8c-7d7c1ff3d0ed",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "17576d04a48f54985c12ebc1d2b2cfafcb6d27445b37136e1fd9c012527b9a9e"
+  },
+  "id": "Oh71pHu2nmUfqYDS",
+  "tags": []
+}

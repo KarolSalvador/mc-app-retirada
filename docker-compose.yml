@@ -1,6 +1,8 @@
+version: '3.8'
+
 services:
   # ==========================================
-  # ORIGINAL: Configurações N8N
+  # [ORIGINAL] Configurações N8N
   # ==========================================
   n8n:
     image: n8nio/n8n
@@ -27,7 +29,7 @@ services:
       - chatbot_network
 
   # ==========================================
-  # ORIGINAL: Configurações Postgres
+  # [ORIGINAL] Configurações Postgres
   # ==========================================
   postgres:
     image: postgres:14
@@ -45,7 +47,7 @@ services:
       - chatbot_network
 
   # ==========================================
-  # ORIGINAL: Configurações Strapi
+  # [ORIGINAL] Configurações Strapi
   # ==========================================
   strapi:
     build:
@@ -71,7 +73,7 @@ services:
       - chatbot_network
 
   # ==========================================
-  # ORIGINAL: React Dev
+  # [ORIGINAL] React Dev
   # ==========================================
   react-dev:
     build:
@@ -92,7 +94,7 @@ services:
       - chatbot_network
 
   # ==========================================
-  # ORIGINAL: Qdrant
+  # [ORIGINAL] Qdrant
   # ==========================================
   qdrant:
     image: qdrant/qdrant:latest
@@ -110,7 +112,7 @@ services:
     env_file: ./.env
 
   # ==========================================
-  # NOVO: Redis (Necessário para Evolution)
+  # [NOVO] Redis (Adicionado para Evolution)
   # ==========================================
   redis:
     image: redis:6-alpine
@@ -120,7 +122,7 @@ services:
     volumes:
       - redis_data_unified:/data
     networks:
-      - chatbot_network # Adaptado para a rede do original
+      - chatbot_network
     healthcheck:
       test: ["CMD", "redis-cli", "-a", "orion", "ping"]
       interval: 10s
@@ -128,7 +130,7 @@ services:
       retries: 5
 
   # ==========================================
-  # NOVO: Evolution API
+  # [NOVO] Evolution API
   # ==========================================
   evolution-api:
     container_name: orion-evolution-api
@@ -140,33 +142,32 @@ services:
       CONFIG_SESSION_PHONE_VERSION: "2.3000.1030618351"
       AUTHENTICATION_API_KEY: "0R10NdrAfl2sc3IozIarMSCG"
       
-      # Banco de Dados
+      # Banco de Dados (Conectando no SEU Postgres original)
       DATABASE_ENABLED: "true"
       DATABASE_PROVIDER: postgresql
-      # ATENÇÃO: Adaptado para conectar no 'postgres' do original usando as variáveis do .env
+      # Aqui está o segredo: conectamos no serviço 'postgres' usando as variáveis do seu .env
       DATABASE_CONNECTION_URI: postgresql://${DATABASE_USER}:${DATABASE_PASSWORD}@postgres:5432/${DATABASE_NAME}
       
-      # Redis
+      # Redis (Conectando no Redis novo acima)
       CACHE_REDIS_ENABLED: "true"
-      # Adaptado para conectar no container 'redis' definido acima
       CACHE_REDIS_URI: redis://:orion@redis:6379/0
     networks:
-      - chatbot_network # Adaptado para a rede do original
+      - chatbot_network
     depends_on:
-      postgres: # Adaptado para depender do banco original
+      postgres:
         condition: service_started
       redis:
         condition: service_healthy
 
-# DEFINIÇÃO DE VOLUMES
+# ==========================================
+# Definição de Volumes e Redes
+# ==========================================
 volumes:
   postgres_data: {}
   strapi_node_modules: {}
   qdrant_data: {}
-  # Volumes novos
-  redis_data_unified: {}
+  redis_data_unified: {} # Volume novo do Redis
 
-# DEFINIÇÃO DE REDES 
 networks:
   chatbot_network:
     driver: bridge

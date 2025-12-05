@@ -1,0 +1,201 @@
+{
+  "name": "API_Consulta_Restaurantes",
+  "nodes": [
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ $json.data }}",
+        "options": {
+          "responseHeaders": {
+            "entries": [
+              {
+                "name": "Access-Control-Allow-Origin",
+                "value": "*"
+              },
+              {
+                "name": "Access-Control-Allow-Methods",
+                "value": "GET"
+              },
+              {
+                "name": "Access-Control-Allow-Headers",
+                "value": "Content-Type"
+              }
+            ]
+          }
+        }
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.4,
+      "position": [368, 0],
+      "id": "8be512b0-32d5-4ca5-8935-377b7021469b",
+      "name": "Respond to Webhook"
+    },
+    {
+      "parameters": {
+        "content": "### Recebe a requisição do Front-End",
+        "height": 240,
+        "width": 208,
+        "color": 7
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [-640, -96],
+      "typeVersion": 1,
+      "id": "abe1e1d3-708d-44e0-a482-165b6f10e0f7",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "content": "### Busca no Postgres os restaurantes e calcula distância dos restaurantes dentro do raio de 5km",
+        "height": 240,
+        "width": 272,
+        "color": 7
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [-352, -96],
+      "typeVersion": 1,
+      "id": "86275be0-be08-409f-a62f-c89fcef6f969",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "content": "### Retorna os dados dos restaurantes",
+        "height": 240,
+        "color": 7
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [288, -96],
+      "typeVersion": 1,
+      "id": "75ee1ccf-c482-4119-ad91-f752ed560902",
+      "name": "Sticky Note2"
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "SELECT DISTINCT\n    r.id,\n    r.nome,\n    r.endereco,\n    r.latitude,\n    r.longitude,\n    f.url AS imagem_url, -- O campo que contém o caminho da imagem\n    -- 1. Calcula a distância usando a fórmula Haversine no SQL\n    (\n        6371 * acos(\n            cos( radians( {{ parseFloat($node.WEBHOOK.json.query.lat ?? 0) }} ) )\n            * cos( radians( r.latitude ) )\n            * cos( radians( r.longitude ) - radians( {{ parseFloat($node.WEBHOOK.json.query.lon ?? 0) }} ) )\n            + sin( radians( {{ parseFloat($node.WEBHOOK.json.query.lat ?? 0) }} ) )\n            * sin( radians( r.latitude ) )\n        )\n    ) AS distancia_km\nFROM\n    public.restaurantes r\nLEFT JOIN\n    files_related_mph frm ON frm.related_id = r.id \n                         AND frm.related_type = 'api::restaurante.restaurante' \n                         AND frm.field = 'img'\nLEFT JOIN\n    files f ON f.id = frm.file_id\n-- 2. Filtra apenas os que estão a 5km ou menos\nWHERE\n    (\n        6371 * acos(\n            cos( radians( {{ parseFloat($node.WEBHOOK.json.query.lat ?? 0) }} ) )\n            * cos( radians( r.latitude ) )\n            * cos( radians( r.longitude ) - radians( {{ parseFloat($node.WEBHOOK.json.query.lon ?? 0) }} ) )\n            + sin( radians( {{ parseFloat($node.WEBHOOK.json.query.lat ?? 0) }} ) )\n            * sin( radians( r.latitude ) )\n        )\n    ) <= 5\nORDER BY\n    distancia_km ASC;",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.6,
+      "position": [-256, 0],
+      "id": "e8490993-4708-46f5-9926-35a36284737a",
+      "name": "POSTGRES_QUERY",
+      "credentials": {
+        "postgres": {
+          "id": "1jXSWCEhJQwqNdL5",
+          "name": "Postgres account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "path": "restaurantes",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [-592, 0],
+      "id": "f5f371d2-1ddd-4bb3-b3c5-d0aba7c66f49",
+      "name": "WEBHOOK",
+      "webhookId": "f570395c-961d-41b4-976d-60abf59e02f4"
+    },
+    {
+      "parameters": {
+        "aggregate": "aggregateAllItemData",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [48, 0],
+      "id": "b6515f9a-84ec-4519-bb78-ee25ba71cb96",
+      "name": "Aggregate"
+    },
+    {
+      "parameters": {
+        "content": "### Agrupa os itens em única lista",
+        "height": 240,
+        "color": 7
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [-16, -96],
+      "typeVersion": 1,
+      "id": "30db171f-d90f-4175-9817-e17f0c3747b1",
+      "name": "Sticky Note3"
+    }
+  ],
+  "pinData": {
+    "WEBHOOK": [
+      {
+        "json": {
+          "headers": {
+            "host": "localhost:5678",
+            "connection": "keep-alive",
+            "user-agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 18_5 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/18.5 Mobile/15E148 Safari/604.1",
+            "accept": "*/*",
+            "origin": "http://127.0.0.1:5500",
+            "sec-fetch-site": "cross-site",
+            "sec-fetch-mode": "cors",
+            "sec-fetch-dest": "empty",
+            "referer": "http://127.0.0.1:5500/",
+            "accept-encoding": "gzip, deflate, br, zstd",
+            "accept-language": "pt-BR,pt;q=0.9,en-US;q=0.8,en;q=0.7"
+          },
+          "params": {},
+          "query": {
+            "lat": "-3.835710729150202",
+            "lon": "-38.51623883094653"
+          },
+          "body": {},
+          "webhookUrl": "http://localhost:5678/webhook/restaurantes",
+          "executionMode": "production"
+        }
+      }
+    ]
+  },
+  "connections": {
+    "POSTGRES_QUERY": {
+      "main": [
+        [
+          {
+            "node": "Aggregate",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "WEBHOOK": {
+      "main": [
+        [
+          {
+            "node": "POSTGRES_QUERY",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Aggregate": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "547ebf60-8ff1-4fc5-83ce-bf4b9d848482",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "d3b453f5da3dc8025316bf0557e760f4fd6c24fbcbf610fbb4365b86af3b1255"
+  },
+  "id": "c1hIM80c3gP5Yqv6",
+  "tags": []
+}

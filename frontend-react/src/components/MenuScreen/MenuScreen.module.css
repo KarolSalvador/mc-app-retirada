@@ -33,6 +33,10 @@
 /* --- Media Query para Telas Maiores --- */
 
 @media (min-width: 600px) {
+  .appContainer {
+    align-content: center;
+  }
+
   .mainContent {
     max-width: 600px;
     margin: 0 auto;

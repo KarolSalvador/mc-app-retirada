@@ -5,7 +5,7 @@ import OfferCard from "../OfferCard/OfferCard";
 
 export default function MenuScreen() {
   // Estado para armazenar a localização
-  const [userLocation, setUserLocation] = useState<{
+  const [_userLocation, setUserLocation] = useState<{
     latitude: number | null;
     longitude: number | null;
   }>({ latitude: null, longitude: null });

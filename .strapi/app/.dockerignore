@@ -1,6 +1,7 @@
+# Ignora a pasta de dependências
 node_modules
-.git
-.env
+# Ignora a pasta de build (produção)
 dist
-build
-npm-debug.log
+# Arquivos de log e cache
+*.log
+.cache

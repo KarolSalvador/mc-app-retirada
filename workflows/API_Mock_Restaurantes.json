@@ -1,34 +1,32 @@
 {
-  "name": "API_Mock_Restaurantes",
+  "name": "API_Consulta_Restaurantes",
   "nodes": [
     {
       "parameters": {
-        "path": "restaurantes",
-        "responseMode": "responseNode",
-        "options": {}
-      },
-      "type": "n8n-nodes-base.webhook",
-      "typeVersion": 2.1,
-      "position": [
-        -432,
-        0
-      ],
-      "id": "f5f371d2-1ddd-4bb3-b3c5-d0aba7c66f49",
-      "name": "Webhook",
-      "webhookId": "f570395c-961d-41b4-976d-60abf59e02f4"
-    },
-    {
-      "parameters": {
         "respondWith": "json",
-        "responseBody": "={{JSON.stringify({data: $node[\"Code: Filtrar Restaurantes\"].json})}}",
-        "options": {}
+        "responseBody": "={{ $json.data }}",
+        "options": {
+          "responseHeaders": {
+            "entries": [
+              {
+                "name": "Access-Control-Allow-Origin",
+                "value": "*"
+              },
+              {
+                "name": "Access-Control-Allow-Methods",
+                "value": "GET"
+              },
+              {
+                "name": "Access-Control-Allow-Headers",
+                "value": "Content-Type"
+              }
+            ]
+          }
+        }
       },
       "type": "n8n-nodes-base.respondToWebhook",
       "typeVersion": 1.4,
-      "position": [
-        352,
-        0
-      ],
+      "position": [368, 0],
       "id": "8be512b0-32d5-4ca5-8935-377b7021469b",
       "name": "Respond to Webhook"
     },
@@ -36,28 +34,24 @@
       "parameters": {
         "content": "### Recebe a requisição do Front-End",
         "height": 240,
+        "width": 208,
         "color": 7
       },
       "type": "n8n-nodes-base.stickyNote",
-      "position": [
-        -496,
-        -96
-      ],
+      "position": [-640, -96],
       "typeVersion": 1,
       "id": "abe1e1d3-708d-44e0-a482-165b6f10e0f7",
       "name": "Sticky Note"
     },
     {
       "parameters": {
-        "content": "### Busca no Postgres os restaurantes",
+        "content": "### Busca no Postgres os restaurantes e calcula distância dos restaurantes dentro do raio de 5km",
         "height": 240,
+        "width": 272,
         "color": 7
       },
       "type": "n8n-nodes-base.stickyNote",
-      "position": [
-        -224,
-        -96
-      ],
+      "position": [-352, -96],
       "typeVersion": 1,
       "id": "86275be0-be08-409f-a62f-c89fcef6f969",
       "name": "Sticky Note1"
@@ -69,10 +63,7 @@
         "color": 7
       },
       "type": "n8n-nodes-base.stickyNote",
-      "position": [
-        288,
-        -96
-      ],
+      "position": [288, -96],
       "typeVersion": 1,
       "id": "75ee1ccf-c482-4119-ad91-f752ed560902",
       "name": "Sticky Note2"
@@ -80,17 +71,14 @@
     {
       "parameters": {
         "operation": "executeQuery",
-        "query": "SELECT\n  id,\n  nome,\n  endereco,\n  latitude,\n  longitude\nFROM\n  public.restaurantes;",
+        "query": "SELECT DISTINCT\n    r.id,\n    r.nome,\n    r.endereco,\n    r.latitude,\n    r.longitude,\n    f.url AS imagem_url, -- O campo que contém o caminho da imagem\n    -- 1. Calcula a distância usando a fórmula Haversine no SQL\n    (\n        6371 * acos(\n            cos( radians( {{ parseFloat($node.WEBHOOK.json.query.lat ?? 0) }} ) )\n            * cos( radians( r.latitude ) )\n            * cos( radians( r.longitude ) - radians( {{ parseFloat($node.WEBHOOK.json.query.lon ?? 0) }} ) )\n            + sin( radians( {{ parseFloat($node.WEBHOOK.json.query.lat ?? 0) }} ) )\n            * sin( radians( r.latitude ) )\n        )\n    ) AS distancia_km\nFROM\n    public.restaurantes r\nLEFT JOIN\n    files_related_mph frm ON frm.related_id = r.id \n                         AND frm.related_type = 'api::restaurante.restaurante' \n                         AND frm.field = 'img'\nLEFT JOIN\n    files f ON f.id = frm.file_id\n-- 2. Filtra apenas os que estão a 5km ou menos\nWHERE\n    (\n        6371 * acos(\n            cos( radians( {{ parseFloat($node.WEBHOOK.json.query.lat ?? 0) }} ) )\n            * cos( radians( r.latitude ) )\n            * cos( radians( r.longitude ) - radians( {{ parseFloat($node.WEBHOOK.json.query.lon ?? 0) }} ) )\n            + sin( radians( {{ parseFloat($node.WEBHOOK.json.query.lat ?? 0) }} ) )\n            * sin( radians( r.latitude ) )\n        )\n    ) <= 5\nORDER BY\n    distancia_km ASC;",
         "options": {}
       },
       "type": "n8n-nodes-base.postgres",
       "typeVersion": 2.6,
-      "position": [
-        -160,
-        0
-      ],
+      "position": [-256, 0],
       "id": "e8490993-4708-46f5-9926-35a36284737a",
-      "name": "Execute a SQL query",
+      "name": "POSTGRES_QUERY",
       "credentials": {
         "postgres": {
           "id": "1jXSWCEhJQwqNdL5",
@@ -100,58 +88,94 @@
     },
     {
       "parameters": {
-        "jsCode": "// Limite máximo do raio em quilômetros\nconst MAX_DISTANCE_KM = 5;\nconst EARTH_RADIUS_KM = 6371;\n\n// Função Haversine para calcular a distância entre duas coordenadas\nfunction haversineDistance(lat1, long1, lat2, long2) {\n  const toRad = (angle) => angle * (Math.PI / 180);\n\n  const dLat = toRad(lat2 - lat1);\n  const dLon = toRad(lon2 - lon1);\n  const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) + Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) * Math.sin(dLon /2 ) * Math.sin(dLon / 2);\n  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));\n  const distance = EARTH_RADIUS_KM * c;\n\n  //retorna distância em km\n  return distance;\n}\n\n// Obter coordenadas do usuário do webhook (enviadas pelo Front End)\nconst userLat = parseFloat($nodeVersion.Webhook.json.query.lat);\nconst userLon = parseFloat($nodeVersion.Webhook.json.query.lon);\n\n// Array para armazenar os restaurantes filtrados\nconst nearbyRestaurants = [];\n\n// iterar sobre os restaurantes vindos do Postgres\nfor (const restaurant of $input.json) {\n    const resLat = parseFloat(restaurant.latitude);\n    const resLon = parseFloat(restaurant.longitude);\n\n    // Ignora restaurantes sem coordenadas válidas\n    if (isNaN(resLat) || isNaN(resLon)) continue;\n\n    // Calcula a distância\n    const distance = haversineDistance(userLat, userLon, resLat, resLon);\n\n    // Se a distância for menor ou igual ao raio máximo\n    if (distance <= MAX_DISTANCE_KM) {\n        // Adiciona a distância e arredonda-a para 1 casa decimai para exibição\n        const distanceStr = distance.toFixed(1);\n        \n        nearbyRestaurants.push({\n            // Mantém todos os dados do restaurante\n            ...restaurant,\n            // Adiciona a distância em um formato amigável\n            distancia: `${distanceStr} km de você`\n        });\n    }\n}\n\n// 3. Retornar a lista filtrada (o n8n espera um array de objetos)\nreturn nearbyRestaurants;\n"
+        "path": "restaurantes",
+        "responseMode": "responseNode",
+        "options": {}
       },
-      "type": "n8n-nodes-base.code",
-      "typeVersion": 2,
-      "position": [
-        112,
-        0
-      ],
-      "id": "0979f6ec-c8d1-4fc8-83d1-2bb8195f6f3f",
-      "name": "Code: Calcular Distância e Filtrar"
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [-592, 0],
+      "id": "f5f371d2-1ddd-4bb3-b3c5-d0aba7c66f49",
+      "name": "WEBHOOK",
+      "webhookId": "f570395c-961d-41b4-976d-60abf59e02f4"
     },
     {
       "parameters": {
-        "content": "### Cálculo da distância dos restaurantes dentro do raio de 5km",
+        "aggregate": "aggregateAllItemData",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [48, 0],
+      "id": "b6515f9a-84ec-4519-bb78-ee25ba71cb96",
+      "name": "Aggregate"
+    },
+    {
+      "parameters": {
+        "content": "### Agrupa os itens em única lista",
         "height": 240,
         "color": 7
       },
       "type": "n8n-nodes-base.stickyNote",
-      "position": [
-        32,
-        -96
-      ],
+      "position": [-16, -96],
       "typeVersion": 1,
-      "id": "34f938a4-a76c-4b14-985c-72c9a13cd2f7",
+      "id": "30db171f-d90f-4175-9817-e17f0c3747b1",
       "name": "Sticky Note3"
     }
   ],
-  "pinData": {},
+  "pinData": {
+    "WEBHOOK": [
+      {
+        "json": {
+          "headers": {
+            "host": "localhost:5678",
+            "connection": "keep-alive",
+            "user-agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 18_5 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/18.5 Mobile/15E148 Safari/604.1",
+            "accept": "*/*",
+            "origin": "http://127.0.0.1:5500",
+            "sec-fetch-site": "cross-site",
+            "sec-fetch-mode": "cors",
+            "sec-fetch-dest": "empty",
+            "referer": "http://127.0.0.1:5500/",
+            "accept-encoding": "gzip, deflate, br, zstd",
+            "accept-language": "pt-BR,pt;q=0.9,en-US;q=0.8,en;q=0.7"
+          },
+          "params": {},
+          "query": {
+            "lat": "-3.835710729150202",
+            "lon": "-38.51623883094653"
+          },
+          "body": {},
+          "webhookUrl": "http://localhost:5678/webhook/restaurantes",
+          "executionMode": "production"
+        }
+      }
+    ]
+  },
   "connections": {
-    "Webhook": {
+    "POSTGRES_QUERY": {
       "main": [
         [
           {
-            "node": "Execute a SQL query",
+            "node": "Aggregate",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "Execute a SQL query": {
+    "WEBHOOK": {
       "main": [
         [
           {
-            "node": "Code: Calcular Distância e Filtrar",
+            "node": "POSTGRES_QUERY",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "Code: Calcular Distância e Filtrar": {
+    "Aggregate": {
       "main": [
         [
           {
@@ -167,7 +191,7 @@
   "settings": {
     "executionOrder": "v1"
   },
-  "versionId": "fd3b9825-9aad-436c-9b97-6f88c76dfdc9",
+  "versionId": "547ebf60-8ff1-4fc5-83ce-bf4b9d848482",
   "meta": {
     "templateCredsSetupCompleted": true,
     "instanceId": "d3b453f5da3dc8025316bf0557e760f4fd6c24fbcbf610fbb4365b86af3b1255"

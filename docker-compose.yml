@@ -1,102 +1,51 @@
 services:
   # ==========================================
-  # Banco de Dados
-  # ==========================================
-  database:
-    image: postgres:14
-    container_name: orion-database
-    restart: always
-    ports:
-      - "5432:5432"
-    environment:
-      POSTGRES_USER: orion
-      POSTGRES_PASSWORD: orion
-      POSTGRES_DB: orion
-    volumes:
-      - pg_data_unified:/var/lib/postgresql/data
-    networks:
-      - orion-network
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U orion -d orion"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
-
-  # ==========================================
-  # Redis
-  # ==========================================
-  redis:
-    image: redis:6-alpine
-    container_name: orion-redis
-    restart: always
-    command: redis-server --requirepass orion
-    volumes:
-      - redis_data_unified:/data
-    networks:
-      - orion-network
-    healthcheck:
-      test: ["CMD", "redis-cli", "-a", "orion", "ping"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
-
-  # ==========================================
-  # Evolution API (Sintaxe Corrigida)
-  # ==========================================
-  evolution-api:
-    container_name: orion-evolution-api
-    image: evoapicloud/evolution-api:v2.2.2
-    restart: always
-    ports: 
-      - "8081:8080"
-    environment:
-      # Sintaxe correta: CHAVE: "VALOR" (Sem tracinhos -)
-      CONFIG_SESSION_PHONE_VERSION: "2.3000.1030618351"
-      AUTHENTICATION_API_KEY: "0R10NdrAfl2sc3IozIarMSCG"
-      
-      # Banco de Dados
-      DATABASE_ENABLED: "true"
-      DATABASE_PROVIDER: postgresql
-      DATABASE_CONNECTION_URI: postgresql://orion:orion@database:5432/orion
-      
-      # Redis
-      CACHE_REDIS_ENABLED: "true"
-      CACHE_REDIS_URI: redis://:orion@redis:6379/0
-    networks:
-      - orion-network
-    depends_on:
-      database:
-        condition: service_healthy
-      redis:
-        condition: service_healthy
-
-  # ==========================================
-  # N8N
+  # ORIGINAL: Configurações N8N
   # ==========================================
   n8n:
-    image: docker.n8n.io/n8nio/n8n:latest
-    container_name: orion-n8n-main
+    image: n8nio/n8n
     restart: always
+    env_file: .env
     ports:
       - "5678:5678"
     environment:
-      DB_TYPE: postgresdb
-      DB_POSTGRESDB_HOST: database
-      DB_POSTGRESDB_PORT: 5432
-      DB_POSTGRESDB_DATABASE: orion
-      DB_POSTGRESDB_USER: orion
-      DB_POSTGRESDB_PASSWORD: orion
-      N8N_ENCRYPTION_KEY: 0R10N
+      # --- CONFIGURAÇÕES DE CONEXÃO E ENDEREÇO ---
+      - N8N_HOST=${N8N_HOST}
+      - N8N_PROTOCOL=http
+      - WEBHOOK_URL=${WEBHOOK_URL}
+      - VUE_APP_URL_BASE_API=http://localhost:5678/
+      # --- CONFIGURAÇÃO DE AUTENTICAÇÃO E CORS ---
+      - N8N_BASIC_AUTH_ACTIVE=false
+      - N8N_BASIC_AUTH_USER=${N8N_BASIC_AUTH_USER}
+      - N8N_BASIC_AUTH_PASSWORD=${N8N_BASIC_AUTH_PASSWORD}
+      - N8N_CORS_ENABLED=true
+      - N8N_CORS_ORIGIN=http://127.0.0.1:5500,http://localhost:5500
+      - N8N_CORS_ALLOW_CREDENTIALS=true
     volumes:
-      - n8n_data_unified:/home/node/.n8n
+      - ./n8n_data:/home/node/.n8n
     networks:
-      - orion-network
-    depends_on:
-      database:
-        condition: service_healthy
+      - chatbot_network
 
   # ==========================================
-  # Strapi
+  # ORIGINAL: Configurações Postgres
+  # ==========================================
+  postgres:
+    image: postgres:14
+    container_name: mcdonalds-postgres
+    restart: unless-stopped
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: ${DATABASE_USER}
+      POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
+      POSTGRES_DB: ${DATABASE_NAME}
+    ports:
+      - '5432:5432'
+    networks:
+      - chatbot_network
+
+  # ==========================================
+  # ORIGINAL: Configurações Strapi
   # ==========================================
   strapi:
     build:
@@ -107,32 +56,117 @@ services:
     volumes:
       - ./.strapi/app:/opt/app
       - strapi_node_modules:/opt/app/node_modules
+    working_dir: /opt/app
     env_file: .env
     environment:
       NODE_ENV: development
       STRAPI_ADMIN_URL: http://localhost:1337/admin
       STRAPI_URL: http://localhost:1337
-      DATABASE_HOST: database
-      DATABASE_PORT: 5432
-      DATABASE_NAME: orion
-      DATABASE_USERNAME: orion
-      DATABASE_PASSWORD: orion
-      DATABASE_SSL: 'false'
     ports:
       - '1337:1337'
-    networks:
-      - orion-network
     depends_on:
-      database:
+      - postgres
+    command: sh -c "chmod -R 777 /opt/app || true && npm run develop"
+    networks:
+      - chatbot_network
+
+  # ==========================================
+  # ORIGINAL: React Dev
+  # ==========================================
+  react-dev:
+    build:
+      context: ./frontend-react
+      dockerfile: Dockerfile.dev
+    container_name: mcdonalds-frontend-react
+    restart: unless-stopped
+    volumes:
+      - ./frontend-react:/app
+      - /app/node_modules
+    ports:
+      - '5173:5173'
+    depends_on:
+      - postgres
+      - strapi
+      - n8n
+    networks:
+      - chatbot_network
+
+  # ==========================================
+  # ORIGINAL: Qdrant
+  # ==========================================
+  qdrant:
+    image: qdrant/qdrant:latest
+    container_name: qdrant_db
+    restart: always
+    ports:
+      - "6333:6333"
+      - "6334:6334"
+    volumes:
+      - qdrant_data:/qdrant/storage
+    networks:
+      - chatbot_network
+    environment:
+      QDRANT__SERVICE__API_KEY: ${QDRANT_API_KEY}
+    env_file: ./.env
+
+  # ==========================================
+  # NOVO: Redis (Necessário para Evolution)
+  # ==========================================
+  redis:
+    image: redis:6-alpine
+    container_name: orion-redis
+    restart: always
+    command: redis-server --requirepass orion
+    volumes:
+      - redis_data_unified:/data
+    networks:
+      - chatbot_network # Adaptado para a rede do original
+    healthcheck:
+      test: ["CMD", "redis-cli", "-a", "orion", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # ==========================================
+  # NOVO: Evolution API
+  # ==========================================
+  evolution-api:
+    container_name: orion-evolution-api
+    image: evoapicloud/evolution-api:v2.2.2
+    restart: always
+    ports: 
+      - "8081:8080"
+    environment:
+      CONFIG_SESSION_PHONE_VERSION: "2.3000.1030618351"
+      AUTHENTICATION_API_KEY: "0R10NdrAfl2sc3IozIarMSCG"
+      
+      # Banco de Dados
+      DATABASE_ENABLED: "true"
+      DATABASE_PROVIDER: postgresql
+      # ATENÇÃO: Adaptado para conectar no 'postgres' do original usando as variáveis do .env
+      DATABASE_CONNECTION_URI: postgresql://${DATABASE_USER}:${DATABASE_PASSWORD}@postgres:5432/${DATABASE_NAME}
+      
+      # Redis
+      CACHE_REDIS_ENABLED: "true"
+      # Adaptado para conectar no container 'redis' definido acima
+      CACHE_REDIS_URI: redis://:orion@redis:6379/0
+    networks:
+      - chatbot_network # Adaptado para a rede do original
+    depends_on:
+      postgres: # Adaptado para depender do banco original
+        condition: service_started
+      redis:
         condition: service_healthy
-    command: sh -c "npm run develop"
 
+# DEFINIÇÃO DE VOLUMES
 volumes:
-  pg_data_unified:
-  redis_data_unified:
-  n8n_data_unified:
-  strapi_node_modules:
+  postgres_data: {}
+  strapi_node_modules: {}
+  qdrant_data: {}
+  # Volumes novos
+  redis_data_unified: {}
 
+# DEFINIÇÃO DE REDES 
 networks:
-  orion-network:
+  chatbot_network:
     driver: bridge

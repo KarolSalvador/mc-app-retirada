@@ -5,7 +5,7 @@ import OfferCard from "../OfferCard/OfferCard";
 
 export default function MenuScreen() {
   // Estado para armazenar a localização
-  const [userLocation, setUserLocation] = useState<{
+  const [_userLocation, setUserLocation] = useState<{
     latitude: number | null;
     longitude: number | null;
   }>({ latitude: null, longitude: null });
@@ -20,11 +20,6 @@ export default function MenuScreen() {
             latitude: position.coords.latitude,
             longitude: position.coords.longitude,
           });
-          console.log(
-            "Localização coletada:",
-            position.coords.latitude,
-            position.coords.longitude
-          );
         },
         (error) => {
           console.error("Erro ao obter a localização:", error);
@@ -34,6 +29,22 @@ export default function MenuScreen() {
       console.error("Geolocalização não é suportada pelo navegador.");
     }
   }, []);
+
+  const handleWhatsappRedirect = () => {
+    // Número de telefone
+    const phoneNumber = "5585996742948";
+    // Mensagem a ser enviada
+    const message = "Olá, quero fazer um pedido.";
+
+    // Codificação da mensagem
+    const encodedMessage = encodeURIComponent(message);
+
+    // Constrói a URL do WhatsApp
+    const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodedMessage}`;
+
+    // Redireciona para a URL
+    window.open(whatsappUrl, "_blank");
+  };
 
   return (
     <div className={styles.appContainer}>
@@ -45,7 +56,7 @@ export default function MenuScreen() {
           secondaryText="Peça seu Méqui favorito de forma super fácil e rápida"
           warningText="Seu plano tem WhatsApp ilimitado? Peça agora seu Méqui, sem descontar seus dados!"
           buttonText="FAZER PEDIDO AGORA"
-          onClick={() => alert("Redirecionamento em breve!")}
+          onClick={handleWhatsappRedirect}
         />
 
         {/* Conteúdo Principal - Lista de Ofertas*/}

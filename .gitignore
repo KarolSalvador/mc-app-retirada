@@ -1,3 +1,5 @@
 .env
 n8n_data/
 strapi-data/
+redis_data_orion/
+node_modules/

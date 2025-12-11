@@ -23,6 +23,8 @@ services:
       - N8N_CORS_ALLOW_CREDENTIALS=true
     volumes:
       - ./n8n_data:/home/node/.n8n
+    networks:
+      - chatbot_network
 
   # Configurações Postgres
   postgres:
@@ -139,6 +141,7 @@ services:
       retries: 3
     env_file: ./.env
 
+# DEFINIÇÃO DE VOLUMES
 volumes:
   postgres_data: {}
   # strapi_node_modules: {}

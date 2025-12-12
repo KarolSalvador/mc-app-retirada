@@ -1,0 +1,645 @@
+{
+  "name": "AgentAI_Mequizap_v2",
+  "nodes": [
+    {
+      "parameters": {
+        "modelName": "models/gemini-2.5-pro",
+        "options": {
+          "temperature": 0.7
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        2000,
+        1568
+      ],
+      "id": "5e252549-1505-4221-ba48-d5378e0559e4",
+      "name": "Google Gemini Chat Model1",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "P8ScIQf91OgdJhAm",
+          "name": "Google Gemini(PaLM) Api account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.body.data.message }}{{ $json.Latitude != null ? (' || Localização do cliente: Latitude ' + $json.Latitude + ', Longitude ' + $json.Longitude) : '' }}",
+        "options": {
+          "systemMessage": "- Você é o Méquizap, o atendente virtual do McDonald's: educado, direto, simples e amigável.\n- Você está respondendo via whatsapp a formatação deve ser compatível, e a resposta deve conter apenas o texto que interage com o cliente NÃO inclua logs do sistema.\n\n# MISSÃO\nConduzir o cliente de forma eficiente à finalização do pedido, sempre mantendo o foco nos itens do cardápio e nas etapas de localização e retirada.\n\n# FERRAMENTAS DISPONÍVEIS\nVocê possui as seguintes ferramentas:\n- `Cardapio_MC`: Para consultar itens do cardápio, preços e sugestões e se precisa ser retirado no balcão. Se algum item só puder retirar no balcão todo o pedido deverá ser retirado da mesma forma. Somente envie o cardápio se o cliente pedir, seguindo a hierarquia de tipo, subtipo e item  do contrário peça que ele informe o que deseja.\n\n- `verifica_restaurantes_proximos`: **CRÍTICO:** Use esta ferramenta **SEMPRE** que o cliente enviar dados de latitude e longitude (localização) para buscar as unidades mais próximas. A query será fornecida automaticamente.\n- `GerarCodigoPedido`: Para criar o código de pedido aleatório (LLL-NNNN) quando o pedido estiver pronto para ser finalizado.\n- `Calculator`: Para somar o valor final do pedido (com duas casas decimais).\n- `Think`: Use para anotações internas, cálculo de passos, ou para criar mentalmente o resumo do pedido antes de apresentá-lo.\n\n# REGRAS E AÇÕES\n1. **Apresentação:** Na primeira interação, apresente-se e dê boas-vindas.\n\n2. Ação de Localização (CRÍTICO): Você APENAS deve pedir para que o cliente compartilhe a localização e NUNCA informe digitando\n2.1-  Passo 1 (Coleta de Dados): Quando o cliente enviar a localização (Latitude e Longitude), IMEDIATAMENTE use a ferramenta verifica_restaurantes_proximos para obter o JSON.\n2.2- Passo 2 (Formatação): Em seguida, use a ferramenta FormataListaRestaurantes, passando o JSON completo obtido no Passo 1 como argumento.\n2.3- Passo 3 (Resposta): Envie o texto formatado (o resultado da FormataListaRestaurantes) ao cliente e peça para que ele selecione o número da unidade desejada para dar continuidade ao pedido.\n\n3. **Pagamento/Retirada:**\n    * O pagamento **SEMPRE** é feito no local.\n    * Se o item for balcao_obrigatorio == FALSE pergunte como o cliente deseja retirar: **locker** ou **balcão**.\n    * Tempo estimado de retirada: 15 - 30 min.\n\n4. **Finalização:**\n    * Antes de finalizar, use o `GerarCodigoPedido`.\n    * Gere um número de locker aleatório entre 1 e 20 (se aplicável).\n    * Apresente o resumo final com os detalhes do pedido em lista e o código gerado.\n\n5. **Formato:** Valores e preços devem ter sempre duas casas decimais."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3,
+      "position": [
+        2224,
+        1360
+      ],
+      "id": "1b07f58c-b775-4e6d-a099-df393b8ca3f7",
+      "name": "Agente_Mequizap"
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "mequizap",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        1216,
+        1456
+      ],
+      "id": "550170d3-c2ea-4327-9628-194be9c7cc29",
+      "name": "Webhook",
+      "webhookId": "178fe627-2be1-4230-94d9-4ee1ec99f127"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "a6d5a66a-aed1-41b1-9d1b-b01e97867b69",
+              "name": "body.data.message",
+              "value": "={{ $json.body.data.message.conversation }}",
+              "type": "string"
+            },
+            {
+              "id": "7246ebe2-d1bb-4b1d-80b9-6e7d95fda81d",
+              "name": "Latitude",
+              "value": "={{ $json.body.data.message.locationMessage.degreesLatitude }}",
+              "type": "number"
+            },
+            {
+              "id": "636ac5e3-d3d1-4065-bcfd-a3cdfa2e0b60",
+              "name": "Longitude",
+              "value": "={{ $json.body.data.message.locationMessage.degreesLongitude }}",
+              "type": "number"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1712,
+        1360
+      ],
+      "id": "41d7de31-34ca-4f66-9932-bc8dd30df2d8",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=http://evolution-api:8080/message/sendText/{{ $('Webhook').item.json.body.instance }} ",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "apikey",
+              "value": "0R10NxtP0wsAd2qWe5mequiZ4pF1nalpr0ject123"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "number",
+              "value": "={{ $('Webhook').item.json.body.data.key.remoteJid }}"
+            },
+            {
+              "name": "text",
+              "value": "={{ $json.whatsapp_message || $node[\"Agente_Mequizap\"].json.output }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        2608,
+        1360
+      ],
+      "id": "c4eac257-24c5-4106-826b-93d3f6696071",
+      "name": "HTTP Request"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        1712,
+        1632
+      ],
+      "id": "3ba813b3-00a1-4cef-9f2f-828f12810c47",
+      "name": "Do nothing"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "64c886a6-3cec-4347-9022-17dd4519bb15",
+              "leftValue": "={{ $json.body.data.key.remoteJid }}",
+              "rightValue": "558596742948@s.whatsapp.net",
+              "operator": {
+                "type": "string",
+                "operation": "contains"
+              }
+            },
+            {
+              "id": "c016e4c0-a873-49c4-8242-b76f2de257de",
+              "leftValue": "={{ $json.body.data.key.remoteJidAlt }}",
+              "rightValue": "5511999554145@s.whatsapp.net",
+              "operator": {
+                "type": "string",
+                "operation": "contains"
+              }
+            },
+            {
+              "id": "0bcab191-79ce-4190-a19a-e4118d4d860a",
+              "leftValue": "={{ $json.body.data.message.locationMessage.degreesLatitude }}",
+              "rightValue": "",
+              "operator": {
+                "type": "number",
+                "operation": "exists",
+                "singleValue": true
+              }
+            },
+            {
+              "id": "a653ce2a-ada4-46db-a951-060cc8c73ddd",
+              "leftValue": "={{ $json.body.data.message.locationMessage.degreesLongitude }}",
+              "rightValue": "",
+              "operator": {
+                "type": "number",
+                "operation": "exists",
+                "singleValue": true
+              }
+            },
+            {
+              "id": "f6c1b9f1-1b12-440e-aead-26616a7248a3",
+              "leftValue": "={{ $json.body.data.key.remoteJidAlt }}",
+              "rightValue": "5511963621644@s.whatsapp.net",
+              "operator": {
+                "type": "string",
+                "operation": "contains"
+              }
+            },
+            {
+              "id": "cd6f0b2a-f198-4723-8a62-eefb525b26de",
+              "leftValue": "={{ $json.body.data.key.remoteJid }}",
+              "rightValue": "558499101885@s.whatsapp.net",
+              "operator": {
+                "type": "string",
+                "operation": "contains"
+              }
+            }
+          ],
+          "combinator": "or"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        1456,
+        1456
+      ],
+      "id": "89fef321-09f8-42c7-a4c5-b9a429423a79",
+      "name": "Validação do número de entrada"
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "={{ $('Webhook').item.json.body.data.key.remoteJid }}",
+        "sessionTTL": 600,
+        "contextWindowLength": 10
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryRedisChat",
+      "typeVersion": 1.5,
+      "position": [
+        2176,
+        1568
+      ],
+      "id": "8e01802c-fc74-4e3b-ab0a-33918b6928d2",
+      "name": "Redis Chat Memory",
+      "notesInFlow": false,
+      "credentials": {
+        "redis": {
+          "id": "yIuFaHcwhvWgH3Nv",
+          "name": "Redis account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "delete",
+        "key": "={{ $json.remoteJid }}"
+      },
+      "type": "n8n-nodes-base.redis",
+      "typeVersion": 1,
+      "position": [
+        1776,
+        1872
+      ],
+      "id": "1469a5de-71a0-4f61-9ae0-4f0606eaa3d0",
+      "name": "Redis",
+      "credentials": {
+        "redis": {
+          "id": "yIuFaHcwhvWgH3Nv",
+          "name": "Redis account"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        1472,
+        1872
+      ],
+      "id": "9d0abb8e-382b-4dde-aaec-668a7d704991",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "content": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n##  Reset de dados na memória",
+        "height": 288,
+        "width": 576,
+        "color": 3
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        1424,
+        1824
+      ],
+      "typeVersion": 1,
+      "id": "3cb8e96a-c8ab-4b79-a47e-ec6d2be3af69",
+      "name": "Sticky Note11"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "f335953f-3542-4c7c-ae9b-af022537c33d",
+              "name": "remoteJid",
+              "value": "558596742948@s.whatsapp.net",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1632,
+        1872
+      ],
+      "id": "cbb99d98-ae68-4e48-80ac-5ec57e158156",
+      "name": "remove_Jid"
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.toolCalculator",
+      "typeVersion": 1,
+      "position": [
+        2256,
+        1760
+      ],
+      "id": "668f2002-ed86-4f05-8df8-f18c19a76b79",
+      "name": "Calculator"
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.toolThink",
+      "typeVersion": 1.1,
+      "position": [
+        2384,
+        1760
+      ],
+      "id": "39d2b5ea-95e9-417d-bcd5-680b1daa45ef",
+      "name": "Think"
+    },
+    {
+      "parameters": {
+        "description": "Gera um código de pedido único e aleatório no formato **LLL-NNNN** (3 letras maiúsculas, hífen, 4 dígitos numéricos, ex: JFG-5810). Use esta ferramenta exclusivamente para gerar um novo código de pedido. Não requer argumentos.",
+        "jsCode": "\nfunction gerarLetrasAleatorias(comprimento) {\n    const ALFABETO = \"ABCDEFGHIJKLMNOPQRSTUVWXYZ\";\n    let resultado = \"\";\n\n    for (let i = 0; i < comprimento; i++) {\n        const indiceAleatorio = Math.floor(Math.random() * ALFABETO.length);\n        \n        resultado += ALFABETO.charAt(indiceAleatorio);\n    }\n    \n    return resultado;\n}\n\nfunction gerarNumerosAleatorios(comprimento) {\n    let resultado = \"\";\n\n    for (let i = 0; i < comprimento; i++) {\n        const digitoAleatorio = Math.floor(Math.random() * 10);\n        \n        resultado += digitoAleatorio.toString();\n    }\n\n    return resultado;\n}\n\n\nfunction gerarCodigoPedido() {\n    const letras = gerarLetrasAleatorias(3); \n    const numeros = gerarNumerosAleatorios(4);\n    \n    return `${letras}-${numeros}`;\n}\n\nreturn gerarCodigoPedido();"
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolCode",
+      "typeVersion": 1.3,
+      "position": [
+        2800,
+        1648
+      ],
+      "id": "f103ce04-115b-4249-a911-3679aad6371d",
+      "name": "gerarCodigoPedido"
+    },
+    {
+      "parameters": {
+        "descriptionType": "manual",
+        "toolDescription": "Busca no banco de dados os restaurantes McDonald's que estão a até 5km da localização fornecida pelo cliente. Use esta ferramenta IMEDIATAMENTE após o cliente enviar a Latitude e Longitude. Não requer argumentos explícitos, mas depende dos dados de Lat/Long estarem presentes na entrada.",
+        "operation": "executeQuery",
+        "query": "SELECT DISTINCT\n    r.id,\n    r.nome,\n    r.endereco,\n    r.latitude,\n    r.longitude,\n    f.url AS imagem_url, \n    -- Calcula a distância usando a fórmula Haversine no SQL\n    (\n        6371 * acos(\n            cos( radians( {{ $json.Latitude === null ? 'NULL' : $json.Latitude }} ) )\n            * cos( radians( r.latitude ) )\n            * cos( radians( r.longitude ) - radians( {{ $json.Longitude === null ? 'NULL' : $json.Longitude }} ) )\n            + sin( radians( {{ $json.Latitude === null ? 'NULL' : $json.Latitude }} ) )\n            * sin( radians( r.latitude ) )\n        )\n    ) AS distancia_km\nFROM\n    public.restaurantes r\nLEFT JOIN\n    files_related_mph frm ON frm.related_id = r.id \n                         AND frm.related_type = 'api::restaurante.restaurante' \n                         AND frm.field = 'img'\nLEFT JOIN\n    files f ON f.id = frm.file_id\n-- Filtra apenas os que estão a 5km ou menos\nWHERE\n    (\n        6371 * acos(\n            cos( radians( {{ $json.Latitude === null ? 'NULL' : $json.Latitude }} ) )\n            * cos( radians( r.latitude ) )\n            * cos( radians( r.longitude ) - radians( {{ $json.Longitude === null ? 'NULL' : $json.Longitude }} ) )\n            + sin( radians( {{ $json.Latitude === null ? 'NULL' : $json.Latitude }} ) )\n            * sin( radians( r.latitude ) )\n        )\n    ) <= 5\nORDER BY\n    distancia_km ASC;",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.postgresTool",
+      "typeVersion": 2.6,
+      "position": [
+        2656,
+        1696
+      ],
+      "id": "8eede350-a126-44c6-85ad-cc8d02554c3a",
+      "name": "verifica_restaurantes_proximos",
+      "credentials": {
+        "postgres": {
+          "id": "1jXSWCEhJQwqNdL5",
+          "name": "Postgres account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "description": "Recebe o JSON bruto de restaurantes (a saída da ferramenta verifica_restaurantes_proximos) e o transforma em uma lista numerada, organizada e amigável para ser apresentada ao cliente. Argumentos esperados: {\"restaurantes_json\": \"O JSON completo (lista de objetos) retornado pela query SQL.\"}",
+        "jsCode": "\nfunction formatarRestaurantes(restaurantesJson) {\n    const restaurantes = Array.isArray(restaurantesJson) ? restaurantesJson : [];\n    \n    let listaFormatada = \"🎉 Ótimas notícias! Encontrei estes restaurantes próximos a você. Por favor, escolha a unidade mais próxima digitando o número correspondente:\\n\\n\";\n\n    if (restaurantes.length === 0) {\n        listaFormatada = \"Ops! Não encontramos nenhum McDonald's a menos de 5km da sua localização. Poderia tentar novamente ou fazer o pedido para retirada no balcão de um shopping próximo?\";\n    } else {\n       \n        restaurantes.forEach((r, index) => {\n            const numero = index + 1;\n            const nome = r.nome;\n            const endereco = r.endereco;\n            \n            const distancia = parseFloat(r.distancia_km).toFixed(2).replace('.', ','); \n            \n            listaFormatada += `${numero}. ${nome} - ${endereco} (${distancia} km)\\n`;\n        });\n    }\n    return listaFormatada;\n}\n\n"
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolCode",
+      "typeVersion": 1.3,
+      "position": [
+        2512,
+        1776
+      ],
+      "id": "c391953b-913d-4008-a110-d06d40b30955",
+      "name": "FormataListaRestaurantes"
+    },
+    {
+      "parameters": {
+        "descriptionType": "manual",
+        "toolDescription": "Essa ferramenta é acionada para saber os itens disponíveis no cardápio assim como informações de valores, se pode ser retirado em balcão, calorias, e alergenos. Nenhum item fora do cardápio deverá ser oferecido",
+        "documentId": {
+          "__rl": true,
+          "value": "1qFljuGNlUs0NNgBUzICx7frvsrSRTxGAMXIC0vZLr5A",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 877950601,
+          "mode": "list",
+          "cachedResultName": "Versão menor",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1qFljuGNlUs0NNgBUzICx7frvsrSRTxGAMXIC0vZLr5A/edit#gid=877950601"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheetsTool",
+      "typeVersion": 4.7,
+      "position": [
+        2912,
+        1600
+      ],
+      "id": "3723ff97-3457-4f88-8666-654c22783104",
+      "name": "Cardapio_MC",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "A3ZGT9zgU8FPPjDf",
+          "name": "Google Sheets account"
+        }
+      }
+    }
+  ],
+  "pinData": {
+    "Webhook": [
+      {
+        "json": {
+          "headers": {
+            "accept": "application/json, text/plain, */*",
+            "content-type": "application/json",
+            "user-agent": "axios/1.12.2",
+            "content-length": "646",
+            "accept-encoding": "gzip, compress, deflate, br",
+            "host": "n8n:5678",
+            "connection": "keep-alive"
+          },
+          "params": {},
+          "query": {},
+          "body": {
+            "event": "messages.upsert",
+            "instance": "mequizap",
+            "data": {
+              "key": {
+                "remoteJid": "558596742948@s.whatsapp.net",
+                "remoteJidAlt": "36490444816608@lid",
+                "fromMe": true,
+                "id": "3EB0EF69914895634C56DC",
+                "participant": "",
+                "addressingMode": "pn"
+              },
+              "pushName": "Karol Salvador",
+              "status": "SERVER_ACK",
+              "message": {
+                "conversation": "OI"
+              },
+              "messageType": "conversation",
+              "messageTimestamp": 1765498295,
+              "instanceId": "21600619-2d1c-42c5-8cc0-b8b4678a52dd",
+              "source": "web"
+            },
+            "destination": "http://n8n:5678/webhook/mequizap",
+            "date_time": "2025-12-11T21:11:37.524Z",
+            "sender": "558596742948@s.whatsapp.net",
+            "server_url": "http://localhost:8080",
+            "apikey": "79AFCF37D8E9-4463-9C64-20E55099FDB6"
+          },
+          "webhookUrl": "http://localhost:5678/webhook/mequizap",
+          "executionMode": "production"
+        }
+      }
+    ]
+  },
+  "connections": {
+    "Google Gemini Chat Model1": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Agente_Mequizap",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Agente_Mequizap": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Validação do número de entrada",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Agente_Mequizap",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Validação do número de entrada": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Do nothing",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Redis Chat Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "Agente_Mequizap",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "remove_Jid",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "remove_Jid": {
+      "main": [
+        [
+          {
+            "node": "Redis",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Calculator": {
+      "ai_tool": [
+        [
+          {
+            "node": "Agente_Mequizap",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Think": {
+      "ai_tool": [
+        [
+          {
+            "node": "Agente_Mequizap",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "gerarCodigoPedido": {
+      "ai_tool": [
+        [
+          {
+            "node": "Agente_Mequizap",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "verifica_restaurantes_proximos": {
+      "ai_tool": [
+        [
+          {
+            "node": "Agente_Mequizap",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "FormataListaRestaurantes": {
+      "ai_tool": [
+        [
+          {
+            "node": "Agente_Mequizap",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Cardapio_MC": {
+      "ai_tool": [
+        [
+          {
+            "node": "Agente_Mequizap",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "de96088b-ed29-49a8-94af-07357c255794",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "d3b453f5da3dc8025316bf0557e760f4fd6c24fbcbf610fbb4365b86af3b1255"
+  },
+  "id": "JKVb25vzcDwzacRd",
+  "tags": []
+}
